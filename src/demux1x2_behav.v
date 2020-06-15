@@ -5,9 +5,6 @@
 `ifndef MUX21_B
 `define MUX21_B
 
-
-
-
 `timescale 1ns/1ps
 
 // Considering class and destiny
@@ -71,8 +68,6 @@ always @(posedge clk) begin
 end // end posedge clk
 
 endmodule
-
-
 
 // Local Variables:
 // verilog-library-directories:("."):
