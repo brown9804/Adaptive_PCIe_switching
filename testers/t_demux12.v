@@ -1,191 +1,147 @@
-// Brown Ramírez, Belinda 
-// Mayo, 2020
+// Belinda Brown Ramírez
+// June, 2020
 // timna.brown@ucr.ac.cr
 
-// 						&
+`ifndef T_DEMUX12
+`define T_DEMUX12
 
 
-/////////////////////////////////////////////////////////////////////////////////
-// Company: U.C.R EIE
-// Engineer: Esquivel Molina,  Brandon 
-//
-//////////////////////////////////////////////////////////////////////////////////
+module t_demux1x2(
+  output reg reset,
+  output reg  clk,
+  output reg  [9:0] in,
+  output reg valid_in,
+  output reg select,
+  input push_0,
+  input push_0_s,
+  input  push_1,
+  input push_1_s,
+  input  [9:0] out0,
+  input  [9:0] out0_s,
+  input  [9:0] out1,
+  input  [9:0] out1_s,
+  input  [1:0]valid_out,
+  input  [1:0] valid_out_s );
 
-
-module tester(
-
-// OUTPUTS
-output reg [7:0] in,
-output reg valid,
-
-output reg reset,
-output reg clk1f,
-output reg clk2f,
-output reg clk4f,
-// INPUTS
-input [7:0] out0c,
-input [7:0] out1c,
-input [7:0] out0s,
-input [7:0] out1s,
-input [1:0] validoutc,
-input [1:0] validouts
-
-);
-
-	//Internal
-reg [3:0] counts; 		// counters
-reg [3:0] countc;
-reg clk, clk16f,clk8f,clk32f;
 
 
 initial begin
-
-		$dumpfile("demux12.vcd");
-		$dumpvars;												// "dumpping" variables
-
-
-		in			= 8'b0;
-		valid		= 4'b0;
-		#4 reset = 0;
-
-		@(posedge clk1f);
-		reset <= 0;
-
-		repeat (2) begin
-		valid <= 4'b0;
-		end
-
-		repeat (6) begin																							// Repeat the test 3 times
-		@(posedge clk1f);																								// sync with clock
-		#4 reset <= 1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'hFF;
-		valid <= 4'b1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'hDD;
-		valid <= 4'b1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'hEE;
-		valid <= 4'b1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'hCC;
-		valid <= 4'b1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'hBB;
-		valid <= 4'b1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'h99;
-		valid <= 4'b1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'hAA;
-		valid <= 4'b1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'h88;
-		valid <= 4'b1;
-		end
-
-		repeat(6) begin
-		@(posedge clk4f);
-		{in} <= 8'h77;
-		valid <= 4'b1;
-		end
-
-		repeat (4) begin
-		@(posedge clk1f);				// testing static ins
-		valid <= 4'b1;
-		end
+// Defining the dumpfile NAME_OF_FILE_CHOICE_PERSONAL.vcd), or known by change dump variable, this file contains
+// information about the simulator used, time scale, creation date, variable definitions, and value changes.
+$dumpfile("demux12.vcd");
+$dumpvars;
 
 
-       	$finish;													// save variables finish
-		end																// initial begin
+// The stimulus must be changed, where it allows testing to give an idea of ​​the behavior of the signals.
+// Therefore, the inputs will be initialized with a value chosen between one and zero. Since they are not defined
+// initial conditions in the algorithm request. They are personally chosen.
+
+// VERILOG ASSIGNMENTS FOR NUMBERS - FORMAT
+// 'b binary base
+// 'd Decimal base
+// 'h Hexadecimal base
+// 'or octal base
+// and what comes after the letter is the value then in the case of binary
+// the following examples are considered for understanding
+// 2'b0 = 2'b00 = 00
+// 2'b1 = 2'b01 = 01
+// 2'b10 = 10
+// 2'b11 = 11
+// If it does not indicate the size, 32 bits are assigned by default, that is, 'b0 = 00000000000000000000000000000000
+// This passes the first clock cycle ... Defining initial values ​​....
 
 
-	// clock logic
-	initial	clk	 			<= 0;			// Initial value to avoid indeterminations
-	always	#5 clk			<= ~clk;		// toggle every 10ns
+in = 10'h0;
+valid_in = 0;
+select = 0;
+#4 reset = 0;
 
 
-reg test;
+// This passes the first clock cycle ... Defining initial values ​​....
 
-	always@(posedge clk) begin
-    if(out0c != out0s | out1c != out1s)
-    begin
-       //$display ("ERROR behavioral file and structural file are not the same");
-       test <= 0;
-     end // end display
-
-     else begin
-        test <= 1;
-      end //else
-end // always checker
+  // Binary, Hexadecimal
+  // 0x88 = 1000 1000
+  // 0x99 = 1001 1001
+  // 0xAA = 1010 1010
+  // 0xBB = 1011 1011
+  // 0xCC = 1100 1100
+  // 0xDD = 1101 1101
+  // 0XEE = 1110 1110
+  // 0XFF = 1111 1111
 
 
 
-	// clks
 
-		initial clk32f <= 0;
-    initial clk16f <= 0;
-    initial clk8f <= 0;
-    initial clk4f <= 0;
-    initial clk2f <= 0;
-    initial clk1f <= 0;
+// Begin test
+repeat(2) begin
+@(posedge clk) begin
+    reset <= 0;
+  end
+end
 
+@(posedge clk) begin
+  in <= 10'h0FF;
+  select<= 0;
+  reset <= 1;
+  valid_in <= 1;
+end
+repeat(3) begin
+	@(posedge clk) begin
+    select<= 1;
+		in <= 10'h0DD;
+	  end
+end
 
-    // Faster frequency
-    always @(posedge clk) begin
-		clk32f <= ~clk32f; // if was LOW change to HIGH
-        end
-    //////////////////////////////
-    // For 16 Hz
-    always @(posedge clk32f) begin
-        clk16f <= ~clk16f; // if was LOW change to HIGH
-        end
-    //////////////////////////////
-    // For 8 Hz
-    always @(posedge clk16f) begin
-            clk8f <= ~clk8f; // if was LOW change to HIGH
-    end
-    //////////////////////////////
-    // For 4 Hz
-    always @(posedge clk8f) begin
-        clk4f <= ~clk4f; // if was LOW change to HIGH
-        end
-    //////////////////////////////
-    // At 2 Hz
-    always @(posedge clk4f) begin
-        clk2f <= ~clk2f; // if was LOW change to HIGH
-        end
+@(posedge clk) begin
+  select <= 0;
+  in <= 10'h0EE;
+end
 
-    //////////////////////////////
-    // At 1 HZ
-    always @(posedge clk2f) begin
-    clk1f <= ~clk1f; // if was LOW change to HIGH
- 	end
+@(posedge clk) begin
+	in <= 10'h0CC;
+  select <= 1;
+end
+
+@(posedge clk) begin
+	in <= 10'h0BB;
+  select<= 0;
+end
 
 
+@(posedge clk) begin
+  select <= 1;
+	in <= 10'h099;
+end
+
+
+@(posedge clk) begin
+	in <= 10'h0AA;
+  select <= 0;
+end
+
+
+@(posedge clk) begin
+  select<= 1;
+	in <= 10'h088;
+end
+
+@(posedge clk) begin
+	in <= 10'h077;
+  select<= 0;
+end
+
+
+#40 $finish;
+end
+
+// clock logic
+initial	clk	 			<= 0;			// Initial value to avoid indeterminations
+always	#10 clk				<= ~clk;		// toggle every 10ns
 
 endmodule
+
+
+// Local Variables:
+// verilog-library-directories:("."):
+// End:
+`endif
