@@ -20,7 +20,7 @@ read_verilog ./src/demux1x2_behav.v
 read_verilog -lib ./lib/cmos_cells.v
 
 #Hierarchy module
-hierarchy -check -top demux1x2_behav
+hierarchy -check -top demux12
 
 #Process to nettlist
 proc
@@ -63,6 +63,6 @@ write_verilog ./syn/demux1x2_behav_syn.v
 
 
 #show schemes
-show \demux1x2_behav
+show \demux12
 # To save then in diagrams_generated folder
 #show -format ps -prefix ./diagrams_generated/demux1x2_behav
