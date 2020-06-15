@@ -1,81 +1,80 @@
+// Belinda Brown Ramírez
+// June, 2020
+// timna.brown@ucr.ac.cr
+
+`ifndef MUX21_B
+`define MUX21_B
+
+
+
+
 `timescale 1ns/1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: U.C.R EIE
-// Engineer: Brandon Esquivel Molina
-// 
-// Create Date: 19.05.2020
-// Design Name: demux1x2_8bits+VALID with automatic selector
-// Module Name: demux1x2 8BITS + VALID
-// Project Name: PHY Layer PCIe
-// Target Devices: PCIe
-// Tool Versions: Yosys 0.9 Iverolg release at 2020
-// Description: module deMux1x2 8bits+ valid a submodule in mux1x2 8bits + valid
-// Dependencies: 
-// 
-// Revision: 0.0
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
 
+// Considering class and destiny
 
-
-module demux1x2_behav (
-    // Inputs
-    input wire [7:0] in,
-    input wire clk,
+module demux12 (
     input wire reset,
-    input wire valid,
+    input wire  clk,
+    input wire  [9:0] in,
+    input wire valid_in,
+    input wire  select,
+    output reg  push_0,
+    output reg  push_1,
+    output reg  [9:0] out0,
+    output reg  [9:0] out1,
+    output reg [1:0] valid_out
+    );
 
-    // Outputs
-    output reg [7:0] out0,
-    output reg [7:0] out1,
-    output reg [1:0] validout
+always @(posedge clk) begin
+   if (reset ==0) begin
+       out0 <= 0;
+       out1 <= 0;
+       valid_out <= 0;
+       push_0   <= 0;
+       push_1   <= 0;
+   end // end reset zero
 
-);
-   
-    reg selector;
-    reg [7:0] node0;
-    reg [7:0] node1;
+ else begin // reset == 1
+   case(select)
+   0:   begin
+       if (valid_in == 1)
+         begin
+          out0 <= in;
+          push_0 <= 1;
+          valid_out[0] <= valid_in;
+          valid_out[1] <= 0;
+          end // end valid_in  = 1
+        else begin
+          valid_out[0] <= 0;
+        end // end valid_in  = 0
+      end // end select = 0
+    1:  begin
+        if (valid_in == 1)
+          begin
+           out1 <= in;
+           push_1 <= 1;
+           valid_out[0] <= 0;
+           valid_out[1] <= valid_in;
+           end // end valid_in  = 1
+         else begin
+           valid_out[0] <= 0;
+         end // end valid_in  = 0
+       end // end select = 1
 
-
-    always @ (posedge clk) begin
-        if(~reset) begin
-          selector <= 0;
-        end else begin
-          selector <= ~selector;
-        end
-    end
-
-    always @(posedge clk) begin
-        if (~reset) begin
-            node0 <= 0;
-            node1 <= 0;
-        end else begin
-            if (selector) begin
-                if (valid) begin
-                    node0 <= in;
-                    validout[0] <= valid;
-                end else begin
-                    node0 <= node0;
-                    validout[0] <= valid;
-                end
-            end else begin
-                if (valid) begin
-                    node1 <= in;
-                    validout[1] <= 1;
-                end else begin
-                    node1 <= node1;
-                    validout[1] <= 0;
-                end
-            end
-        end
-    end
-    
-
-    always @(posedge clk) begin
-        out0 <= node0;
-        out1 <= node1;
-    end
+     default: begin
+         valid_out <= 2'b00;
+         out0 <= 10'h0;
+         out1 <= 10'h0;
+     end // end default
+    endcase // end case selec == 0 or select == 1
+  end // end reset ==1
+end // end posedge clk
 
 endmodule
+
+
+
+// Local Variables:
+// verilog-library-directories:("."):
+// End:
+`endif
