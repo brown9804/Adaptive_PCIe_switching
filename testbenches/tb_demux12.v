@@ -47,7 +47,7 @@ wire [9:0] out1_STB;
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-demux12 demux12_TB (
+demux12 demux12_TB (/*AUTOINST*/
 // Outputs
 .push_0 (push_0_BTB),
 .push_1 (push_1_BTB),
@@ -68,7 +68,7 @@ demux12 demux12_TB (
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-demux12_syn demux12_syn_TB (
+demux12_syn demux12_syn_TB (/*AUTOINST*/
 // Outputs
 .push_0 (push_0_STB),
 .push_1 (push_1_STB),
@@ -89,7 +89,7 @@ demux12_syn demux12_syn_TB (
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-t_demux1x2 t_demux1x2_TB (
+t_demux1x2 t_demux1x2_TB (/*AUTOINST*/
 // Outputs
 .push_0 (push_0_BTB),
 .push_1 (push_1_BTB),
