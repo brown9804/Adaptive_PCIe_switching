@@ -45,7 +45,7 @@ wire [9:0] out_STB;
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-mux21 mux21_TB (
+mux21 mux21_TB (/*AUTOINST*/
 // Outputs
 .out (out_BTB),
 .valid_out (valid_out_BTB),
@@ -67,7 +67,7 @@ mux21 mux21_TB (
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-mux21_syn mux21_syn_TB (
+mux21_syn mux21_syn_TB (/*AUTOINST*/
 // Outputs
 .out (out_STB),
 .valid_out (valid_out_STB),
@@ -88,7 +88,7 @@ mux21_syn mux21_syn_TB (
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-t_mux21 t_mux21_TB (
+t_mux21 t_mux21_TB (/*AUTOINST*/
 // Outputs
 .out (out_BTB),
 .valid_out (valid_out_BTB),
