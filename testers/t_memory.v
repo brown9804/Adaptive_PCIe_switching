@@ -1,7 +1,7 @@
 // Memoria tester
 // Proyecto 2 Digitales II
-`include "memory.v"
-`include "memory_synth.v"
+//`include "memory.v"
+//`include "memory_synth.v"
 //`include "cmos_cells.lib"
 //`include "cmos_cells.v"
 
