@@ -17,12 +17,13 @@
 #													MARKS
 #******************************************************************************
 # 1. For mux 2:1 ---------- mux21
-# 2. For demux 1:2 ---------- demux12
-# 3. For fifo 8x10 ---------- fifo
-# 4. For fifo 6x8 ---------- fifo6x8
-# 5. For memory 8x10 ---------- memory
-# 6. For memory 6x8 ---------- memory6x8
-# 7. For trafic class clasification ---------- class
+# 2. For demux 1:2  10 bits ---------- demux12
+# 3. For demux 1:2 8 bits ---------- demux12_8
+# 4. For fifo 8x10 ---------- fifo
+# 5. For fifo 6x8 ---------- fifo6x8
+# 6. For memory 8x10 ---------- memory
+# 7. For memory 6x8 ---------- memory6x8
+# 8. For trafic class clasification ---------- class
 
 all:
 
@@ -77,6 +78,7 @@ LOG_TXT = ./log_txt/
 SRC = ./src/
 _MUX21 = mux2x1_behav.v
 _DEMUX12 = demux1x2_behav.v
+_DEMUX12_8 = demux1x2_8_behav.v
 _FIFO = fifo.v
 _FIFO6x8 = fifo_6x8.v
 _MEMORY = memory.v
@@ -88,6 +90,7 @@ _CLASS = class.v
 SYN = ./syn/
 _SMUX21 = mux2x1_behav_syn.v
 _SDEMUX12 = demux1x2_behav_syn.v
+_SDEMUX12_8 = demux1x2_8_behav_syn.v
 _SFIFO = fifo_syn.v
 _SFIFO6x8 = fifo_6x8_syn.v
 _SMEMORY = memory_syn.v
@@ -99,6 +102,7 @@ _SCLASS = class_syn.v
 TESTBENCHES = ./testbenches/
 _TB_MUX21 =  tb_mux21.v
 _TB_DEMUX12 = tb_demux12.v
+_TB_DEMUX12_8 = tb_demux12_8.v
 _TB_FIFO = tb_fifo.v
 _TB_FIFO6x8 = tb_fifo_6x8.v
 _TB_MEMORY = tb_memory.v
@@ -110,6 +114,7 @@ _TB_CLASS = tb_class.v
 TESTERS = ./testers/
 _T_MUX21 = t_mux21.v
 _T_DEMUX12 = t_demux12.v
+_T_DEMUX12_8 = t_demux12_8.v
 _T_FIFO = t_fifo.v
 _T_FIFO6x8 = t_fifo_6x8.v
 _T_MEMORY = t_memory.v
@@ -121,6 +126,7 @@ _T_CLASS = t_class.v
 
 _VCD_MUX21 = mux21.vcd
 _VCD_DEMUX12 = demux12.vcd
+_VCD_DEMUX12_8 = demux12_8.vcd
 _VCD_FIFO = fifo.vcd
 _VCD_FIFO6x8 = fifo6x8.vcd
 _VCD_MEMORY = memory.vcd
@@ -133,6 +139,7 @@ _VCD_CLASS = class.vcd
 OVVP = ./vvp/
 _VVP_MUX21 = mux21.vvp
 _VVP_DEMUX12 = demux12.vvp
+_VVP_DEMUX12_8 = demux12_8.vvp
 _VVP_FIFO = fifo.vvp
 _VVP_FIFO6x8 = fifo6x8.vvp
 _VVP_MEMORY = memory.vvp
@@ -144,6 +151,7 @@ _VVP_CLASS = class.vvp
 YOSYS = ./yosys/
 _Y_MUX21 = mux21_y.ys
 _Y_DEMUX12 = demux12_y.ys
+_Y_DEMUX12_8 = demux12_8_y.ys
 _Y_FIFO = fifo_y.ys
 _Y_FIFO6x8 = fifo_6x8_y.ys
 _Y_MEMORY = memory_y.ys
@@ -179,7 +187,7 @@ gtkwavemux21:
 
 
 #******************************************************************************
-#### 									 DEMUX 				1:2
+#### 									 DEMUX 				1:2				10 bits
 #******************************************************************************
 
 ydemux12:
@@ -196,6 +204,25 @@ vdemux12:
 .PHONY: gtkwavedemux12
 gtkwavedemux12:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12)
+
+#******************************************************************************
+#### 									 DEMUX 				1:2 				8 bits
+#******************************************************************************
+
+ydemux12_8:
+	yosys $(YOSYS)$(_Y_DEMUX12_8)
+
+rdemux12_8:
+	sed -i 's/demux12_8/demux12_8_syn/g' $(SYN)$(_SDEMUX12_8)
+
+vdemux12_8:
+	iverilog -o $(OVVP)$(_VVP_DEMUX12_8) $(TESTBENCHES)$(_TB_DEMUX12_8)
+	vvp $(OVVP)$(_VVP_DEMUX12_8) > $(LOG_TXT)$(_VVP_DEMUX12_8)_log.txt
+
+#target phony
+.PHONY: gtkwavedemux12_8
+gtkwavedemux12_8:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12_8)
 
 
 
