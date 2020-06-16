@@ -24,6 +24,7 @@
 # 6. For memory 8x10 ---------- memory
 # 7. For memory 6x8 ---------- memory6x8
 # 8. For trafic class clasification ---------- class
+# 9. Routing port ---------- route
 
 all:
 
@@ -84,6 +85,7 @@ _FIFO6x8 = fifo_6x8.v
 _MEMORY = memory.v
 _MEMORY6x8 = memory_6x8.v
 _CLASS = class.v
+_ROUTING= routing.v
 
 
 
@@ -96,6 +98,7 @@ _SFIFO6x8 = fifo_6x8_syn.v
 _SMEMORY = memory_syn.v
 _SMEMORY6x8 = memory_6x8_syn.v
 _SCLASS = class_syn.v
+_SROUTING= routing_syn.v
 
 
 
@@ -108,6 +111,7 @@ _TB_FIFO6x8 = tb_fifo_6x8.v
 _TB_MEMORY = tb_memory.v
 _TB_MEMORY6x8 = tb_memory_6x8.v
 _TB_CLASS = tb_class.v
+_TB_ROUTING= tb_routing.v
 
 
 
@@ -120,6 +124,7 @@ _T_FIFO6x8 = t_fifo_6x8.v
 _T_MEMORY = t_memory.v
 _T_MEMORY6x8 = t_memory_6x8.v
 _T_CLASS = t_class.v
+_T_ROUTING= t_routing.v
 
 
 
@@ -132,6 +137,7 @@ _VCD_FIFO6x8 = fifo6x8.vcd
 _VCD_MEMORY = memory.vcd
 _VCD_MEMORY6x8 = memory6x8.vcd
 _VCD_CLASS = class.vcd
+_VCD_ROUTING= routing.vcd
 
 
 
@@ -145,6 +151,7 @@ _VVP_FIFO6x8 = fifo6x8.vvp
 _VVP_MEMORY = memory.vvp
 _VVP_MEMORY6x8 = memory6x8.vvp
 _VVP_CLASS = class.vvp
+_VVP_ROUTING= routing.vvp
 
 
 
@@ -157,6 +164,7 @@ _Y_FIFO6x8 = fifo_6x8_y.ys
 _Y_MEMORY = memory_y.ys
 _Y_MEMORY6x8 = memory_6x8_y.ys
 _Y_CLASS = class_y.ys
+_Y_ROUTING= routing_y.ys
 
 
 #******************************************************************************
@@ -306,7 +314,7 @@ yclass:
 	yosys $(YOSYS)$(_Y_CLASS)
 
 rclass:
-	sed -i 's/class/class_syn/g; s/fifo/fifo_syn/g; s/demux12/demux12_syn/g' $(SYN)$(_SCLASS)
+	sed -i 's/class/class_syn/g; s/fifo/fifo_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SCLASS)
 
 vclass:
 	iverilog -o $(OVVP)$(_VVP_CLASS) $(TESTBENCHES)$(_TB_CLASS)
@@ -316,6 +324,24 @@ vclass:
 .PHONY: gtkwaveclass
 gtkwaveclass:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_CLASS)
+
+#******************************************************************************
+#### 									 ROUTING
+#******************************************************************************
+yroute:
+	yosys $(YOSYS)$(_Y_ROUTING)
+
+rroute:
+	sed -i 's/route/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g' $(SYN)$(_SROUTING)
+
+vroute:
+	iverilog -o $(OVVP)$(_VVP_ROUTING) $(TESTBENCHES)$(_TB_ROUTING)
+	vvp $(OVVP)$(_VVP_ROUTING) > $(LOG_TXT)$(_VVP_ROUTING)_log.txt
+
+#target phony
+.PHONY: gtkwaveroute
+gtkwaveroute:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_ROUTING)
 
 
 
