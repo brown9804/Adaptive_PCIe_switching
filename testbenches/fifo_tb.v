@@ -5,7 +5,7 @@
 module test_bench_fifo;
 
 parameter DATA_SIZE = 10;       
-parameter MAIN_SIZE=8;
+parameter MAIN_SIZE = 8;
 
     wire    clk;
     wire    reset;
@@ -39,7 +39,7 @@ fifo fifotb (
 );
 
 fifo_synth fifos (
-                   .clk   (clk),
+                 .clk   (clk),
                  .reset (reset),
                  .read (read),
                  .write (write),

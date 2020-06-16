@@ -10,16 +10,17 @@
 // Considering class and destiny
 
 module demux12 (
-    input wire reset,
+    input wire  reset,
     input wire  clk,
     input wire  [9:0] in,
-    input wire valid_in,
+    input wire  valid_in,
     input wire  select,
     output reg  push_0,
     output reg  push_1,
     output reg  [9:0] out0,
     output reg  [9:0] out1,
-    output reg [1:0] valid_out
+    output reg  [1:0] valid_out
+
     );
 
 always @(posedge clk) begin

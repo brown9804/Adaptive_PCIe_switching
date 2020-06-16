@@ -1,34 +1,48 @@
-// Belinda Brown Ramírez
-// June, 2020
-// timna.brown@ucr.ac.cr
+//////////////////////////////////////
+// Brandon ESquivel Molina          //
+// Tester for class.v               //
+// brandon.esquivel@ucr.ac.cr       //
+//                                  //
+//////////////////////////////////////
 
-`ifndef T_DEMUX12
-`define T_DEMUX12
+`ifndef T_CLASS
+`define T_CLASS
 
 
-module t_demux1x2(
-  output reg reset,
+module t_class(
+  output reg  reset,
   output reg  clk,
   output reg  [9:0] in,
-  output reg valid_in,
-  output reg select,
-  input push_0,
-  input push_0_s,
-  input  push_1,
-  input push_1_s,
-  input  [9:0] out0,
-  input  [9:0] out0_s,
-  input  [9:0] out1,
-  input  [9:0] out1_s,
-  input  [1:0]valid_out,
-  input  [1:0] valid_out_s );
+  output reg  valid_in,
+
+  output reg read1,
+  output reg read2,
+ 
+ input wire almost_full1_in,
+ input wire almost_empty1_in,
+ input wire fifo1_empty,
+ input wire fifo1_error,
+ input wire fifo1_pause,
+
+ input wire almost_full2_in,
+ input wire almost_empty2_in,
+ input wire fifo2_empty,
+ input wire fifo2_error,
+ input wire fifo2_pause,
+
+
+  input wire [9:0] out0,
+  input wire [9:0] out0_s,
+  input wire [9:0] out1,
+  input wire [9:0] out1_s
+  );
 
 
 
 initial begin
 // Defining the dumpfile NAME_OF_FILE_CHOICE_PERSONAL.vcd), or known by change dump variable, this file contains
 // information about the simulator used, time scale, creation date, variable definitions, and value changes.
-$dumpfile("demux12.vcd");
+$dumpfile("class.vcd");
 $dumpvars;
 
 
@@ -53,7 +67,6 @@ $dumpvars;
 
 in = 10'h0;
 valid_in = 0;
-select = 0;
 #4 reset = 0;
 
 
@@ -73,7 +86,7 @@ select = 0;
 
 
 // Begin test
-repeat(2) begin
+repeat(4) begin
 @(posedge clk) begin
     reset <= 0;
   end
@@ -81,42 +94,35 @@ end
 
 @(posedge clk) begin
   in <= 10'h0FF;
-  select<= 0;
   reset <= 1;
   valid_in <= 1;
 end
 repeat(3) begin
 	@(posedge clk) begin
-    select<= 1;
 		in <= 10'h0DD;
 	  end
 end
 
 @(posedge clk) begin
-  select <= 0;
   in <= 10'h0EE;
 end
 
 @(posedge clk) begin
 	in <= 10'h0CC;
-  select <= 1;
 end
 
 @(posedge clk) begin
 	in <= 10'h0BB;
-  select<= 0;
 end
 
-
+/*
 @(posedge clk) begin
-  select <= 1;
 	in <= 10'h099;
 end
 
 
 @(posedge clk) begin
 	in <= 10'h0AA;
-  select <= 0;
 end
 
 
@@ -130,7 +136,7 @@ end
   select<= 0;
 end
 
-
+*/
 #40 $finish;
 end
 

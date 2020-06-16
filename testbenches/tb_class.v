@@ -2,20 +2,19 @@
 // June, 2020
 // timna.brown@ucr.ac.cr
 
-`ifndef TB_MUX21
-`define TB_MUX21
-
+`ifndef TB_CLASS
+`define TB_CLASS
 
 
 // scale time unit (value of one) / precision
-`timescale 	1ns		/ 1ps
+`timescale 	1ns	/ 1ps
 // includes verilog files
 // Can be omitted and called from the testbench
 // Cmos
 `include "./lib/cmos_cells.v"
-`include "./src/mux2x1_behav.v"
-`include "./syn/mux2x1_behav_syn.v"
-`include "./testers/t_mux21.v"
+`include "./src/class.v"
+`include "./syn/class_syn.v"
+`include "./testers/t_class.v"
 
 module TestBench; // Testbench
 // Usually the signals in the test bench are wires.
@@ -33,82 +32,88 @@ module TestBench; // Testbench
 // It's needed /*AUTOWIRE*/ because: Creates wires for outputs that ins't declare
 
 /*AUTOWIRE*/
-wire reset_TB, clk_TB, in0_valid_TB, in1_valid_TB;
-wire pop0_TB, pop1_TB;
-wire valid_out_BTB, valid_out_STB;
-wire [9:0] in0_TB, in1_TB;
-wire [9:0] out_BTB;
-wire [9:0] out_STB;
+wire reset_TB, clk_TB, valid_in_TB, select_TB;
+wire push_0_BTB, push_1_BTB;
+wire push_0_STB, push_1_STB;
+wire [1:0] valid_out_BTB, valid_out_STB;
+wire [9:0] in_TB;
+wire [9:0] out0_BTB;
+wire [9:0] out1_BTB;
+wire [9:0] out0_STB;
+wire [9:0] out1_STB;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-              //////////// MUX 2:1 BEHAVIORAL
+              //////////// DEMUX 1:2 BEHAVIORAL
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-mux21 mux21_TB (
+demux12 demux12_TB (
 // Outputs
-.out (out_BTB),
+.push_0 (push_0_BTB),
+.push_1 (push_1_BTB),
+.out0 (out0_BTB),
+.out1 (out1_BTB),
 .valid_out (valid_out_BTB),
 //Inputs
-.clk (clk_TB),
 .reset (reset_TB),
-.pop0 (pop0_TB),
-.pop1 (pop1_TB),
-.in0 (in0_TB),
-.in1 (in1_TB),
-.in0_valid (in0_valid_TB),
-.in1_valid (in1_valid_TB)
+.clk (clk_TB),
+.in (in_TB),
+.valid_in (valid_in_TB),
+.select (select_TB)
 );
 
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////
-              //////////// MUX 2:1 SYN
+              //////////// DEMUX 1:2 SYN
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-mux21_syn mux21_syn_TB (
+demux12_syn demux12_syn_TB (
 // Outputs
-.out (out_STB),
+.push_0 (push_0_STB),
+.push_1 (push_1_STB),
+.out0 (out0_STB),
+.out1 (out1_STB),
 .valid_out (valid_out_STB),
-//Inputs
-.clk (clk_TB),
+// Inputs
 .reset (reset_TB),
-.pop0 (pop0_TB),
-.pop1 (pop1_TB),
-.in0 (in0_TB),
-.in1 (in1_TB),
-.in0_valid (in0_valid_TB),
-.in1_valid (in1_valid_TB)
+.clk (clk_TB),
+.in (in_TB),
+.valid_in (valid_in_TB),
+.select (select_TB)
 );
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-              //////////// TESTER MUX 2:1
+              //////////// TESTER DEMUX 1:2
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-t_mux21 t_mux21_TB (
+t_demux1x2 t_demux1x2_TB (
 // Outputs
-.out (out_BTB),
+.push_0 (push_0_BTB),
+.push_1 (push_1_BTB),
+.out0 (out0_BTB),
+.out1 (out1_BTB),
 .valid_out (valid_out_BTB),
-.out_s (out_STB),
+.push_0_s (push_0_STB),
+.push_1_s (push_1_STB),
+.out0_s (out0_STB),
+.out1_s (out1_STB),
 .valid_out_s (valid_out_STB),
 //Inputs
-.clk (clk_TB),
 .reset (reset_TB),
-.pop0 (pop0_TB),
-.pop1 (pop1_TB),
-.in0 (in0_TB),
-.in1 (in1_TB),
-.in0_valid (in0_valid_TB),
-.in1_valid (in1_valid_TB)
+.clk (clk_TB),
+.in (in_TB),
+.valid_in (valid_in_TB),
+.select (select_TB)
 );
-
 
 
 
 endmodule
+
+
 
 // Local Variables:
 // verilog-library-directories:("."):

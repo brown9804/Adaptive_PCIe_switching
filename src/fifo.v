@@ -12,10 +12,11 @@ module fifo #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
     input                               read,
     input                               write,
     input       [DATA_SIZE-1:0]         data_in_push,            //dato de entrada / hará push al fifo
-    input       [DATA_SIZE-1:0]         almost_full_in,    
-    input       [DATA_SIZE-1:0]         almost_empty_in,
+    output reg                          almost_full_in,    
+    output reg                          almost_empty_in,
     output reg                          fifo_empty, 
-    output reg [DATA_SIZE-1:0]          data_out_pop,           //datos de salida / al que se le hace pop
+    output reg                          Fifo_full,                
+    output reg  [DATA_SIZE-1:0]         data_out_pop,           //datos de salida / al que se le hace pop
     output reg                          fifo_error,
     output reg                          fifo_pause
 );
