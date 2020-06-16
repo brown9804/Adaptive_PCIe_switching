@@ -1,8 +1,8 @@
 // FIFO tester
 // Proyecto 2 Digitales II
 
-`include "fifo_synth.v"
-`include "fifo.v"
+//`include "fifo_synth.v"
+//`include "fifo.v"
 
 module fifo_tester #(
     //Parametros
