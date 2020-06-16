@@ -1,8 +1,6 @@
 // FIFO
 // Proyecto 2 Digitales II
 
-//`include "memory.v"
-//`include "memory_synth.v"
 // DATA_SIZE: Bits de los datos
 // MAIN_SIZE: "Largo" o capacidad del fifo
 
@@ -12,8 +10,8 @@ module fifo #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
     input                               read,
     input                               write,
     input       [DATA_SIZE-1:0]         data_in_push,            //dato de entrada / hará push al fifo
-    output reg                          almost_full_in,    
-    output reg                          almost_empty_in,
+    output reg                          almost_full,    
+    output reg                          almost_empty,
     output reg                          fifo_empty, 
     output reg                          Fifo_full,                
     output reg  [DATA_SIZE-1:0]         data_out_pop,           //datos de salida / al que se le hace pop
@@ -26,7 +24,7 @@ module fifo #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
 
 wire [DATA_SIZE-1:0] data_out;		
 reg fifo_full;
-reg almost_full, almost_empty;
+//reg almost_full, almost_empty;
 reg [DATA_SIZE-1:0]data_count; 		
 reg [MAIN_SIZE-1:0]	rd_ptr;			
 reg [MAIN_SIZE-1:0]	wr_ptr;			
@@ -77,12 +75,12 @@ always@(*) begin
                 fifo_full = 1;
             end
 
-            if( data_count >= almost_full_in )begin
+            if( data_count >= 6 )begin
                 almost_full = 1;
                 fifo_pause=1;
             end
 
-            if( (data_count <= almost_empty_in) && (data_count!=0) )begin
+            if( (data_count <= 3 ) && (data_count!=0) )begin
                 almost_empty = 1;
                 fifo_pause=0;
             end
@@ -133,3 +131,4 @@ always@(*) begin
     end
 
 endmodule         
+
