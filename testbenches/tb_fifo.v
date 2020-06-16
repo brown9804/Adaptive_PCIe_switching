@@ -5,7 +5,7 @@
 `include "./testers/t_fifo.v"
 `include "./lib/cmos_cells.v"
 `include "./scr/memory.v"
-`include "-/syn/memory_synth.v"
+`include "./syn/memory_synth.v"
 module test_bench_fifo;
 
 parameter DATA_SIZE = 10;       
