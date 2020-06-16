@@ -1,7 +1,9 @@
 `timescale 	1ns	/ 100ps		
 
-`include "fifo_t.v"
-`include "cmos_cells.v"
+`include "./src/fifo.v"
+`include "./syn/fifo_syn.v"
+`include "./testers/t_fifo.v"
+`include "./lib/cmos_cells.v"
 module test_bench_fifo;
 
 parameter DATA_SIZE = 10;       
