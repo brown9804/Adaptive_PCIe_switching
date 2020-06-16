@@ -1,8 +1,6 @@
 // FIFO tester
 // Proyecto 2 Digitales II
 
-//`include "fifo_synth.v"
-//`include "fifo.v"
 
 module fifo_tester #(
     //Parametros
@@ -13,18 +11,20 @@ module fifo_tester #(
     input wire [DATA_SIZE-1:0] data_out_pop,    
     input wire fifo_error,
     input wire fifo_pause,
+    input wire  almost_full,   
+    input wire  almost_empty,
     output reg clk,
     output reg reset,
     output reg read,
     output reg write,
     output reg [DATA_SIZE-1:0] data_in_push,           
-    output reg [DATA_SIZE-1:0] almost_full_in,   
-    output reg [DATA_SIZE-1:0] almost_empty_in,
     // Para sintetizado
-    input wire fifo_empty_s,        
+    input wire fifo_synth_empty,        
     input wire [DATA_SIZE-1:0] data_out_pop_s,    
-    input wire fifo_error_s,
-    input wire fifo_pause_s
+    input wire fifo_synth_error,
+    input wire fifo_synth_pause,
+    input wire  almost_full_s,   
+    input wire almost_empty_s
 );
  
 
@@ -35,9 +35,6 @@ module fifo_tester #(
     write ='b0;
     read ='b0;
     data_in_push ='b0;
-    almost_empty_in = 'h3;
-    almost_full_in ='h6;
-
     reset = 'b0;                             
     read  = 'b0;
     write = 'b0;
