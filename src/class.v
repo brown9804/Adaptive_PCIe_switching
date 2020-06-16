@@ -4,8 +4,8 @@
 `define CLASS
 
 `timescale 1ns / 1ps
-`include "../src/fifo.v"
-`include "../src/demux1x2_behav.v"
+`include "./src/fifo.v"
+`include "./src/demux1x2_behav.v"
 
 // Considering class and destiny
 
