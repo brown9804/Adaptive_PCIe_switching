@@ -1,21 +1,22 @@
 // FIFO 6x8
 // Proyecto 2 Digitales II
 
-`include "./src/memory_6x8.v"
-//`include "memory_synth.v"
+
 // DATA_SIZE: Bits de los datos
 // MAIN_SIZE: "Largo" o capacidad del fifo
 
-module fifo_6x8 #(parameter DATA_SIZE = 8, parameter MAIN_SIZE = 6)(
+
+module fifo #(parameter DATA_SIZE = 8, parameter MAIN_SIZE = 6)(
     input                               clk,
     input                               reset,
     input                               read,
     input                               write,
     input       [DATA_SIZE-1:0]         data_in_push,            //dato de entrada / hará push al fifo
-    input       [DATA_SIZE-1:0]         almost_full_in,    
-    input       [DATA_SIZE-1:0]         almost_empty_in,
+    output reg                          almost_full,    
+    output reg                          almost_empty,
     output reg                          fifo_empty, 
-    output reg [DATA_SIZE-1:0]          data_out_pop,           //datos de salida / al que se le hace pop
+    output reg                          Fifo_full,                
+    output reg  [DATA_SIZE-1:0]         data_out_pop,           //datos de salida / al que se le hace pop
     output reg                          fifo_error,
     output reg                          fifo_pause
 );
@@ -25,7 +26,7 @@ module fifo_6x8 #(parameter DATA_SIZE = 8, parameter MAIN_SIZE = 6)(
 
 wire [DATA_SIZE-1:0] data_out;		
 reg fifo_full;
-reg almost_full, almost_empty;
+//reg almost_full, almost_empty;
 reg [DATA_SIZE-1:0]data_count; 		
 reg [MAIN_SIZE-1:0]	rd_ptr;			
 reg [MAIN_SIZE-1:0]	wr_ptr;			
@@ -33,7 +34,7 @@ reg datamod;
 
 reg [DATA_SIZE-1:0] data_to_mem;
    
-    memory_6x8 #(DATA_SIZE,MAIN_SIZE) mem(
+    memory #(DATA_SIZE,MAIN_SIZE) mem(
 		    // Outputs
 		    .data_out		(data_out[DATA_SIZE-1:0]),
 		    // Inputs
@@ -76,12 +77,12 @@ always@(*) begin
                 fifo_full = 1;
             end
 
-            if( data_count >= almost_full_in )begin
+            if( data_count >= 6 )begin
                 almost_full = 1;
                 fifo_pause=1;
             end
 
-            if( (data_count <= almost_empty_in) && (data_count!=0) )begin
+            if( (data_count <= 3 ) && (data_count!=0) )begin
                 almost_empty = 1;
                 fifo_pause=0;
             end
@@ -132,3 +133,4 @@ always@(*) begin
     end
 
 endmodule         
+
