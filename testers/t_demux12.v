@@ -72,12 +72,17 @@ select = 0;
 
 
 
-// Begin test
-repeat(2) begin
-@(posedge clk) begin
-    reset <= 0;
+
+  // Begin test
+  repeat (6) begin
+  @(posedge clk);
+  reset <= 0;
   end
-end
+
+  repeat (6) begin
+  @(posedge clk);
+  #4 reset <= 1;
+  end
 
 @(posedge clk) begin
   in <= 10'h0FF;
