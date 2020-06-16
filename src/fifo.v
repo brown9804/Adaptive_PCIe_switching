@@ -1,7 +1,7 @@
 // FIFO
 // Proyecto 2 Digitales II
 
-`include "memory.v"
+//`include "memory.v"
 //`include "memory_synth.v"
 // DATA_SIZE: Bits de los datos
 // MAIN_SIZE: "Largo" o capacidad del fifo
