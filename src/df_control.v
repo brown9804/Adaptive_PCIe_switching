@@ -11,7 +11,7 @@
 `timescale 1ns/1ps
 
 module dfcontrol (
-    input wire clk,
+
     input wire reset,
     input wire push_0,
     input wire push_1,
@@ -98,7 +98,7 @@ AE2_down = almost_empty2;
 Full_up1 = Fifo_full1;
 Full_up2 = Fifo_full2;     
           */
-        if (push_0 & ~Fifo_full1) begin
+        if (push_0 & (~Fifo_full1 | ~almost_full1 | ~fifo_pause1) ) begin
         write1 = 1;
             
         end
@@ -106,7 +106,7 @@ Full_up2 = Fifo_full2;
           write1 = 0;
         end
 
-        if (push_1 & ~Fifo_full2 ) begin
+        if (push_1 & (~Fifo_full2 | ~almost_full2 | ~fifo_pause2) ) begin
         write2 = 1;
             
         end

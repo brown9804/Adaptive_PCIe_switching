@@ -40,35 +40,35 @@ initial begin
   $dumpfile("dfcontrol.vcd");
   $dumpvars;
 
-repeat(4) begin   
-@posedge(clk);
-#4 reset <= 0;
+  repeat (6) begin
+  @(posedge clk);
+  #4 reset <= 0;
 end
 
 repeat(7) begin
-@posedge(clk);
+@(posedge clk);
 reset <= 1;
 push_0 <= 1;
 fifo_empty1 <= 0;
 end
 
-@posedge(clk);
+@(posedge clk);
 almost_empty1 <= 0;
 push_0 <= 0;
 
 
-@posedge(clk);
+@(posedge clk);
 push_0 <= 1;
 fifo_pause1 <= 1;
 almost_full1 <= 1;
 
-@posedge(clk);
+@(posedge clk);
 Fifo_full1 <= 1;
 
-@posedge(clk);
+@(posedge clk);
 fifo_error1 <= 1;
-@posedge(clk);
-@posedge(clk);
+@(posedge clk);
+@(posedge clk);
 
 #40 $finish;
 end

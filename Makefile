@@ -100,7 +100,7 @@ _SMEMORY = memory_syn.v
 _SMEMORY6x8 = memory_6x8_syn.v
 _SCLASS = class_syn.v
 _SROUTING= routing_syn.v
-_SDFC= df_control_syn.v
+_SDFC= dfcontrol_syn.v
 
 
 TESTBENCHES = ./testbenches/
@@ -166,7 +166,7 @@ _Y_MEMORY = memory_y.ys
 _Y_MEMORY6x8 = memory_6x8_y.ys
 _Y_CLASS = class_y.ys
 _Y_ROUTING= routing_y.ys
-_Y_DFC= dfcontrol_y_ys
+_Y_DFC= dfcontrol_y.ys
 
 #******************************************************************************
 

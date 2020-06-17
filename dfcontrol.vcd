@@ -1,0 +1,338 @@
+$date
+	Wed Jun 17 15:30:11 2020
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module BUF $end
+$var wire 1 ! A $end
+$var wire 1 " Y $end
+$upscope $end
+$scope module DFF $end
+$var wire 1 # C $end
+$var wire 1 $ D $end
+$var reg 1 % Q $end
+$upscope $end
+$scope module DFFSR $end
+$var wire 1 & C $end
+$var wire 1 ' D $end
+$var wire 1 ( R $end
+$var wire 1 ) S $end
+$var reg 1 * Q $end
+$upscope $end
+$scope module NAND $end
+$var wire 1 + A $end
+$var wire 1 , B $end
+$var wire 1 - Y $end
+$upscope $end
+$scope module NOR $end
+$var wire 1 . A $end
+$var wire 1 / B $end
+$var wire 1 0 Y $end
+$upscope $end
+$scope module NOT $end
+$var wire 1 1 A $end
+$var wire 1 2 Y $end
+$upscope $end
+$scope module TestBench $end
+$var wire 1 3 write1s $end
+$var wire 1 4 write1 $end
+$var wire 1 5 wErrors $end
+$var wire 1 6 wError $end
+$var wire 1 7 reset $end
+$var wire 1 8 read1s $end
+$var wire 1 9 read1 $end
+$var wire 1 : push_0 $end
+$var wire 1 ; fifo_pause1 $end
+$var wire 1 < fifo_error1 $end
+$var wire 1 = fifo_empty1 $end
+$var wire 1 > almost_full1 $end
+$var wire 1 ? almost_empty1 $end
+$var wire 1 @ Fifo_full1 $end
+$scope module dfcontrol_b $end
+$var wire 1 A Fifo_full2 $end
+$var wire 1 B almost_empty2 $end
+$var wire 1 C almost_full2 $end
+$var wire 1 D fifo_empty2 $end
+$var wire 1 E fifo_error2 $end
+$var wire 1 F fifo_pause2 $end
+$var wire 1 G push_1 $end
+$var wire 1 7 reset $end
+$var wire 1 : push_0 $end
+$var wire 1 ; fifo_pause1 $end
+$var wire 1 < fifo_error1 $end
+$var wire 1 = fifo_empty1 $end
+$var wire 1 > almost_full1 $end
+$var wire 1 ? almost_empty1 $end
+$var wire 1 @ Fifo_full1 $end
+$var reg 1 6 Error $end
+$var reg 1 9 read1 $end
+$var reg 1 H read2 $end
+$var reg 1 4 write1 $end
+$var reg 1 I write2 $end
+$upscope $end
+$scope module dfcontrol_s $end
+$var wire 1 J Fifo_full2 $end
+$var wire 1 K _00_ $end
+$var wire 1 L _01_ $end
+$var wire 1 M _02_ $end
+$var wire 1 N _03_ $end
+$var wire 1 O _04_ $end
+$var wire 1 P _05_ $end
+$var wire 1 Q _06_ $end
+$var wire 1 R _07_ $end
+$var wire 1 S _08_ $end
+$var wire 1 T _09_ $end
+$var wire 1 U _10_ $end
+$var wire 1 V _11_ $end
+$var wire 1 W _12_ $end
+$var wire 1 X _13_ $end
+$var wire 1 Y _14_ $end
+$var wire 1 Z _15_ $end
+$var wire 1 [ _16_ $end
+$var wire 1 \ almost_empty2 $end
+$var wire 1 ] almost_full2 $end
+$var wire 1 ^ fifo_empty2 $end
+$var wire 1 _ fifo_error2 $end
+$var wire 1 ` fifo_pause2 $end
+$var wire 1 a push_1 $end
+$var wire 1 b write2 $end
+$var wire 1 3 write1 $end
+$var wire 1 7 reset $end
+$var wire 1 c read2 $end
+$var wire 1 8 read1 $end
+$var wire 1 : push_0 $end
+$var wire 1 ; fifo_pause1 $end
+$var wire 1 < fifo_error1 $end
+$var wire 1 = fifo_empty1 $end
+$var wire 1 > almost_full1 $end
+$var wire 1 ? almost_empty1 $end
+$var wire 1 @ Fifo_full1 $end
+$var wire 1 5 Error $end
+$upscope $end
+$scope module t_dfcontrolTB $end
+$var wire 1 6 Error $end
+$var wire 1 5 Errors $end
+$var wire 1 9 read1 $end
+$var wire 1 8 read1s $end
+$var wire 1 4 write1 $end
+$var wire 1 3 write1s $end
+$var reg 1 @ Fifo_full1 $end
+$var reg 1 ? almost_empty1 $end
+$var reg 1 > almost_full1 $end
+$var reg 1 d clk $end
+$var reg 1 = fifo_empty1 $end
+$var reg 1 < fifo_error1 $end
+$var reg 1 ; fifo_pause1 $end
+$var reg 1 : push_0 $end
+$var reg 1 7 reset $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0d
+xc
+xb
+za
+z`
+z_
+z^
+z]
+z\
+x[
+1Z
+xY
+xX
+1W
+1V
+zU
+zT
+zS
+1R
+1Q
+1P
+xO
+0N
+xM
+0L
+xK
+zJ
+0I
+1H
+zG
+zF
+zE
+zD
+zC
+zB
+zA
+0@
+1?
+0>
+1=
+0<
+0;
+0:
+09
+08
+x7
+06
+x5
+04
+03
+z2
+z1
+x0
+z/
+z.
+x-
+z,
+z+
+x*
+z)
+z(
+z'
+z&
+x%
+z$
+z#
+z"
+z!
+$end
+#4000
+05
+0c
+0b
+0H
+07
+#10000
+1d
+#20000
+0d
+#30000
+1d
+#40000
+0d
+#50000
+1d
+#60000
+0d
+#70000
+1d
+#80000
+0d
+#90000
+1d
+#100000
+0d
+#110000
+1d
+#120000
+0d
+#130000
+13
+1N
+x5
+xc
+xb
+1H
+14
+0=
+1:
+17
+1d
+#140000
+0d
+#150000
+1d
+#160000
+0d
+#170000
+1d
+#180000
+0d
+#190000
+1d
+#200000
+0d
+#210000
+1d
+#220000
+0d
+#230000
+1d
+#240000
+0d
+#250000
+1d
+#260000
+0d
+#270000
+18
+03
+1L
+0N
+0Z
+19
+04
+1H
+0:
+0?
+1d
+#280000
+0d
+#290000
+13
+0Q
+0R
+1N
+14
+1H
+19
+1>
+1;
+1:
+1d
+#300000
+0d
+#310000
+03
+0N
+0W
+0V
+0P
+04
+1H
+19
+1@
+1d
+#320000
+0d
+#330000
+15
+1K
+16
+1H
+19
+1<
+1d
+#340000
+0d
+#350000
+1d
+#360000
+0d
+#370000
+1d
+#380000
+0d
+#390000
+1d
+#400000
+0d
+#410000
+1d

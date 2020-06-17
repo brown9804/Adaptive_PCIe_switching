@@ -1,0 +1,1 @@
+VCD info: dumpfile dfcontrol.vcd opened for output.

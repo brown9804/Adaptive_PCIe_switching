@@ -11,7 +11,7 @@
 
 `include "./lib/cmos_cells.v"
 `include "./src/df_control.v"
-`include "./syn/df_control_syn.v"
+`include "./syn/dfcontrol_syn.v"
 `include "./testers/t_dfcontrol.v"
 
 module TestBench; 
@@ -20,7 +20,6 @@ module TestBench;
 
 // general 
 wire reset;
-wire clk;
 wire write1;
 wire write1s;
 wire read1;
@@ -28,7 +27,6 @@ wire read1s;
 wire Error;
 wire Errors;
 wire push_0;
-wire push_1;
 
 
 
@@ -39,8 +37,6 @@ wire push_1;
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 dfcontrol  dfcontrol_b(
-  
-  .clk                            ( clk ),
   .reset                          ( reset ),
   .read1                          ( read1 ),
   .write1                         ( write1 ),
@@ -72,7 +68,6 @@ dfcontrol  dfcontrol_b(
 
 dfcontrol_syn  dfcontrol_s(
   
-  .clk                            ( clk ),
   .reset                          ( reset ),
   .read1                          ( read1s ),
   .write1                         ( write1s ),
@@ -106,7 +101,6 @@ dfcontrol_syn  dfcontrol_s(
 t_dfcontrol t_dfcontrolTB (
 
   .push_0                         ( push_0),
-  .push_1                         ( push_1),
   .read1                          ( read1 ),
   .write1                         ( write1 ),
   .read1s                         ( read1s ),
@@ -120,10 +114,7 @@ t_dfcontrol t_dfcontrolTB (
   .Fifo_full1                     ( Fifo_full1  ),      
   .fifo_error1                    ( fifo_error1  ),    
   .fifo_pause1                    ( fifo_pause1   ),   
-  .in                             ( in     ),
-  .clk                            ( clk    ),
-  .reset                          ( reset  ),
-  .valid_in                       ( valid_in)
+  .reset                          ( reset  )
 );
 
 
