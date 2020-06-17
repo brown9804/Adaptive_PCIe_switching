@@ -6,7 +6,7 @@
 // MAIN_SIZE: "Largo" o capacidad del fifo
 
 
-module fifo #(parameter DATA_SIZE = 8, parameter MAIN_SIZE = 6)(
+module fifo_6x8 #(parameter DATA_SIZE = 8, parameter MAIN_SIZE = 6)(
     input                               clk,
     input                               reset,
     input                               read,
