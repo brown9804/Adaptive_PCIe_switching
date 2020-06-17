@@ -19,7 +19,7 @@ module mux21 (
     // Valid for inputs
     input wire in0_valid,
     input wire in1_valid,
-    output reg  [9:0] out,
+    output reg  [7:0] out,
     output reg valid_out
 );
 
