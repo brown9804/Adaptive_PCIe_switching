@@ -33,7 +33,7 @@ memory mem (
             .data_out (data_out)
 );
 
-memory_synth mems (
+memory_6x8_syn mems (
              .clk    (clk),
             .read   (read),
             .write  (write),
