@@ -5,9 +5,6 @@
 `include "./testers/t_fifo_6x8.v"
 `include "./lib/cmos_cells.v"
 
-`include "memory_6x8.v"
-
-`include "memory_6x8_synth.v"
 module test_bench_fifo;
 
 parameter DATA_SIZE = 8;       
