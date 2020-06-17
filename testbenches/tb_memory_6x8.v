@@ -3,7 +3,7 @@
 
 `timescale 	1ns	/ 100ps		
 `include "memory_6x8.v"
-`include "memory_6x8_synth.v"
+`include "memory_6x8_syn.v"
 `include "t_memory_6x8.v"
 `include "cmos_cells.v"
 
