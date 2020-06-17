@@ -34,7 +34,7 @@ parameter MAIN_SIZE = 6;
 
 
 
-fifo fifotb (
+fifo_6x8 fifotb (
                  .clk   (clk),
                  .reset (reset),
                  .read (read),
@@ -48,7 +48,7 @@ fifo fifotb (
                  .fifo_pause (fifo_pause)
 );
 
-fifo_synth fifos (
+fifo_6x8_synth fifos (
                  .clk   (clk),
                  .reset (reset),
                  .read (read),
