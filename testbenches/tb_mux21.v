@@ -37,8 +37,8 @@ wire reset_TB, clk_TB, in0_valid_TB, in1_valid_TB;
 wire pop0_TB, pop1_TB;
 wire valid_out_BTB, valid_out_STB;
 wire [9:0] in0_TB, in1_TB;
-wire [9:0] out_BTB;
-wire [9:0] out_STB;
+wire [7:0] out_BTB;
+wire [7:0] out_STB;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
               //////////// MUX 2:1 BEHAVIORAL
