@@ -46,19 +46,20 @@ wire  valid_in;
 // behav
 wire  [DATA_SIZE-1:0] out0;
 wire  [DATA_SIZE-1:0] out1;
-wire AF1_up;
+/*wire AF1_up;
 wire AF2_up;
 wire AE1_up;
 wire AE2_up;
+*/
 
 //struct
 wire  [DATA_SIZE-1:0] out0_s;
 wire  [DATA_SIZE-1:0] out1_s;
-wire AF1_up_s;
+/*wire AF1_up_s;
 wire AF2_up_s;
 wire AE1_up_s;
 wire AE2_up_s;
-
+*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
               //////////// class switching behavorial
@@ -68,10 +69,11 @@ wire AE2_up_s;
 classswitching  class_b(   
     .out0     ( out0 ),
     .out1     ( out1 ),
-    .AF1_up   ( AF1_up ),
+    /*.AF1_up   ( AF1_up ),
     .AF2_up   ( AF2_up ),
     .AE1_up   ( AE1_up ),
     .AE2_up   ( AE2_up ),
+    */
     .in       ( in     ),
     .clk      ( clk    ),
     .reset    ( reset  ),
@@ -89,10 +91,11 @@ classswitching_syn  class_s(
  
     .out0     ( out0_s ),
     .out1     ( out1_s ),
-    .AF1_up   ( AF1_up_s ),
+    /*.AF1_up   ( AF1_up_s ),
     .AF2_up   ( AF2_up_s ),
     .AE1_up   ( AE1_up_s ),
     .AE2_up   ( AE2_up_s ),
+    */
     .in       ( in     ),
     .clk      ( clk    ),
     .reset    ( reset  ),
@@ -112,18 +115,18 @@ t_class t_classTB (
 
     .out0     ( out0 ),
     .out1     ( out1 ),
-    .AF1_up   ( AF1_up ),
+    /*.AF1_up   ( AF1_up ),
     .AF2_up   ( AF2_up ),
     .AE1_up   ( AE1_up ),
     .AE2_up   ( AE2_up ),
-    
+    */
     .out0_s     ( out0_s ),
     .out1_s     ( out1_s ),
-    .AF1_up_s   ( AF1_up_s ),
+    /*.AF1_up_s   ( AF1_up_s ),
     .AF2_up_s   ( AF2_up_s ),
     .AE1_up_s   ( AE1_up_s ),
     .AE2_up_s   ( AE2_up_s ),
-
+    */
     .in       ( in     ),
     .clk      ( clk    ),
     .reset    ( reset  ),
@@ -133,8 +136,6 @@ t_class t_classTB (
 
 
 endmodule
-
-
 
 // Local Variables:
 // verilog-library-directories:("."):

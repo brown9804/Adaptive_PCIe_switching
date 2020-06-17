@@ -86,6 +86,7 @@ _MEMORY = memory.v
 _MEMORY6x8 = memory_6x8.v
 _CLASS = class.v
 _ROUTING= routing.v
+_DFC = df_control.v 
 
 
 
@@ -99,7 +100,7 @@ _SMEMORY = memory_syn.v
 _SMEMORY6x8 = memory_6x8_syn.v
 _SCLASS = class_syn.v
 _SROUTING= routing_syn.v
-
+_SDFC= df_control_syn.v
 
 
 TESTBENCHES = ./testbenches/
@@ -112,7 +113,7 @@ _TB_MEMORY = tb_memory.v
 _TB_MEMORY6x8 = tb_memory_6x8.v
 _TB_CLASS = tb_class.v
 _TB_ROUTING= tb_routing.v
-
+_TB_DFC= tb_dfcontrol.v
 
 
 TESTERS = ./testers/
@@ -125,7 +126,7 @@ _T_MEMORY = t_memory.v
 _T_MEMORY6x8 = t_memory_6x8.v
 _T_CLASS = t_class.v
 _T_ROUTING= t_routing.v
-
+_T_DFC=	t_dfcontrol.v
 
 
 
@@ -138,7 +139,7 @@ _VCD_MEMORY = memory.vcd
 _VCD_MEMORY6x8 = memory6x8.vcd
 _VCD_CLASS = class.vcd
 _VCD_ROUTING= routing.vcd
-
+_VCD_DFC= dfcontrol.vcd
 
 
 
@@ -152,7 +153,7 @@ _VVP_MEMORY = memory.vvp
 _VVP_MEMORY6x8 = memory6x8.vvp
 _VVP_CLASS = class.vvp
 _VVP_ROUTING= routing.vvp
-
+_VVP_DFC= dfcontrol.vvp
 
 
 YOSYS = ./yosys/
@@ -165,7 +166,7 @@ _Y_MEMORY = memory_y.ys
 _Y_MEMORY6x8 = memory_6x8_y.ys
 _Y_CLASS = class_y.ys
 _Y_ROUTING= routing_y.ys
-
+_Y_DFC= dfcontrol_y_ys
 
 #******************************************************************************
 
@@ -306,6 +307,27 @@ vmemory6x8:
 .PHONY: gtkwavememory6x8
 gtkwavememory6x8:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_MEMORY6x8)
+
+
+#******************************************************************************
+#### 									 dfcontrol
+#******************************************************************************
+ydfcontrol:
+	yosys $(YOSYS)$(_Y_DFC)
+
+rdfcontrol:
+	sed -i 's/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SDFC)
+
+vdfcontrol:
+	iverilog -o $(OVVP)$(_VVP_DFC) $(TESTBENCHES)$(_TB_DFC)
+	vvp $(OVVP)$(_VVP_DFC) > $(LOG_TXT)$(_VVP_DFC)_log.txt
+
+#target phony
+.PHONY: gtkwavedfcontrol
+gtkwavedfcontrol:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DFC)
+
+
 
 #******************************************************************************
 #### 									 CLASS

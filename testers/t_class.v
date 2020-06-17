@@ -1,4 +1,4 @@
-`timescale 1ns/100ps
+
 //////////////////////////////////////
 // Brandon ESquivel Molina          //
 // Tester for class.v               //
@@ -19,7 +19,7 @@ module t_class #(
   output reg  clk,
   output reg  [DATA_SIZE-1:0] in,
   output reg  valid_in,
-
+/*
   input wire AF1_up,
   input wire AF2_up,
   input wire AF1_up_s,
@@ -30,48 +30,46 @@ module t_class #(
   output reg AE2_up,
   output reg AE1_up_s,
   output reg AE2_up_s,
- 
+ */
   input wire [DATA_SIZE-1:0] out0,
   input wire [DATA_SIZE-1:0] out0_s,
   input wire [DATA_SIZE-1:0] out1,
-  input wire [DATA_SIZE-1:0] out1_s
-
+  input wire [DATA_SIZE-1:0] out1_s,
+  input wire Error
   );
 
 
 
 initial begin
-// Defining the dumpfile NAME_OF_FILE_CHOICE_PERSONAL.vcd), or known by change dump variable, this file contains
-// information about the simulator used, time scale, creation date, variable definitions, and value changes.
-$dumpfile("class.vcd");
-$dumpvars;
 
-repeat(6) begin
-@(posedge clk);
-reset <= 1;
+  $dumpfile("class.vcd");
+  $dumpvars;
+   
+   valid_in = 0;
+   in = 10'h0;
+   reset = 0;
+   /*
+   AE1_up = 1;
+   AE2_up = 1;
+   AE1_up_s = 1;
+   AE2_up_s = 1;
+*/
+    repeat (3) begin
+    @(posedge clk)
+    reset <= 0;
+    end
 
-end
-
-
-
-repeat(6) begin
-
-@(posedge clk);
-reset <= 1;
-
-end
-
-/*
-@(posedge clk);
+    @(posedge clk);
+    reset <= 1;
 
 
 // fill FIFO 1 CLASS 1
-repeat(7) begin
+repeat(6) begin
 @(posedge clk);
 valid_in <= 1;
 in <= 10'hFF;
 end
-
+/*
 // test class switching for FIFO 2 class 0
 repeat(7) begin
 
@@ -93,7 +91,7 @@ end
 repeat(6) begin
 
 @(posedge clk);
-valid_in <= 1;
+valid_in <= 0;
 
 end
 
@@ -104,13 +102,6 @@ end
 
 // initial values
 
-initial valid_in = 0;
-initial in = 10'h0;
-initial reset = 0;
-initial AE1_up = 1;
-initial AE2_up = 1;
-initial AE1_up_s = 1;
-initial AE2_up_s = 1;
 
 // clock logic
 initial	clk	 			<= 0;			// Initial value to avoid indeterminations

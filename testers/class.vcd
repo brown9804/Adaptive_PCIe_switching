@@ -1,0 +1,85 @@
+$date
+	Wed Jun 17 09:58:58 2020
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module t_class $end
+$var wire 1 ! Error $end
+$var wire 10 " out0 [9:0] $end
+$var wire 10 # out0_s [9:0] $end
+$var wire 10 $ out1 [9:0] $end
+$var wire 10 % out1_s [9:0] $end
+$var reg 1 & clk $end
+$var reg 10 ' in [9:0] $end
+$var reg 1 ( reset $end
+$var reg 1 ) valid_in $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0)
+0(
+b0 '
+0&
+bz %
+bz $
+bz #
+bz "
+z!
+$end
+#10
+1(
+1&
+#20
+0&
+#30
+1&
+#40
+0&
+#50
+1&
+#60
+0&
+#70
+1&
+#80
+0&
+#90
+1&
+#100
+0&
+#110
+1&
+#120
+0&
+#130
+1&
+#140
+0&
+#150
+1)
+1&
+#160
+0&
+#170
+1&
+#180
+0&
+#190
+1&
+#200
+0&
+#210
+1&
+#220
+0&
+#230
+1&
+#240
+0&
+#250
+1&

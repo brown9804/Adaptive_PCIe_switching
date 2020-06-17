@@ -58,7 +58,8 @@ wire wAE2_down;
 wire wFull_up1;
 wire wFull_up2;
 wire wError;
-
+wire Fifo_full1;
+wire Fifo_full2;
 
 
 demux12 demux12A(
@@ -137,13 +138,13 @@ dfcontrol datacontrol(
   .fifo_pause2                    ( fifo_pause2   ),   
     
     // out/in of layer
-  .AF1_up                          ( wAF1_up  ),
+  /*.AF1_up                          ( wAF1_up  ),
   .AF2_up                          ( wAF2_up  ),
   .AE1_down                        ( wAE1_down  ), 
   .AE2_down                        ( wAE2_down  ),
   .Full_up1                        ( wFull_up1 ),
   .Full_up2                        ( wFull_up2 ),
-  .Error                           ( wError),
+  
 
   .Full_down1                      ( Full_down1 ),    
   .Full_down2                      ( Full_down2 ),   
@@ -151,6 +152,8 @@ dfcontrol datacontrol(
   .AF2_down                        ( AF2_down  ),
   .AE1_up                          ( AE1_up  ),
   .AE2_up                          ( AE2_up  )
+
+*/.Error                           ( wError)
 );
 
 
@@ -158,12 +161,13 @@ dfcontrol datacontrol(
 always@(*) begin      // spread data/signals to out
   out0     =   n2;
   out1     =   n3;
-  AF1_up   =   wAF1_up;
+  /*AF1_up   =   wAF1_up;
   AF2_up   =   wAF2_up;
   AE1_down =   wAE1_down;
   AE2_down =   wAE2_down;
   Full_up1 =   wFull_up1;
   Full_up2 =   wFull_up2;
+  */
   Error    =   wError;
 
 end
