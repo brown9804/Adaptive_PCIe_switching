@@ -2,10 +2,10 @@
 // Proyecto 2 Digitales II
 
 `timescale 	1ns	/ 100ps		
-`include "memory_6x8.v"
-`include "memory_6x8_syn.v"
-`include "t_memory_6x8.v"
-`include "cmos_cells.v"
+`include "./src/memory_6x8.v"
+`include "./syn/memory_6x8_syn.v"
+`include "./testers/t_memory_6x8.v"
+`include "./lib/cmos_cells.v"
 
 module memory_tb;
 parameter MAIN_SIZE = 6;
