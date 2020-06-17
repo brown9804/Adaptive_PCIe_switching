@@ -54,9 +54,9 @@ fifo_syn fifos (
                  .almost_full (almost_full_s),
                  .almost_empty (almost_empty_s),
                  .data_out_pop (data_out_pop_s),
-                 .fifo_synth_empty (fifo_empty_s),
-                 .fifo_synth_error (fifo_error_s),
-                 .fifo_synth_pause (fifo_pause_s)
+                 .fifo_syn_empty (fifo_empty_s),
+                 .fifo_syn_error (fifo_error_s),
+                 .fifo_syn_pause (fifo_pause_s)
 );
 
 
