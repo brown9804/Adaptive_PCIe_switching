@@ -21,8 +21,8 @@ output reg [9:0] in1,
 output reg in0_valid,
 output reg in1_valid,
 // Inputs
-input [9:0] out,
-input [9:0] out_s,
+input [7:0] out,
+input [7:0] out_s,
 input valid_out,
 input valid_out_s
 );
