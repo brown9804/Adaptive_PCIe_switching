@@ -22,7 +22,7 @@ parameter DATA_SIZE = 8;
     // Para el sintetizado
     wire [DATA_SIZE - 1:0] data_out_s;
 
-memory mem (
+memory6x8 mem (
             .clk    (clk),
             .read   (read),
             .write  (write),
@@ -33,7 +33,7 @@ memory mem (
             .data_out (data_out)
 );
 
-memory_6x8_syn mems (
+memory6x8_syn mems (
              .clk    (clk),
             .read   (read),
             .write  (write),
