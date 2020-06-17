@@ -5,6 +5,8 @@
 // DATA_SIZE: Bits de los datos
 // MAIN_SIZE: "Largo" o capacidad del fifo
 
+`include "memory_6x8.v"
+
 
 module fifo_6x8 #(parameter DATA_SIZE = 8, parameter MAIN_SIZE = 6)(
     input                               clk,
