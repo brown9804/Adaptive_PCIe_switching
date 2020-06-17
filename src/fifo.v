@@ -4,6 +4,8 @@
 // DATA_SIZE: Bits de los datos
 // MAIN_SIZE: "Largo" o capacidad del fifo
 
+`include "./scr/memory.v"
+
 module fifo #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
     input                               clk,
     input                               reset,
