@@ -256,10 +256,10 @@ gtkwavefifo:
 #### 									 FIFO 		6x8
 #******************************************************************************
 yfifo6x8:
-	yosys $(YOSYS)$(_Y_FIFO)
+	yosys $(YOSYS)$(_Y_FIFO6x8)
 
 rfifo6x8:
-	sed -i 's/fifo_6x8/fifo_6x8_syn/g; s/memory_6x8/memory_6x8_syn/g' $(SYN)$(_SFIFO)
+	sed -i 's/fifo_6x8/fifo_6x8_syn/g; s/memory_6x8/memory_6x8_syn/g' $(SYN)$(_SFIFO6x8)
 
 vfifo6x8:
 	iverilog -o $(OVVP)$(_VVP_FIFO6x8) $(TESTBENCHES)$(_TB_FIFO6x8)
