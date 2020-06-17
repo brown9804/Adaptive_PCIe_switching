@@ -166,7 +166,7 @@ _Y_MEMORY = memory_y.ys
 _Y_MEMORY6x8 = memory_6x8_y.ys
 _Y_CLASS = class_y.ys
 _Y_ROUTING= routing_y.ys
-_Y_DFC= dfcontrol_y_ys
+_Y_DFC= dfcontrol_y.ys
 
 #******************************************************************************
 
