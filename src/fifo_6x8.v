@@ -5,7 +5,7 @@
 // DATA_SIZE: Bits de los datos
 // MAIN_SIZE: "Largo" o capacidad del fifo
 
-`include "memory_6x8.v"
+`include "./src/memory_6x8.v"
 
 
 module fifo_6x8 #(parameter DATA_SIZE = 8, parameter MAIN_SIZE = 6)(
@@ -36,7 +36,7 @@ reg datamod;
 
 reg [DATA_SIZE-1:0] data_to_mem;
    
-    memory #(DATA_SIZE,MAIN_SIZE) mem(
+    memory6x8 #(DATA_SIZE,MAIN_SIZE) mem(
 		    // Outputs
 		    .data_out		(data_out[DATA_SIZE-1:0]),
 		    // Inputs
