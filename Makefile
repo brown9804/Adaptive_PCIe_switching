@@ -296,7 +296,7 @@ ymemory6x8:
 	yosys $(YOSYS)$(_Y_MEMORY6x8)
 
 rmemory6x8:
-	sed -i 's/memory_6x8/memory_6x8_syn/g' $(SYN)$(_SMEMORY6x8)
+	sed -i 's/memory6x8/memory6x8_syn/g' $(SYN)$(_SMEMORY6x8)
 
 vmemory6x8:
 	iverilog -o $(OVVP)$(_VVP_MEMORY6x8) $(TESTBENCHES)$(_TB_MEMORY6x8)
