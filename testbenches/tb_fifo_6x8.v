@@ -76,8 +76,8 @@ fifo_tester tester (
                  .almost_empty_s (almost_empty_s),
                  .data_out_pop_s (data_out_pop_s),
                  .fifo_syn_empty (fifo_empty_s),
-                 .fifo_syn_error (fifo_syn_error_s),
-                 .fifo_syn_pause (fifo_syn_pause_s)
+                 .fifo_syn_error (fifo_error_s),
+                 .fifo_syn_pause (fifo_pause_s)
 );
 
 
