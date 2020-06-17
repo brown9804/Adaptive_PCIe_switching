@@ -314,7 +314,7 @@ yclass:
 	yosys $(YOSYS)$(_Y_CLASS)
 
 rclass:
-	sed -i 's/class/class_syn/g; s/fifo/fifo_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SCLASS)
+	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo/fifo_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SCLASS)
 
 vclass:
 	iverilog -o $(OVVP)$(_VVP_CLASS) $(TESTBENCHES)$(_TB_CLASS)

@@ -7,16 +7,20 @@
 
 
 // scale time unit (value of one) / precision
-`timescale 	1ns	/ 1ps
-// includes verilog files
-// Can be omitted and called from the testbench
-// Cmos
+`timescale 	1ns	/ 100ps
+
 `include "./lib/cmos_cells.v"
 `include "./src/class.v"
 `include "./syn/class_syn.v"
 `include "./testers/t_class.v"
 
-module TestBench; // Testbench
+module TestBench; 
+
+
+parameter DATA_SIZE = 10;       
+parameter MAIN_SIZE = 8;
+
+// Testbench
 // Usually the signals in the test bench are wires.
 // They do not store a value, they are handled by other module instances.
 // Since they require matching the size of the inputs and outputs, they must be assigned their size
@@ -32,81 +36,98 @@ module TestBench; // Testbench
 // It's needed /*AUTOWIRE*/ because: Creates wires for outputs that ins't declare
 
 /*AUTOWIRE*/
-wire reset_TB, clk_TB, valid_in_TB, select_TB;
-wire push_0_BTB, push_1_BTB;
-wire push_0_STB, push_1_STB;
-wire [1:0] valid_out_BTB, valid_out_STB;
-wire [9:0] in_TB;
-wire [9:0] out0_BTB;
-wire [9:0] out1_BTB;
-wire [9:0] out0_STB;
-wire [9:0] out1_STB;
+
+// general 
+wire  reset;
+wire  clk;
+wire  [DATA_SIZE-1:0] in;
+wire  valid_in;
+
+// behav
+wire  [DATA_SIZE-1:0] out0;
+wire  [DATA_SIZE-1:0] out1;
+wire AF1_up;
+wire AF2_up;
+wire AE1_up;
+wire AE2_up;
+
+//struct
+wire  [DATA_SIZE-1:0] out0_s;
+wire  [DATA_SIZE-1:0] out1_s;
+wire AF1_up_s;
+wire AF2_up_s;
+wire AE1_up_s;
+wire AE2_up_s;
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-              //////////// DEMUX 1:2 BEHAVIORAL
+              //////////// class switching behavorial
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-demux12 demux12_TB (
-// Outputs
-.push_0 (push_0_BTB),
-.push_1 (push_1_BTB),
-.out0 (out0_BTB),
-.out1 (out1_BTB),
-.valid_out (valid_out_BTB),
-//Inputs
-.reset (reset_TB),
-.clk (clk_TB),
-.in (in_TB),
-.valid_in (valid_in_TB),
-.select (select_TB)
+classswitching  class_b(   
+    .out0     ( out0 ),
+    .out1     ( out1 ),
+    .AF1_up   ( AF1_up ),
+    .AF2_up   ( AF2_up ),
+    .AE1_up   ( AE1_up ),
+    .AE2_up   ( AE2_up ),
+    .in       ( in     ),
+    .clk      ( clk    ),
+    .reset    ( reset  ),
+    .valid_in ( valid_in)
 );
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-              //////////// DEMUX 1:2 SYN
+              ////////////  class SYN
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-demux12_syn demux12_syn_TB (
-// Outputs
-.push_0 (push_0_STB),
-.push_1 (push_1_STB),
-.out0 (out0_STB),
-.out1 (out1_STB),
-.valid_out (valid_out_STB),
-// Inputs
-.reset (reset_TB),
-.clk (clk_TB),
-.in (in_TB),
-.valid_in (valid_in_TB),
-.select (select_TB)
+
+classswitching_syn  class_s(
+ 
+    .out0     ( out0_s ),
+    .out1     ( out1_s ),
+    .AF1_up   ( AF1_up_s ),
+    .AF2_up   ( AF2_up_s ),
+    .AE1_up   ( AE1_up_s ),
+    .AE2_up   ( AE2_up_s ),
+    .in       ( in     ),
+    .clk      ( clk    ),
+    .reset    ( reset  ),
+    .valid_in ( valid_in)
 );
 
 
+
+
+
 ///////////////////////////////////////////////////////////////////////////////////////////
-              //////////// TESTER DEMUX 1:2
+              //////////// TESTER class
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-t_demux1x2 t_demux1x2_TB (
-// Outputs
-.push_0 (push_0_BTB),
-.push_1 (push_1_BTB),
-.out0 (out0_BTB),
-.out1 (out1_BTB),
-.valid_out (valid_out_BTB),
-.push_0_s (push_0_STB),
-.push_1_s (push_1_STB),
-.out0_s (out0_STB),
-.out1_s (out1_STB),
-.valid_out_s (valid_out_STB),
-//Inputs
-.reset (reset_TB),
-.clk (clk_TB),
-.in (in_TB),
-.valid_in (valid_in_TB),
-.select (select_TB)
+t_class t_classTB (
+
+    .out0     ( out0 ),
+    .out1     ( out1 ),
+    .AF1_up   ( AF1_up ),
+    .AF2_up   ( AF2_up ),
+    .AE1_up   ( AE1_up ),
+    .AE2_up   ( AE2_up ),
+    
+    .out0_s     ( out0_s ),
+    .out1_s     ( out1_s ),
+    .AF1_up_s   ( AF1_up_s ),
+    .AF2_up_s   ( AF2_up_s ),
+    .AE1_up_s   ( AE1_up_s ),
+    .AE2_up_s   ( AE2_up_s ),
+
+    .in       ( in     ),
+    .clk      ( clk    ),
+    .reset    ( reset  ),
+    .valid_in ( valid_in)
 );
 
 
