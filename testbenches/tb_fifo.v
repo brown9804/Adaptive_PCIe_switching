@@ -25,9 +25,9 @@ parameter MAIN_SIZE = 8;
     wire [DATA_SIZE-1:0] data_out_pop_s;    
     wire almost_full_s; 
     wire almost_empty_s;
-    wire fifo_synth_empty;
-    wire fifo_synth_error;
-    wire fifo_synth_pause;
+    wire fifo_empty_s;
+    wire fifo_error_s;
+    wire fifo_pause_s;
 
 
 
@@ -75,9 +75,9 @@ fifo_tester tester (
                  .almost_full_s (almost_full_s),
                  .almost_empty_s (almost_empty_s),
                  .data_out_pop_s (data_out_pop_s),
-                 .fifo_synth_empty (fifo_synth_empty),
-                 .fifo_synth_error (fifo_synth_error),
-                 .fifo_synth_pause (fifo_synth_pause_)
+                 .fifo_synth_empty (fifo_empty_s),
+                 .fifo_synth_error (fifo_error_s),
+                 .fifo_synth_pause (fifo_pause_s)
 );
 
 
