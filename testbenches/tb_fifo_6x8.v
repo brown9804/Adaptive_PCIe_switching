@@ -45,7 +45,7 @@ fifo_6x8 fifotb (
                  .fifo_pause (fifo_pause)
 );
 
-fifo_6x8_synth fifos (
+fifo_6x8_syn fifos (
                  .clk   (clk),
                  .reset (reset),
                  .read (read),
