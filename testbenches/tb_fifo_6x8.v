@@ -1,7 +1,7 @@
 `timescale 	1ns	/ 100ps		
 
 `include "./src/fifo_6x8.v"
-`include "./syn/fifo_6x8_synth.v"
+`include "./syn/fifo_6x8_syn.v"
 `include "./testers/t_fifo_6x8.v"
 `include "./lib/cmos_cells.v"
 
