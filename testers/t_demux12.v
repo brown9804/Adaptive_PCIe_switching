@@ -10,8 +10,7 @@ module t_demux1x2(
   output reg reset,
   output reg  clk,
   output reg  [9:0] in,
-  output reg valid_in,
-  output reg select,
+  output reg classif,
   input push_0,
   input push_0_s,
   input  push_1,
@@ -19,9 +18,8 @@ module t_demux1x2(
   input  [9:0] out0,
   input  [9:0] out0_s,
   input  [9:0] out1,
-  input  [9:0] out1_s,
-  input  [1:0]valid_out,
-  input  [1:0] valid_out_s );
+  input  [9:0] out1_s
+  );
 
 
 
@@ -52,8 +50,7 @@ $dumpvars;
 
 
 in = 10'h0;
-valid_in = 0;
-select = 0;
+classif = 0;
 #4 reset = 0;
 
 
@@ -84,57 +81,77 @@ select = 0;
   #4 reset <= 1;
   end
 
+// Sent to FiFo #0
+repeat(2) begin
 @(posedge clk) begin
+  classif <= 0;
   in <= 10'h0FF;
-  select<= 0;
-  reset <= 1;
-  valid_in <= 1;
 end
-repeat(3) begin
+end
+
+// Sent to FiFo #1
+repeat(2) begin
 	@(posedge clk) begin
-    select<= 1;
-		in <= 10'h0DD;
+    classif<= 1;
+    in <= 10'h0DD;
 	  end
 end
 
+// Sent to FiFo #0
+repeat(2) begin
 @(posedge clk) begin
-  select <= 0;
+  classif <= 0;
   in <= 10'h0EE;
 end
+end
 
+// Sent to FiFo #1
+repeat(2) begin
 @(posedge clk) begin
+  classif <= 1;
 	in <= 10'h0CC;
-  select <= 1;
+end
 end
 
+// Sent to FiFo #0
+repeat(2) begin
 @(posedge clk) begin
+  classif<= 0;
 	in <= 10'h0BB;
-  select<= 0;
+end
 end
 
-
+// Sent to FiFo #1
+repeat(2) begin
 @(posedge clk) begin
-  select <= 1;
+  classif <= 1;
 	in <= 10'h099;
 end
-
-
-@(posedge clk) begin
-	in <= 10'h0AA;
-  select <= 0;
 end
 
-
+// Sent to FiFo #0
+repeat(2) begin
 @(posedge clk) begin
-  select<= 1;
+  classif <= 0;
+	in <= 10'h0AA;
+end
+end
+
+// Sent to FiFo #1
+repeat(2) begin
+@(posedge clk) begin
+  classif<= 1;
 	in <= 10'h088;
 end
-
-@(posedge clk) begin
-	in <= 10'h077;
-  select<= 0;
 end
 
+// Sent to FiFo #1
+repeat(2) begin
+@(posedge clk) begin
+  classif<= 1;
+	in <= 10'h077;
+end
+end
 
 #40 $finish;
 end
