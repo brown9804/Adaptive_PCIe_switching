@@ -33,9 +33,8 @@ module TestBench; // Testbench
 // It's needed /*AUTOWIRE*/ because: Creates wires for outputs that ins't declare
 
 /*AUTOWIRE*/
-wire reset_TB, clk_TB, in0_valid_TB, in1_valid_TB;
-wire pop0_TB, pop1_TB;
-wire valid_out_BTB, valid_out_STB;
+wire reset_TB, clk_TB;
+wire fifo_empty0_TB, fifo_empty1_TB;
 wire [9:0] in0_TB, in1_TB;
 wire [7:0] out_BTB;
 wire [7:0] out_STB;
@@ -48,16 +47,13 @@ wire [7:0] out_STB;
 mux21 mux21_TB (/*AUTOINST*/
 // Outputs
 .out (out_BTB),
-.valid_out (valid_out_BTB),
 //Inputs
 .clk (clk_TB),
 .reset (reset_TB),
-.pop0 (pop0_TB),
-.pop1 (pop1_TB),
+.fifo_empty0 (fifo_empty0_TB),
+.fifo_empty1 (fifo_empty1_TB),
 .in0 (in0_TB),
-.in1 (in1_TB),
-.in0_valid (in0_valid_TB),
-.in1_valid (in1_valid_TB)
+.in1 (in1_TB)
 );
 
 
@@ -70,16 +66,13 @@ mux21 mux21_TB (/*AUTOINST*/
 mux21_syn mux21_syn_TB (/*AUTOINST*/
 // Outputs
 .out (out_STB),
-.valid_out (valid_out_STB),
 //Inputs
 .clk (clk_TB),
 .reset (reset_TB),
-.pop0 (pop0_TB),
-.pop1 (pop1_TB),
+.fifo_empty0 (fifo_empty0_TB),
+.fifo_empty1 (fifo_empty1_TB),
 .in0 (in0_TB),
-.in1 (in1_TB),
-.in0_valid (in0_valid_TB),
-.in1_valid (in1_valid_TB)
+.in1 (in1_TB)
 );
 
 
@@ -91,21 +84,15 @@ mux21_syn mux21_syn_TB (/*AUTOINST*/
 t_mux21 t_mux21_TB (/*AUTOINST*/
 // Outputs
 .out (out_BTB),
-.valid_out (valid_out_BTB),
 .out_s (out_STB),
-.valid_out_s (valid_out_STB),
 //Inputs
 .clk (clk_TB),
 .reset (reset_TB),
-.pop0 (pop0_TB),
-.pop1 (pop1_TB),
+.fifo_empty0 (fifo_empty0_TB),
+.fifo_empty1 (fifo_empty1_TB),
 .in0 (in0_TB),
-.in1 (in1_TB),
-.in0_valid (in0_valid_TB),
-.in1_valid (in1_valid_TB)
+.in1 (in1_TB)
 );
-
-
 
 
 endmodule
