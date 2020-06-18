@@ -7,70 +7,54 @@
 
 `timescale 1ns/1ps
 
-// Considering class and destiny
+  // Considering class and destiny
 
-module demux12_8 (
-    input wire  reset,
-    input wire  clk,
-    input wire  [7:0] in,
-    input wire  valid_in,
-    input wire  select,
-    output reg  push_0,
-    output reg  push_1,
-    output reg  [7:0] out0,
-    output reg  [7:0] out1,
-    output reg  [1:0] valid_out
+  module demux12_8 (
+      input wire  reset,
+      input wire  clk,
+      input wire  [7:0] in,
+      input wire classif,
+      output reg  push_0,
+      output reg  push_1,
+      output reg  [7:0] out0,
+      output reg  [7:0] out1
 
-    );
+      );
 
-always @(posedge clk) begin
-   if (reset ==0) begin
-       out0 <= 0;
-       out1 <= 0;
-       valid_out <= 0;
-       push_0   <= 0;
-       push_1   <= 0;
-   end // end reset zero
+  always @(posedge clk) begin
+     if (reset ==0) begin
+         out0 <= 0;
+         out1 <= 0;
+         push_0   <= 0;
+         push_1   <= 0;
+     end // end reset zero
 
- else begin // reset == 1
-   case(select)
-   0:   begin
-       if (valid_in == 1)
-         begin
-          out0 <= in;
-          push_0 <= 1;
-          valid_out[0] <= valid_in;
-          valid_out[1] <= 0;
-          end // end valid_in  = 1
-        else begin
-          valid_out[0] <= 0;
-        end // end valid_in  = 0
-      end // end select = 0
-    1:  begin
-        if (valid_in == 1)
-          begin
-           out1 <= in;
-           push_1 <= 1;
-           valid_out[0] <= 0;
-           valid_out[1] <= valid_in;
-           end // end valid_in  = 1
-         else begin
-           valid_out[0] <= 0;
-         end // end valid_in  = 0
-       end // end select = 1
+   else begin // reset == 1
+     case(classif)
+     0:   begin
+            out0 <= in;
+            push_0 <= 1;
+            push_1 <= 0;
+        end // end classif = 0
+      1:  begin
+             out1 <= in;
+             push_0 <= 0;
+             push_1 <= 1;
+         end // end classif = 1
 
-     default: begin
-         valid_out <= 2'b00;
-         out0 <= 8'h0;
-         out1 <= 8'h0;
-     end // end default
-    endcase // end case selec == 0 or select == 1
-  end // end reset ==1
-end // end posedge clk
+       default: begin
+           out0 <= 8'h0;
+           out1 <= 8'h0;
+           push_0 <= 0;
+           push_1 <= 0;
+       end // end default
+      endcase // end case classif == 0 or classif == 1
+    end // end reset ==1
+  end // end posedge clk
 
-endmodule
+  endmodule
 
-// Local Variables:
-// verilog-library-directories:("."):
-// End:
-`endif
+  // Local Variables:
+  // verilog-library-directories:("."):
+  // End:
+  `endif
