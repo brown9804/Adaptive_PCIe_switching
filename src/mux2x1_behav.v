@@ -12,15 +12,11 @@
 module mux21 (
     input clk,
     input reset,
-    input  pop0,
-    input  pop1,
-    input  [9:0] in0,
-    input  [9:0] in1,
-    // Valid for inputs
-    input wire in0_valid,
-    input wire in1_valid,
-    output reg  [7:0] out,
-    output reg valid_out
+    input  fifo_empty0, // Enable data out from FiFo0 if fifo_empty0 != 0
+    input  fifo_empty1, // Enable data out from FiFo1 if fifo_empty0 = 0
+    input  [9:0] in0, // Data from  FiFo0
+    input  [9:0] in1, // Data from  FiFo1
+    output reg  [7:0] out
 );
 
 // Mux 2:1 2 bits with valid
@@ -34,50 +30,41 @@ always @(posedge clk) // Each positive edge of the clock make these changes
     if (reset == 0) // If reset in LOW nonblobking assing zero
       begin
           out <= 0;
-          valid_out <= 0;
       end // end reset zero
 
     else begin // reset == 1
 
-    case(pop0)
-        0:   begin
-              valid_out <= 0;
-        end // end pop0 == 0
+        if (fifo_empty0==0)
+          begin// If not empty FIFO #0
+                if (in0)
+                begin // fifo0 data
+                  out <= in0;
+                end // end fifo1 data
 
-        1: begin
-            if (in0_valid == 1)
-            begin
-                valid_out <= in0_valid;
-                out <= in0;
-            end // in0_valid == 1
-        end // end pop0 == 1
+                else begin // if no data initial begin
+                  if (fifo_empty1 == 0)
+                    begin // FIFO #1
+                      if (in1)
+                        begin // fifo1 data
+                          out <= in1;
+                        end // end fifo1 data
+                    end // end FIFO #1
+                end // end fifo0 no data
+          end // end FIFO #0 is empty
 
-        default: begin
-            valid_out <= 0;
-            out <= 10'h00;
-        end // end default
-    endcase // end case pop0 == 0 or pop0 == 1
+        else begin // if FIFO #0 is empty
+          if (fifo_empty1 == 0)
+            begin // FIFO #1
+              if (in1)
+                begin // fifo1 data
+                  out <= in1;
+                end // end fifo1 data
+            end // end  FIFO #1
 
-
-    case(pop1)
-        0:   begin
-              valid_out <= 0;
-        end // end pop0 == 0
-
-        1: begin
-            if (in1_valid == 1)
-            begin
-                valid_out <= in1_valid;
-                out <= in1;
-            end // in1_valid == 1
-        end // end pop1 == 1
-
-        default: begin
-            valid_out <= 0;
-            out <= 10'h00;
-        end // end default
-    endcase // end case pop1 == 0 or pop1 == 1
-
+          else begin // if fifo #1 is empty
+            out <= 0;
+          end // end else
+        end // end else if FIFO #0 is empty
   end // end reset
  end // end posedge clk
 endmodule
