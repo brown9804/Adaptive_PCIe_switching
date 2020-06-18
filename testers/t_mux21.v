@@ -14,17 +14,13 @@ module t_mux21(
 // Outputs
 output reg clk,
 output reg reset,
-output reg  pop0,
-output reg  pop1,
+output reg  fifo_empty0,
+output reg  fifo_empty1,
 output reg [9:0] in0,
 output reg [9:0] in1,
-output reg in0_valid,
-output reg in1_valid,
 // Inputs
 input [7:0] out,
-input [7:0] out_s,
-input valid_out,
-input valid_out_s
+input [7:0] out_s
 );
 
 
@@ -54,18 +50,14 @@ initial begin
 
 in0 = 10'h0;
 in1 = 10'h0;
-in0_valid = 0;
-in1_valid = 0;
-pop0 = 0;
-pop1 = 0;
+fifo_empty0 = 0;
+fifo_empty1 = 0;
 #4 reset = 0;
 
 // Begin test
 repeat (6) begin
 @(posedge clk);
 reset <= 0;
-in0_valid <= 0;
-in1_valid <= 0;
 end
 
 repeat (6) begin
@@ -73,83 +65,58 @@ repeat (6) begin
 #4 reset <= 1;
 end
 
-repeat(4) begin
+repeat(2) begin
+// Both has data
+repeat(2) begin
 @(posedge clk) begin
 in0 <= 10'h0FF;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 0;
-pop1 <= 1;
-end
-
-repeat(3) begin
-@(posedge clk) begin
 in1 <= 10'h0DD;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 1;
-pop1 <= 0;
+fifo_empty0 <= 0;
+fifo_empty1 <= 0;
 end
 end
-
+// FIFO 0 is empty
+repeat(2) begin
 @(posedge clk) begin
 in0 <= 10'h0EE;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 0;
-pop1 <= 1;
-end
-
-@(posedge clk) begin
 in1 <= 10'h0CC;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 1;
-pop1 <= 0;
+fifo_empty0 <= 1;
+fifo_empty1 <= 0;
+end
 end
 
+// FIFO 1 is empty
+repeat(2) begin
 @(posedge clk) begin
 in0 <= 10'h0BB;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 0;
-pop1 <= 1;
-end
-
-@(posedge clk) begin
 in1 <= 10'h099;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 1;
-pop1 <= 0;
+fifo_empty0 <= 0;
+fifo_empty1 <= 1;
+end
 end
 
+// Both are empty
+repeat(2) begin
 @(posedge clk) begin
 in0 <= 10'h0AA;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 0;
-pop1 <= 1;
-end
-
-
-
-@(posedge clk) begin
 in1 <= 10'h088;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 1;
-pop1 <= 0;
+fifo_empty0 <= 0;
+fifo_empty1 <= 1;
+end
 end
 
+// Both are empty
+repeat(2) begin
 @(posedge clk) begin
-in1 <= 10'h077;
-in0_valid <= 1;
-in1_valid <= 1;
-pop0 <= 1;
-pop1 <= 0;
+in0 <= 10'h077;
+in1 <= 10'h066;
+fifo_empty0 <= 1;
+fifo_empty1 <= 1;
 end
-end // end repeat 4 times
+end
+
+end // end big one repeat
+
 
 #40 $finish;
 end
