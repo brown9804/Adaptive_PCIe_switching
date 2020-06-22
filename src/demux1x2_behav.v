@@ -2,8 +2,8 @@
 // June, 2020
 // timna.brown@ucr.ac.cr
 
-`ifndef DEMUX12_BEHAV
-`define DEMUX12_BEHAV
+`ifndef DEMUX1x2_BEHAV
+`define DEMUX1x2_BEHAV
 
 `timescale 1ns/1ps
 
