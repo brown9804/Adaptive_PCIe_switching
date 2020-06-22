@@ -32,24 +32,25 @@ module TestBench; // Testbench
 // It's needed /*AUTOWIRE*/ because: Creates wires for outputs that ins't declare
 
 /*AUTOWIRE*/
-wire clk, reset, read0, read1;
+wire clk, reset;
 wire [9:0] in0, in1;
-wire in0_valid, in1_valid;
-
+wire emptyF0, emptyF1;
+wire classif;
 wire [7:0] out0_BTB;
 wire [7:0] out1_BTB;
 wire almost_full0_BTB, almost_empty0_BTB;
 wire fifo0_empty_BTB;
 wire fifo0_error_BTB, fifo0_pause_BTB, almost_full1_in_BTB;
-wire almost_empty1_in_BTB, fifo1_empty_BTB, fifo1_error_BTB, fifo1_pause_BTB;
+wire almost_empty1_BTB, fifo1_empty_BTB, fifo1_error_BTB, fifo1_pause_BTB;
 wire fifo_full0_BTB, fifo_full1_BTB;
+wire Error;
 
 wire [7:0] out0_STB;
 wire [7:0] out1_STB;
 wire almost_full0_STB, almost_empty0_STB;
 wire fifo0_emptySTB;
 wire fifo0_error_STB, fifo0_pause_STB, almost_full1_in_STB;
-wire almost_empty1_in_STB, fifo1_empty_STB, fifo1_error_STB, fifo1_pause_STB;
+wire almost_empty1_STB, fifo1_empty_STB, fifo1_error_STB, fifo1_pause_STB;
 wire fifo_full0_STB, fifo_full1_STB;
 
 
@@ -77,15 +78,16 @@ route route_TB(/*AUTOINST*/
   .fifo1_pause (fifo1_pause_BTB),
   .fifo_full0 (fifo_full0_BTB),
   .fifo_full1 (fifo_full1_BTB),
+  .Error (Error),
   // Inputs
   .clk (clk),
   .reset (reset),
   .in0 (in0),
-  .in0_valid (in0_valid),
-  .in1_valid (in1_valid),
   .in1 (in1),
-  .read0 (read0),
-  .read1 (read1)
+  .emptyF0 (emptyF0),
+  .emptyF1 (emptyF1),
+  .classif (classif)
+
 );
 
 
@@ -114,15 +116,15 @@ route_syn route_syn_TB(/*AUTOINST*/
   .fifo1_pause (fifo1_pause_STB),
   .fifo_full0 (fifo_full0_STB),
   .fifo_full1 (fifo_full1_STB),
+  .Error (Error),
   // Inputs
   .clk (clk),
   .reset (reset),
   .in0 (in0),
-  .in0_valid (in0_valid),
-  .in1_valid (in1_valid),
   .in1 (in1),
-  .read0 (read0),
-  .read1 (read1)
+  .emptyF0 (emptyF0),
+  .emptyF1 (emptyF1),
+  .classif (classif)
 );
 
 
@@ -141,13 +143,14 @@ t_route t_route_TB(/*AUTOINST*/
   .fifo0_empty (fifo0_empty_BTB),
   .fifo0_error (fifo0_error_BTB),
   .fifo0_pause (fifo0_pause_BTB),
+  .fifo_full0 (fifo_full0_BTB),
+  .fifo_full1 (fifo_full1_BTB),
   .almost_full1 (almost_full1_BTB),
   .almost_empty1 (almost_empty1_BTB),
   .fifo1_empty (fifo1_empty_BTB),
   .fifo1_error (fifo1_error_BTB),
   .fifo1_pause (fifo1_pause_BTB),
-  .fifo_full0 (fifo_full0_BTB),
-  .fifo_full1 (fifo_full1_BTB),
+  .Error (Error),
   // Structural
   .out0_s (out0_STB),
   .out1_s (out1_STB),
@@ -167,11 +170,10 @@ t_route t_route_TB(/*AUTOINST*/
   .clk (clk),
   .reset (reset),
   .in0 (in0),
-  .in0_valid (in0_valid),
-  .in1_valid (in1_valid),
   .in1 (in1),
-  .read0 (read0),
-  .read1 (read1)
+  .emptyF0 (emptyF0),
+  .emptyF1 (emptyF1),
+  .classif (classif)
 );
 
 
