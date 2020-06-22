@@ -15,12 +15,14 @@ input wire fifo0_empty,
 input wire fifo0_error,
 input wire fifo0_pause,
 input wire fifo_full0,
+// FIFO 1
 input wire fifo_full1,
 input wire almost_full1,
 input wire almost_empty1,
 input wire fifo1_empty,
 input wire fifo1_error,
 input wire fifo1_pause,
+//Syn
 input wire [7:0]out0_s,
 input wire [7:0] out1_s,
 input wire almost_full0_s,
@@ -35,16 +37,20 @@ input wire almost_empty1_s,
 input wire fifo1_empty_s,
 input wire fifo1_error_s,
 input wire fifo1_pause_s,
+input wire Error,
+// Data flow
+// input wire Error
+
 // Inputs
 output reg clk,
 output reg reset,
 output reg [9:0] in0,
-output reg in0_valid,
-output reg in1_valid,
 output reg [9:0] in1,
-output reg  read0,
-output reg  read1
+output reg  emptyF0,
+output reg  emptyF1,
+output reg classif
 );
+
 
 
 initial begin
@@ -74,10 +80,10 @@ $dumpvars;
 
 in0 = 10'h00;
 in1 = 10'h00;
-in0_valid = 0;
-in1_valid = 0;
-read0 = 0;
-read1 = 0;
+classif = 0;
+#4 reset = 0;
+emptyF0 = 0;
+emptyF1  = 0;
 
 // Begin test
 repeat (6) begin
@@ -88,40 +94,44 @@ end
 repeat (6) begin
 @(posedge clk);
 #4 reset <= 1;
-in0_valid <= 1;
-in1_valid <= 1;
 end
-
+// Write for fifo 1
 repeat (4) begin
 @(posedge clk);
   in0 <= 10'hFF;
   in1 <= 10'hDD;
-  read0 <= 0;
-  read1 <= 1;
+  emptyF0 <= 0;
+  emptyF1 <= 1;
+  classif <= 1;
+
 end
 
+// write for fifo0
 repeat (4) begin
 @(posedge clk);
   in0 <= 10'hEE;
   in1 <= 10'hCC;
-  read0 <= 1;
-  read1 <= 0;
+  emptyF0 <= 0;
+  emptyF1 <= 1;
+  classif <= 0;
 end
 
 repeat (4) begin
 @(posedge clk);
   in0 <= 10'hBB;
   in1 <= 10'h99;
-  read0 <= 0;
-  read1 <= 1;
+  emptyF0 <= 1;
+  emptyF1 <= 0;
+  classif <= 1;
 end
 
 repeat (4) begin
 @(posedge clk);
   in0 <= 10'hAA;
   in1 <= 10'h88;
-  read0 <= 1;
-  read1 <= 0;
+  emptyF0 <= 1;
+  emptyF1 <= 0;
+  classif <= 1;
 end
 
 
