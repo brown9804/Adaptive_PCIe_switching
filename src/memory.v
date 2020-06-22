@@ -13,7 +13,7 @@ module memory #( parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8) (
 );
 
   // Memoria accesada
-    reg[DATA_SIZE-1:0] mem[2**MAIN_SIZE-1:0];
+    reg[DATA_SIZE-1:0] mem[MAIN_SIZE-1:0];
 
    // Leer
     always@ (*) begin
