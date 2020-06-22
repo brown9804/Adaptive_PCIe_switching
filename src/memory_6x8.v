@@ -2,8 +2,8 @@
 // June, 2020
 // timna.brown@ucr.ac.cr
 
-`ifndef MEMORY6x8
-`define MEMORY6x8
+`ifndef MEMORY_6x8
+`define MEMORY_6x8
 
 
 module memory6x8 #(
