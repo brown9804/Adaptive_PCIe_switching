@@ -355,7 +355,7 @@ yroute:
 	yosys $(YOSYS)$(_Y_ROUTING)
 
 rroute:
-	sed -i 's/route/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g' $(SYN)$(_SROUTING)
+	sed -i 's/route/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SROUTING)
 
 vroute:
 	iverilog -o $(OVVP)$(_VVP_ROUTING) $(TESTBENCHES)$(_TB_ROUTING)
