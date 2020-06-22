@@ -7,7 +7,7 @@
 
 
 // scale time unit (value of one) / precision
-`timescale 	1ns	/ 100ps
+`timescale 	1ns	/ 1ps
 
 `include "./lib/cmos_cells.v"
 `include "./src/class.v"
@@ -37,47 +37,53 @@ parameter MAIN_SIZE = 8;
 
 /*AUTOWIRE*/
 
+//wire emptyF0, emptyF1; 
+
+// behav wires
+wire almost_full0_BTB, almost_empty0_BTB, fifo0_empty_BTB, fifo_full0_BTB, fifo0_error_BTB, fifo0_pause_BTB;   // almost_full1_in_BTB;
+wire almost_full1_BTB, almost_empty1_BTB, fifo1_empty_BTB, fifo_full1_BTB, fifo1_error_BTB, fifo1_pause_BTB;
+// struct wires
+wire almost_full0_STB, almost_empty0_STB, fifo0_empty_STB, fifo_full0_STB, fifo0_error_STB, fifo0_pause_STB;   // almost_full1_in_STB;
+wire almost_full1_STB, almost_empty1_STB, fifo1_empty_STB, fifo_full1_STB, fifo1_error_STB, fifo1_pause_STB;
+// behav out
+wire [DATA_SIZE-1:0] out0_BTB;
+wire [DATA_SIZE-1:0] out1_BTB;
+// struct out
+wire  [DATA_SIZE-1:0] out0_STB;
+wire  [DATA_SIZE-1:0] out1_STB;
 // general 
 wire  reset;
 wire  clk;
 wire  [DATA_SIZE-1:0] in;
-wire  valid_in;
+wire Error;
 
-// behav
-wire  [DATA_SIZE-1:0] out0;
-wire  [DATA_SIZE-1:0] out1;
-/*wire AF1_up;
-wire AF2_up;
-wire AE1_up;
-wire AE2_up;
-*/
-
-//struct
-wire  [DATA_SIZE-1:0] out0_s;
-wire  [DATA_SIZE-1:0] out1_s;
-/*wire AF1_up_s;
-wire AF2_up_s;
-wire AE1_up_s;
-wire AE2_up_s;
-*/
 
 ///////////////////////////////////////////////////////////////////////////////////////////
               //////////// class switching behavorial
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-classswitching  class_b(   
-    .out0     ( out0 ),
-    .out1     ( out1 ),
-    /*.AF1_up   ( AF1_up ),
-    .AF2_up   ( AF2_up ),
-    .AE1_up   ( AE1_up ),
-    .AE2_up   ( AE2_up ),
-    */
+classswitching  class_b(/*AUTOINST*/
+    // Outputs   
+    .out0     ( out0_BTB ),
+    .out1     ( out1_BTB ),
+    .almost_full0 (almost_full0_BTB),
+    .almost_empty0 (almost_empty0_BTB),
+    .fifo0_empty (fifo0_empty_BTB),
+    .fifo0_error (fifo0_error_BTB),
+    .fifo0_pause (fifo0_pause_BTB),
+    .almost_full1 (almost_full1_BTB),
+    .almost_empty1 (almost_empty1_BTB),
+    .fifo1_empty (fifo1_empty_BTB),
+    .fifo1_error (fifo1_error_BTB),
+    .fifo1_pause (fifo1_pause_BTB),
+    .fifo_full0 (fifo_full0_BTB),
+    .fifo_full1 (fifo_full1_BTB),
+    .Error (Error),
+    // Inputs
     .in       ( in     ),
     .clk      ( clk    ),
-    .reset    ( reset  ),
-    .valid_in ( valid_in)
+    .reset    ( reset  )
 );
 
 
@@ -87,19 +93,27 @@ classswitching  class_b(
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-classswitching_syn  class_s(
- 
-    .out0     ( out0_s ),
-    .out1     ( out1_s ),
-    /*.AF1_up   ( AF1_up_s ),
-    .AF2_up   ( AF2_up_s ),
-    .AE1_up   ( AE1_up_s ),
-    .AE2_up   ( AE2_up_s ),
-    */
+classswitching_syn  class_s(/*AUTOINST*/
+    // Outputs
+    .out0 (out0_STB),
+    .out1 (out1_STB),
+    .almost_full0 (almost_full0_STB),
+    .almost_empty0 (almost_empty0_STB),
+    .fifo0_empty (fifo0_empty_STB),
+    .fifo0_error (fifo0_error_STB),
+    .fifo0_pause (fifo0_pause_STB),
+    .almost_full1 (almost_full1_STB),
+    .almost_empty1 (almost_empty1_STB),
+    .fifo1_empty (fifo1_empty_STB),
+    .fifo1_error (fifo1_error_STB),
+    .fifo1_pause (fifo1_pause_STB),
+    .fifo_full0 (fifo_full0_STB),
+    .fifo_full1 (fifo_full1_STB),
+    .Error (Error),
+    // Inputs
     .in       ( in     ),
     .clk      ( clk    ),
-    .reset    ( reset  ),
-    .valid_in ( valid_in)
+    .reset    ( reset  )
 );
 
 
@@ -111,26 +125,43 @@ classswitching_syn  class_s(
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-t_class t_classTB (
-
-    .out0     ( out0 ),
-    .out1     ( out1 ),
-    /*.AF1_up   ( AF1_up ),
-    .AF2_up   ( AF2_up ),
-    .AE1_up   ( AE1_up ),
-    .AE2_up   ( AE2_up ),
-    */
-    .out0_s     ( out0_s ),
-    .out1_s     ( out1_s ),
-    /*.AF1_up_s   ( AF1_up_s ),
-    .AF2_up_s   ( AF2_up_s ),
-    .AE1_up_s   ( AE1_up_s ),
-    .AE2_up_s   ( AE2_up_s ),
-    */
+t_class t_classTB (/*AUTOINST*/
+  //Outputs
+  .out0 (out0_BTB),
+  .out1 (out1_BTB),
+  .almost_full0 (almost_full0_BTB),
+  .almost_empty0 (almost_empty0_BTB),
+  .fifo0_empty (fifo0_empty_BTB),
+  .fifo0_error (fifo0_error_BTB),
+  .fifo0_pause (fifo0_pause_BTB),
+  .fifo_full0 (fifo_full0_BTB),
+  .fifo_full1 (fifo_full1_BTB),
+  .almost_full1 (almost_full1_BTB),
+  .almost_empty1 (almost_empty1_BTB),
+  .fifo1_empty (fifo1_empty_BTB),
+  .fifo1_error (fifo1_error_BTB),
+  .fifo1_pause (fifo1_pause_BTB),
+    // Structural
+    .out0_s (out0_STB),
+    .out1_s (out1_STB),
+    .almost_full0_s (almost_full0_STB),
+    .almost_empty0_s (almost_empty0_STB),
+    .fifo0_empty_s (fifo0_empty_STB),
+    .fifo0_error_s (fifo0_error_STB),
+    .fifo0_pause_s (fifo0_pause_STB),
+    .almost_full1_s (almost_full1_STB),
+    .almost_empty1_s (almost_empty1_STB),
+    .fifo1_empty_s (fifo1_empty_STB),
+    .fifo1_error_s (fifo1_error_STB),
+    .fifo1_pause_s (fifo1_pause_STB),
+    .fifo_full0_s (fifo_full0_STB),
+    .fifo_full1_s (fifo_full1_STB),
+    .Error    (Error),
+  // Inputs
     .in       ( in     ),
     .clk      ( clk    ),
-    .reset    ( reset  ),
-    .valid_in ( valid_in)
+    .reset    ( reset  )
+
 );
 
 

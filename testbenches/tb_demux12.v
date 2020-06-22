@@ -7,7 +7,7 @@
 
 
 // scale time unit (value of one) / precision
-`timescale 	1ns				/ 1ps
+`timescale 	1ns/ 1ps
 // includes verilog files
 // Can be omitted and called from the testbench
 // Cmos

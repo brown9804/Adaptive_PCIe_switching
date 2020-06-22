@@ -9,7 +9,7 @@
 
 `include "./src/memory.v"
 
-module fifo #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
+module fifo_8x10 #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
     input                               clk,
     input                               reset,
     input                               read,
