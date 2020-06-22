@@ -1,13 +1,14 @@
 // FIFO
 // Proyecto 2 Digitales II
 
+
+`ifndef FIFO
+`define FIFO
+
 // DATA_SIZE: Bits de los datos
 // MAIN_SIZE: "Largo" o capacidad del fifo
 
 `include "./src/memory.v"
-
-`ifndef FIFO
-`define FIFO
 
 module fifo #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
     input                               clk,
