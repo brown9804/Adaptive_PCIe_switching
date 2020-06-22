@@ -6,16 +6,19 @@
 
 `include "./src/memory.v"
 
+`ifndef FIFO
+`define FIFO
+
 module fifo #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
     input                               clk,
     input                               reset,
     input                               read,
     input                               write,
     input       [DATA_SIZE-1:0]         data_in_push,            //dato de entrada / hará push al fifo
-    output reg                          almost_full,    
+    output reg                          almost_full,
     output reg                          almost_empty,
-    output reg                          fifo_empty, 
-    output reg                          Fifo_full,                
+    output reg                          fifo_empty,
+    output reg                          Fifo_full,
     output reg  [DATA_SIZE-1:0]         data_out_pop,           //datos de salida / al que se le hace pop
     output reg                          fifo_error,
     output reg                          fifo_pause
@@ -24,16 +27,16 @@ module fifo #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
 
 // Cables internos
 
-wire [DATA_SIZE-1:0] data_out;		
-reg fifo_full;
+wire [DATA_SIZE-1:0] data_out;
+// reg Fifo_full;
 //reg almost_full, almost_empty;
-reg [DATA_SIZE-1:0]data_count; 		
-reg [MAIN_SIZE-1:0]	rd_ptr;			
-reg [MAIN_SIZE-1:0]	wr_ptr;			
+reg [DATA_SIZE-1:0]data_count;
+reg [MAIN_SIZE-1:0]	rd_ptr;
+reg [MAIN_SIZE-1:0]	wr_ptr;
 reg datamod;
 
 reg [DATA_SIZE-1:0] data_to_mem;
-   
+
     memory #(DATA_SIZE,MAIN_SIZE) mem(
 		    // Outputs
 		    .data_out		(data_out[DATA_SIZE-1:0]),
@@ -49,7 +52,7 @@ reg [DATA_SIZE-1:0] data_to_mem;
 
 always@(*) begin
         fifo_empty = 0;
-        fifo_full = 0;
+        Fifo_full = 0;
         almost_full = 0;
         almost_empty = 0;
         datamod = 0;
@@ -57,24 +60,24 @@ always@(*) begin
         fifo_pause=0;
         if ( ~reset ) begin
             fifo_empty = 1;
-            fifo_full = 0;
+            Fifo_full = 0;
             almost_full = 0;
             almost_empty = 0;
             fifo_pause=0;
             fifo_error=0;
-        end 
+        end
 
  else begin
 
-      // Condiciones para diferente estados del fifo: full, empty, casi lleno, casi vacío, error (escribir cuando está 
+      // Condiciones para diferente estados del fifo: full, empty, casi lleno, casi vacío, error (escribir cuando está
       // lleno o leer cuando está vacío)
             if ( data_count == 0 )begin
                 fifo_empty = 1;
                 fifo_pause = 0;
             end
 
-            if( data_count ==( (2**MAIN_SIZE)) )begin            
-                fifo_full = 1;
+            if( data_count ==( (MAIN_SIZE)) )begin
+                Fifo_full = 1;
             end
 
             if( data_count >= 6 )begin
@@ -86,8 +89,8 @@ always@(*) begin
                 almost_empty = 1;
                 fifo_pause=0;
             end
-            
-            if( write && fifo_full )begin
+
+            if( write && Fifo_full )begin
                 fifo_error = 1;
             end
 
@@ -108,29 +111,33 @@ always@(*) begin
             datamod         <= 'b0;
         end else begin
 
-     if( !fifo_full && write )begin
-                wr_ptr <= wr_ptr + 1;                   
-                
+     if( !Fifo_full && write )begin
+                wr_ptr <= wr_ptr + 1;
+
                 if ( !fifo_empty && read )begin
-                    rd_ptr <= rd_ptr + 1;               
+                    rd_ptr <= rd_ptr + 1;
                     data_count <= data_count;
                 end else begin
                     rd_ptr <= rd_ptr;
                     data_count <= data_count + 1;
                 end
             end else if( !fifo_empty && read ) begin
-                rd_ptr <= rd_ptr + 1;                 
-                wr_ptr <= wr_ptr;                       
+                rd_ptr <= rd_ptr + 1;
+                wr_ptr <= wr_ptr;
                 data_count  <= data_count - 1;
-                data_out_pop    <= data_out; 
+                data_out_pop    <= data_out;
             end else begin
-                rd_ptr <= rd_ptr;                       
-                wr_ptr <= wr_ptr;                       
-                
+                rd_ptr <= rd_ptr;
+                wr_ptr <= wr_ptr;
+
                 data_count  <= data_count;
             end
         end
     end
 
-endmodule         
+endmodule
 
+// Local Variables:
+// verilog-library-directories:("."):
+// End:
+`endif
