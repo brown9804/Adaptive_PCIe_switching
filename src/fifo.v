@@ -1,7 +1,6 @@
 // FIFO
 // Proyecto 2 Digitales II
 
-
 `ifndef FIFO
 `define FIFO
 
