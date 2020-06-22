@@ -23,7 +23,6 @@ module classswitching #(
     input wire  reset,
     input wire  clk,
     input wire  [DATA_SIZE-1:0] in,
-    input wire  valid_in,
 
     output reg  [DATA_SIZE-1:0] out0,
     output reg  [DATA_SIZE-1:0] out1,
