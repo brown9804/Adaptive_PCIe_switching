@@ -11,7 +11,7 @@
 `timescale 1ns/1ps
 
 module dfcontrol (
-
+    input wire clk,
     input wire reset,
     input wire push_0,
     input wire push_1,
@@ -46,7 +46,7 @@ module dfcontrol (
     output reg Full_up2,             // control signal output for dataflow control full up for fifo 2
     */
     output reg Error
-    
+
     /*
     input wire Full_down1,           // control signal output for dataflow control full down for fifo 1
     input wire Full_down2,            // control signal output for dataflow control full down for fifo 2
@@ -59,7 +59,7 @@ module dfcontrol (
 
 // internal control
 
-always@(*) begin
+always@(posedge clk) begin
     /*AF1_up = 0;
     AF2_up = 0;
     AE1_down = 0;
@@ -67,9 +67,9 @@ always@(*) begin
     Full_up1 = 0;
     Full_up2 = 0;
     */
-    
+
     Error = 0;
-    
+
     read1 = 0;
     read2 = 0;
     write1 = 0;
@@ -87,20 +87,20 @@ always@(*) begin
             read2 = 0;
             write1 = 0;
             write2 = 0;
-        end 
+        end
 
 
  else begin/*
 AF1_up = almost_full1;
 AF2_up = almost_full2;
-AE1_down = almost_empty1; 
+AE1_down = almost_empty1;
 AE2_down = almost_empty2;
 Full_up1 = Fifo_full1;
-Full_up2 = Fifo_full2;     
+Full_up2 = Fifo_full2;
           */
         if (push_0 & (~Fifo_full1 | ~almost_full1 | ~fifo_pause1) ) begin
         write1 = 1;
-            
+
         end
         else begin
           write1 = 0;
@@ -108,7 +108,7 @@ Full_up2 = Fifo_full2;
 
         if (push_1 & (~Fifo_full2 | ~almost_full2 | ~fifo_pause2) ) begin
         write2 = 1;
-            
+
         end
         else begin
           write2 = 0;
@@ -137,10 +137,9 @@ Full_up2 = Fifo_full2;
 
     end
 end
-endmodule         
+endmodule
 
 // Local Variables:
 // verilog-library-directories:("."):
 // End:
 `endif
-
