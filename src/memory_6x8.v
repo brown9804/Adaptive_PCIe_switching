@@ -14,7 +14,7 @@ module memory6x8 #( parameter DATA_SIZE = 8, parameter MAIN_SIZE = 6) (
 );
 
   // Memoria accesada
-    reg[DATA_SIZE-1:0] mem[2**MAIN_SIZE-1:0];
+    reg[DATA_SIZE-1:0] mem[MAIN_SIZE-1:0];
 
    // Leer
     always@ (*) begin
