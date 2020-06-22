@@ -2,8 +2,8 @@
 // June, 2020
 // timna.brown@ucr.ac.cr
 
-`ifndef MUX21_BEHAV
-`define MUX21_BEHAV
+`ifndef MUX2x1_BEHAV
+`define MUX2x1_BEHAV
 
 
 
