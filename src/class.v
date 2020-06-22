@@ -7,7 +7,7 @@
 `ifndef CLASS
 `define CLASS
 
-`timescale 1ns / 100ps
+`timescale 1ns / 1ps
 
 `include "./src/fifo.v"
 `include "./src/demux1x2_behav.v"
@@ -68,13 +68,11 @@ demux12 demux12A(
   .out1(n1),
   .push_0(npush_0),
   .push_1(npush_1),
-  .valid_out(nv),
   //inputs
   .reset(reset),
   .clk(clk),
   .in(in),
-  .valid_in(valid_in),
-  .select(in[DATA_SIZE-1])      // switching by data class 
+  .classif(in[DATA_SIZE-1])      // switching by data class 
 );
 
 fifo  fifo1(
