@@ -66,63 +66,60 @@ initial begin
 
   $dumpfile("class.vcd");
   $dumpvars;
-   
-
-    repeat (3) begin
-    @(posedge clk)
-    reset <= 0;
-    end
-
-    @(posedge clk);
-    #4 reset <= 1;
 
 
-// fill FIFO 2 CLASS 1
-repeat(8) begin
-@(posedge clk);
-in <= 10'b1111111111;
+in = 10'h0;
+#4 reset = 0;
+reset <= 0;
+
+  @(posedge clk);
+  #4 reset <= 1;
+
+repeat (2) begin
+@(posedge clk) begin
+  in <= 10'h0FF;
 end
 
-// test class switching for FIFO 1 class 0
-repeat(2) begin
-@(posedge clk2f);
-in <= 10'b0111111111;
+@(posedge clk) begin
+    in <= 10'h3DD;
+	  end
+
+@(posedge clk) begin
+  in <= 10'h0EE;
 end
 
-@(posedge clk);
-reset = 0;
-
-@(posedge clk);
-#4 reset = 1;
-
-@(posedge clk2f);
-in = 10'b0101010101; 
-
-
-
-repeat(6) begin
-@(posedge clk2f);
-in = {~in[9], in[8:0]} + 1;
+@(posedge clk) begin
+	in <= 10'h3CC;
 end
 
+@(posedge clk) begin
+	in <= 10'h0BB;
+end
 
+@(posedge clk) begin
+	in <= 10'h399;
+end
 
+@(posedge clk) begin
+	in <= 10'h0AA;
+end
 
+@(posedge clk) begin
+	in <= 10'h388;
+end
+
+@(posedge clk) begin
+	in <= 10'h377;
+end
+
+end
 #40 $finish;
 end
 
-// initial values
-initial #4 reset = 0;
-initial in = 10'h0;
-
 // clock logic
 initial	clk	 			<= 0;			// Initial value to avoid indeterminations
-initial	clk2f	 		<= 0;			// Initial value to avoid indeterminations
-always	#10 clk		<= ~clk;		// toggle every 10ns
+always	#10 clk				<= ~clk;		// toggle every 10ns
 
-always@(posedge clk) begin
-clk2f = ~clk2f;  
-end
 endmodule
 
 

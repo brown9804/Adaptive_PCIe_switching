@@ -81,6 +81,8 @@ demux12 demux12A(
   .classif(in[DATA_SIZE-1])      // switching by data class 
 );
 
+
+
 fifo_8x10  fifo1(/*AUTOINST*/
       // Outputs
       .fifo_empty (n_fifo0_empty),

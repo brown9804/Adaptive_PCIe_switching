@@ -1,5 +1,5 @@
 // Brandon Esquivel Molina
-// Tester for class.v
+// Tester for Device1 
 // brandon.esquivel@ucr.ac.cr
 
 `ifndef T_DISP1
@@ -14,11 +14,12 @@ module t_device1 #(
   // outputs
   output reg reset,
   output reg clk,
+  output reg clk2f
   output reg [DATA_SIZE-1:0] in,
 
   // BEHAV
-  input wire [DATA_SIZE-1:0] out0,
-  input wire [DATA_SIZE-1:0] out1,
+  input wire out0,
+  input wire out1,
   // FIFO 0
 /*  input wire almost_full0,
   input wire almost_empty0,

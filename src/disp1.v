@@ -70,6 +70,7 @@ wire out0_serial, out1serial;
 wire almost_full0_class, almost_empty0_class, fifo0_empty_class, fifo_full0_class, fifo0_error_class, fifo0_pause_class;
 wire almost_full1_class, almost_empty1_class, fifo1_empty_class, fifo_full1_class, fifo1_error_class, fifo1_pause_class;
 wire Error_class;
+wire n_out0, n_out0;
 
 //fifos in route
 
@@ -131,8 +132,8 @@ route route_TB(/*AUTOINST*/
 
 
 paratoserial paralleltoSerial(
-      .out0    (out0),
-      .out1    (out1),
+      .out0    (n_out0),
+      .out1    (n_out1),
       .in0     (out0_route),
       .in1     (out1_route),
       .clk     (clk8f),

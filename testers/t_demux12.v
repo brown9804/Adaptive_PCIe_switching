@@ -82,35 +82,35 @@ classif = 0;
   end
 
 // Sent to FiFo #0
-repeat(2) begin
+//repeat(2) begin
 @(posedge clk) begin
   classif <= 0;
   in <= 10'h0FF;
-end
+//end
 end
 
 // Sent to FiFo #1
-repeat(2) begin
+//repeat(2) begin
 	@(posedge clk) begin
     classif<= 1;
     in <= 10'h0DD;
 	  end
-end
+//end
 
 // Sent to FiFo #0
-repeat(2) begin
+//repeat(2) begin
 @(posedge clk) begin
   classif <= 0;
   in <= 10'h0EE;
-end
+//end
 end
 
 // Sent to FiFo #1
-repeat(2) begin
+//repeat(2) begin
 @(posedge clk) begin
   classif <= 1;
 	in <= 10'h0CC;
-end
+//end
 end
 
 // Sent to FiFo #0
