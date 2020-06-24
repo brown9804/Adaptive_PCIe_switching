@@ -26,8 +26,9 @@
 # 8. For trafic class clasification ---------- class
 # 9. Routing port ---------- route
 # 10. Data Flow Control ---------- dfcontrol
-# 11. Serialization ---------- serial
-# 12. Device 1 ---------- disp1
+# 11. Serial-Parallel ---------- serno
+# 12. Serialization ---------- serial
+# 13. Device 1 ---------- disp1
 
 all:
 
@@ -261,25 +262,6 @@ gtkwavedemux12_8:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12_8)
 
 
-#******************************************************************************
-#### 			PARALLEL TO SERIAL
-#******************************************************************************
-
-yptos:
-	yosys $(YOSYS)$(_Y_PTOS)
-
-rptos:
-	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SPTOS)
-
-vptos:
-	iverilog -o $(OVVP)$(_VVP_PTOS) $(TESTBENCHES)$(_TB_PTOS)
-	vvp $(OVVP)$(_VVP_PTOS) > $(LOG_TXT)$(_VVP_PTOS)_log.txt
-
-#target phony
-.PHONY: gtkwaveptos
-gtkwaveptos:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_PTOS)
-
 
 
 #******************************************************************************
@@ -411,6 +393,26 @@ vroute:
 .PHONY: gtkwaveroute
 gtkwaveroute:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_ROUTING)
+	
+#******************************************************************************
+#### 			PARALLEL TO SERIAL
+#******************************************************************************
+
+yptos:
+	yosys $(YOSYS)$(_Y_PTOS)
+
+rptos:
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SPTOS)
+
+vptos:
+	iverilog -o $(OVVP)$(_VVP_PTOS) $(TESTBENCHES)$(_TB_PTOS)
+	vvp $(OVVP)$(_VVP_PTOS) > $(LOG_TXT)$(_VVP_PTOS)_log.txt
+
+#target phony
+.PHONY: gtkwaveptos
+gtkwaveptos:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_PTOS)
+
 
 
 #******************************************************************************
@@ -436,12 +438,12 @@ gtkwaveserial:
 #### 			DEVICE 1
 #******************************************************************************
 ydips1:
-	yosys $(YOSYS)$(_Y_ROUTING)
+	yosys $(YOSYS)$(_Y_D1)
 
 rdisp1:
 	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo_8x10/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g'  $(SYN)$(_SD1)
 	sed -i 's/route/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g'  $(SYN)$(_SD1)
-	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SSERIAL)
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SD1)
 	sed -i 's/device1/device1_syn/g' $(SYN)$(_SD1)
 vdisp1:
 	iverilog -o $(OVVP)$(_VVP_D1) $(TESTBENCHES)$(_TB_D1)
