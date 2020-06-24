@@ -24,7 +24,7 @@
 # 6. For memory 8x10 ---------- memory
 # 7. For memory 6x8 ---------- memory6x8
 # 8. For trafic class clasification ---------- class
-# 9. Routing port ---------- route
+# 9. Routing port ---------- router
 # 10. Data Flow Control ---------- dfcontrol
 # 11. Serial-Parallel ---------- serno
 # 12. Serialization ---------- serial
@@ -383,7 +383,7 @@ yroute:
 	yosys $(YOSYS)$(_Y_ROUTING)
 
 rroute:
-	sed -i 's/route/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SROUTING)
+	sed -i 's/router/router_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SROUTING)
 
 vroute:
 	iverilog -o $(OVVP)$(_VVP_ROUTING) $(TESTBENCHES)$(_TB_ROUTING)
@@ -437,12 +437,12 @@ gtkwaveserial:
 #******************************************************************************
 #### 			DEVICE 1
 #******************************************************************************
-ydips1:
+ydisp1:
 	yosys $(YOSYS)$(_Y_D1)
 
 rdisp1:
 	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo_8x10/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g'  $(SYN)$(_SD1)
-	sed -i 's/route/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g'  $(SYN)$(_SD1)
+	sed -i 's/router/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g'  $(SYN)$(_SD1)
 	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SD1)
 	sed -i 's/device1/device1_syn/g' $(SYN)$(_SD1)
 vdisp1:

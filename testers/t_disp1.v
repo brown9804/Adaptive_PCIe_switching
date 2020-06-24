@@ -9,54 +9,26 @@
 module t_device1 #(
     //Parameters
     parameter DATA_SIZE = 10,
-    parameter MAIN_SIZE=8
+    parameter MAIN_SIZE = 8
 ) (
   // outputs
   output reg reset,
   output reg clk,
-  output reg clk2f
+  output reg clk8f,
   output reg [DATA_SIZE-1:0] in,
 
   // BEHAV
   input wire out0,
   input wire out1,
-  // FIFO 0
-/*  input wire almost_full0,
-  input wire almost_empty0,
-  input wire fifo0_empty,
-  input wire fifo0_error,
-  input wire fifo0_pause,
-  input wire fifo_full0,
-  // FIFO 1
-  input wire fifo_full1,
-  input wire almost_full1,
-  input wire almost_empty1,
-  input wire fifo1_empty,
-  input wire fifo1_error,
-  input wire fifo1_pause,
   //Syn
-  input wire [DATA_SIZE-1:0] out0_s,
-  input wire [DATA_SIZE-1:0] out1_s,
-  // FIFO 0 SYN
-  input wire almost_full0_s,
-  input wire almost_empty0_s,
-  input wire fifo0_empty_s,
-  input wire fifo0_error_s,
-  input wire fifo0_pause_s,
-  input wire fifo_full0_s,
-  // FIFO 1 SYN
-  input wire fifo_full1_s,
-  input wire almost_full1_s,
-  input wire almost_empty1_s,
-  input wire fifo1_empty_s,
-  input wire fifo1_error_s,
-  input wire fifo1_pause_s,*/
+  input wire out0_s,
+  input wire out1_s,
 
-  input wire Error
+  input wire Error_class_BTB, Error_route_BTB,Error_class_STB, Error_route_STB
 
-     );
+);
 
-reg clk2f;
+reg clkbase, clk4f, clk2f;
 
 
 initial begin
@@ -65,61 +37,86 @@ initial begin
   $dumpvars;
 
 
-    repeat (3) begin
-    @(posedge clk)
-    reset <= 0;
-    end
 
-    @(posedge clk);
-    #4 reset <= 1;
+in = 10'h0;
+#4 reset = 0;
+reset <= 0;
 
+  @(posedge clk);
+  #4 reset <= 1;
 
-// fill FIFO 2 CLASS 1
-repeat(8) begin
-@(posedge clk);
-in <= 10'b1111111111;
+repeat (2) begin
+@(posedge clk) begin
+  in <= 10'h0FF;
 end
 
-// test class switching for FIFO 1 class 0
-repeat(2) begin
-@(posedge clk2f);
-in <= 10'b0111111111;
+@(posedge clk) begin
+    in <= 10'h3DD;
+	  end
+
+@(posedge clk) begin
+  in <= 10'h0EE;
 end
 
-@(posedge clk);
-reset = 0;
-
-@(posedge clk);
-#4 reset = 1;
-
-@(posedge clk2f);
-in = 10'b0101010101;
-
-
-
-repeat(6) begin
-@(posedge clk2f);
-in = {~in[9], in[8:0]} + 1;
+@(posedge clk) begin
+	in <= 10'h3CC;
 end
 
+@(posedge clk) begin
+	in <= 10'h0BB;
+end
 
+@(posedge clk) begin
+	in <= 10'h399;
+end
 
+@(posedge clk) begin
+	in <= 10'h0AA;
+end
 
+@(posedge clk) begin
+	in <= 10'h388;
+end
+
+@(posedge clk) begin
+	in <= 10'h377;
+end
+
+end
 #40 $finish;
 end
 
-// initial values
-initial #4 reset = 0;
-initial in = 10'h0;
-
 // clock logic
-initial	clk	 			<= 0;			// Initial value to avoid indeterminations
-initial	clk2f	 		<= 0;			// Initial value to avoid indeterminations
-always	#10 clk		<= ~clk;		// toggle every 10ns
+  initial	clkbase	 			<= 0;			// Initial value to avoid indeterminations
+  always	#10 clkbase				<= ~clkbase;		// toggle every 10ns
 
-always@(posedge clk) begin
-clk2f = ~clk2f;
-end
+  initial clk8f <= 0;
+  initial clk4f <= 0;
+  initial clk2f <= 0;
+  initial	clk	 	<= 0;			// Initial value to avoid indeterminations
+
+// Faster frequency
+    always @(posedge clkbase) begin
+		clk8f <= ~clk8f; // if was LOW change to HIGH
+        end 
+
+
+// For 4 Hz
+    always @(posedge clk8f) begin
+        clk4f <= ~clk4f; // if was LOW change to HIGH
+        end
+           //////////////////////////////
+    // For 2 Hz
+    always @(posedge clk4f) begin
+        clk2f <= ~clk2f; // if was LOW change to HIGH
+        end
+           //////////////////////////////
+    // For 1 Hz
+    always @(posedge clk2f) begin
+        clk <= ~clk; // if was LOW change to HIGH
+        end
+
+
 endmodule
 
 

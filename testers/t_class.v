@@ -57,9 +57,7 @@ module t_class #(
 
   input wire Error
 
-     );
-
-reg clk2f;
+  );
 
 
 initial begin

@@ -103,7 +103,7 @@ initial begin
 	end
 
 // clks 
-
+		
 	initial clk32f <= 0;
     initial clk16f <= 0;
     initial clk8f <= 0;

@@ -10,7 +10,7 @@
 `timescale 	1ns	/ 1ps
 
 `include "./lib/cmos_cells.v"
-`include "./src/class.v"
+`include "./src/disp1.v"
 `include "./syn/disp1_syn.v"
 `include "./testers/t_disp1.v"
 
@@ -31,39 +31,26 @@ module TestBench;
 // It's needed /*AUTOWIRE*/ because: Creates wires for outputs that ins't declare
 
 /*AUTOWIRE*/
-wire [7:0] out0_BTB, out1_BTB;
-wire Error_BTB, Error_STB;
-wire clk, reset;
+wire out0_BTB, out1_BTB, out0_STB, out1_STB;
+wire error_class_BTB, error_class_STB, error_route_BTB, error_route_STB;
+wire clk, clk8f, reset;
 wire [9:0] in_TB;
+
 ///////////////////////////////////////////////////////////////////////////////////////////
-              //////////// Device 1
+              //////////// Device 1 BEHAV
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 device1  device1_b(/*AUTOINST*/
   //Outputs
-  .out0 (out0_BTB), // out from fifo6x8 #0
-  .out0 (out1_BTB), // out from fifo6x8 #0
-  .Error (Error_BTB),
-
-  //control for fifos Internal - now in beta version
-  /*
-  output reg almost_full0,
-  output reg almost_empty0,
-  output reg fifo0_empty,
-  output reg fifo0_error,
-  output reg fifo0_pause,
-  output reg fifo_full0,
-  output reg fifo_full1,
-  output reg almost_full1,
-  output reg almost_empty1,
-  output reg fifo1_empty,
-  output reg fifo1_error,
-  output reg fifo1_pause,*/
-  //Inputs
-  .clk (clk),
-  .reset (reset),
-  .in (in_TB)
+  .out0           (out0_BTB), 
+  .out1           (out1_BTB), 
+  .Error_class    (error_class_BTB),
+  .Error_route    (error_route_BTB),
+  .clk            (clk),
+  .clk8f          (clk8f),
+  .reset          (reset),
+  .in             (in_TB)
 );
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -73,29 +60,17 @@ device1  device1_b(/*AUTOINST*/
 
 device1_syn  device1_s(/*AUTOINST*/
   //Outputs
-  .out0 (out0_STB), // out from fifo6x8 #0
-  .out0 (out1_STB), // out from fifo6x8 #0
-  .Error (Error_STB),
+  .out0           (out0_STB), 
+  .out1           (out1_STB), 
+  .Error_class    (error_class_STB),
+  .Error_route    (error_route_STB),
 
-  //control for fifos Internal - now in beta version
-  /*
-  output reg almost_full0,
-  output reg almost_empty0,
-  output reg fifo0_empty,
-  output reg fifo0_error,
-  output reg fifo0_pause,
-  output reg fifo_full0,
-  output reg fifo_full1,
-  output reg almost_full1,
-  output reg almost_empty1,
-  output reg fifo1_empty,
-  output reg fifo1_error,
-  output reg fifo1_pause,*/
-  //Inputs
-  .clk (clk),
-  .reset (reset),
-  .in (in_TB)
+  .clk            (clk),
+  .clk8f          (clk8f),
+  .reset          (reset),
+  .in             (in_TB)
 );
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -105,30 +80,18 @@ device1_syn  device1_s(/*AUTOINST*/
 
 t_device1 t_device1TB (/*AUTOINST*/
   //Outputs
-  .out0 (out0_BTB), // out from fifo6x8 #0
-  .out0 (out1_BTB), // out from fifo6x8 #0
-  .Error (Error_BTB),
-  .out0_s (out0_STB), // out from fifo6x8 #0
-  .out0_s (out1_STB), // out from fifo6x8 #0
-  .Error_s (Error_STB),
-  //control for fifos Internal - now in beta version
-  /*
-  output reg almost_full0,
-  output reg almost_empty0,
-  output reg fifo0_empty,
-  output reg fifo0_error,
-  output reg fifo0_pause,
-  output reg fifo_full0,
-  output reg fifo_full1,
-  output reg almost_full1,
-  output reg almost_empty1,
-  output reg fifo1_empty,
-  output reg fifo1_error,
-  output reg fifo1_pause,*/
-  //Inputs
-  .clk (clk),
-  .reset (reset),
-  .in (in_TB)
+  .out0                  (out0_BTB), // out from fifo6x8 #0
+  .out1                  (out1_BTB), // out from fifo6x8 #0
+  .Error_route_BTB       (error_route_BTB),
+  .Error_class_BTB       (error_class_BTB),
+  .out0_s                (out0_STB), // out from fifo6x8 #0
+  .out1_s                (out1_STB), // out from fifo6x8 #0
+  .Error_class_STB       (error_class_STB),
+  .Error_route_STB       (error_route_STB),
+  .clk                   (clk),
+  .clk8f                 (clk8f),
+  .reset                 (reset),
+  .in                    (in_TB)
 );
 
 

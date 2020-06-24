@@ -17,7 +17,7 @@
 
 `include "./src/class.v"
 `include "./src/routing.v"
-`include "./src/serial.v"
+`include "./src/paratoserial.v"
 
 // Implementation of first layer "device 1" for Adaptative PCIe Switching, 
 // Assign 0 relative to fifo0
@@ -37,9 +37,14 @@ input wire [DATA_SIZE-1:0] in,
 
 
 //Outputs
-output reg [DATA_SIZE-3:0] out0, // out from fifo6x8 #0
-output reg [DATA_SIZE-3:0] out1,  // out from fifo6x8 #1
-output reg Error
+output reg out0, // out from fifo6x8 #0
+output reg out1,  // out from fifo6x8 #1
+output reg Error_class,
+output reg Error_route
+
+
+);
+
 
 //control for fifos Internal - now in beta version
 /*
@@ -57,7 +62,6 @@ output reg fifo1_error,
 output reg fifo1_pause,*/
 
 
-);
 
 // wires - Internal NOdes
 wire [DATA_SIZE-1:0] out0_class, out1_class;   // outputs from class to route
@@ -69,8 +73,8 @@ wire out0_serial, out1serial;
 // fifos in class
 wire almost_full0_class, almost_empty0_class, fifo0_empty_class, fifo_full0_class, fifo0_error_class, fifo0_pause_class;
 wire almost_full1_class, almost_empty1_class, fifo1_empty_class, fifo_full1_class, fifo1_error_class, fifo1_pause_class;
-wire Error_class;
-wire n_out0, n_out0;
+wire error_class, error_route;
+wire n_out0, n_out1, n_pop0_route, n_pop1_route;
 
 //fifos in route
 
@@ -90,7 +94,7 @@ classswitching classwit(/*AUTOINST*/
     .fifo_full1      (fifo_full1_class),
     .fifo1_error     (fifo1_error_class),
     .fifo1_pause     (fifo1_pause_class),
-    .Error           (Error_class),
+    .Error           (error_class),
     // Inputs
     .in               ( in     ),
     .clk              ( clk    ),
@@ -100,10 +104,13 @@ classswitching classwit(/*AUTOINST*/
 
 
 
-route route_TB(/*AUTOINST*/
+router route_TB(/*AUTOINST*/
   //Outputs
   .out0           (out0_route),
   .out1           (out1_route),
+  .pop_0          (n_pop0_route),
+  .pop_1          (n_pop1_route),
+/*
   .almost_full0   (almost_full0_route),
   .almost_empty0  (almost_empty0_route),
   .fifo0_empty    (fifo0_empty_route),
@@ -115,15 +122,15 @@ route route_TB(/*AUTOINST*/
   .fifo1_error    (fifo1_error_route),
   .fifo1_pause    (fifo1_pause_route),
   .fifo_full0     (fifo_full0_route),
-  .fifo_full1     (fifo_full1_route),
-  .Error          (Error_route),
+  .fifo_full1     (fifo_full1_route),*/
+  .Error          (error_route),
   // Input_route
   .clk            (clk),
   .reset          (reset),
   .in0            (out0_class),
   .in1            (out1_class),
   .emptyF0        (fifo0_empty_class),        //priority P0 
-  .emptyF1        (fifo1_empty_class),
+  .emptyF1        (fifo1_empty_class)
   //.classif (classif)
 
 );
@@ -137,8 +144,8 @@ paratoserial paralleltoSerial(
       .in0     (out0_route),
       .in1     (out1_route),
       .clk     (clk8f),
-      .valid_0 (valid_0),
-      .valid_1 (valid_1),
+      .valid_0 (n_pop0_route),
+      .valid_1 (n_pop1_route),
       .reset   (reset)
     
 );
@@ -147,19 +154,13 @@ paratoserial paralleltoSerial(
 
 
 
-
-
-
-
-
-
-
-
   always@(*) begin      // pass to outputs
     out0 = n_out0;
     out1 = n_out1;
-    Error = Error_F;
-    almost_full0  = n_almost_full0;
+    Error_class = error_class;
+    Error_route = error_route;
+
+/*    almost_full0  = n_almost_full0;
     almost_empty0  = n_almost_empty0;
     fifo0_empty  = n_fifo0_empty;
     fifo0_error  = n_fifo0_error;
@@ -171,7 +172,7 @@ paratoserial paralleltoSerial(
     fifo1_pause  = n_fifo1_pause;
     fifo_full0 = n_Fifo_full0;
     fifo_full1 = n_Fifo_full1;
-
+*/
   end
 
 
