@@ -322,7 +322,7 @@ yserno:
 	yosys $(YOSYS)$(_Y_PTOS)
 
 rserno:
-	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SSERNO)
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g' $(SYN)$(_SSERNO)
 
 vserno:
 	iverilog -o $(OVVP)$(_VVP_SERNO) $(TESTBENCHES)$(_TB_SERNO)
@@ -332,15 +332,6 @@ vserno:
 .PHONY: gtkwaveserno
 gtkwaveserno:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_SERNO)
-
-
-
-
-
-
-
-
-
 
 
 
