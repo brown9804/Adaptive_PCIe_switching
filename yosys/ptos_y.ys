@@ -18,11 +18,9 @@
 #Read the Behavioral desing
 read_verilog ./src/paralelltoserial.v
 read_verilog -lib ./lib/cmos_cells.v
-#read_verilog paralelltoserial.v
-#read_verilog -lib cmos_cells.v
 
 #Hierarchy module
-hierarchy -check -top paralelltoserial
+hierarchy -check -top paralelo_a_serial
 
 #Process to nettlist
 proc
@@ -65,6 +63,6 @@ write_verilog ./syn/paralelltoserial_syn.v
 
 
 #show schemes
-show \paralelltoserial
+show \paralelo_a_serial
 # To save then in diagrams_generated folder
-#show -format ps -prefix ./diagrams_generated/demux1x2_behav
+#show -format ps -prefix ./diagrams_generated/paralelo_a_serial

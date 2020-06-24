@@ -63,6 +63,6 @@ write_verilog ./syn/paratoserial_syn.v
 
 
 #show schemes
-show \paralelltoserial
+show \paratoserial
 # To save then in diagrams_generated folder
 #show -format ps -prefix ./diagrams_generated/demux1x2_behav

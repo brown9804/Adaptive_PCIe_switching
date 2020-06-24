@@ -1,5 +1,5 @@
 // Michelle Gutiérrez 
-// Cicuitos Digitales 2 - Proyecto 2
+// Cicuitos Digitales 2 - Proyecto1
 // Tester paralelltoserial
 
 
@@ -10,14 +10,13 @@ output reg [7:0] in,
 output reg in_valid,
 output reg reset,
 
-output reg clk,
-output reg clk8f,
+output reg clk4f,
+output reg clk32f,
 input wire outc,
-// Sintetizado
 input wire outs
 
 );
-reg  clk16f, clk32f, clk4f;
+reg clk8f, clk16f, clk;
 
 
 initial begin
@@ -27,54 +26,46 @@ initial begin
 		 in_valid = 0;
 		 reset <= 0;
 
-		repeat (2) begin			// checking reset
-		@(posedge clk8f);
+		repeat (5) begin			// checking reset
+		@(posedge clk4f);
 		in <= 'hFF;		
 		#4 reset <= 0;
 		 
 		end
 		
-		@(posedge clk8f);
+		@(posedge clk4f);
 		#10 reset <= 1;
 
 		repeat (4) begin			// insert BC 10111100 x4 because Valid = 0	
-       		 @(posedge clk8f);	
+       		 @(posedge clk4f);	
 			in <= 8'hFF;
-            in_valid <= 1;
 		end
 	
 
-		@(posedge clk8f);	
+		@(posedge clk4f);	
 		    in <= 8'hAA;
 			in_valid <= 1;	
 	
 
-        	repeat (5) begin			// 1110 1110
-		@(posedge clk8f);	
+        	repeat (2) begin			// 1110 1110
+		@(posedge clk4f);	
 		    in <= 8'hEE;
-	        in_valid <= 1;
+	
 		end
     
-		@(posedge clk8f);	
+		@(posedge clk4f);	
 		    in <= 8'hCC;
 			in_valid <= 0;	
 		
 
-		@(posedge clk8f);	
-		   in <= 8'hBB;	
-			in_valid <= 1;	
-
-        repeat (5) begin			// 1110 1110
-		@(posedge clk8f);	
-		    in <= 8'hEE;
-            in_valid <= 1;
-	
-		end		
+		@(posedge clk4f);	
+		    in <= 8'hBB;	
+			in_valid <= 1;			
         		
 		$finish;		
 	end
 
-    // clks 
+// clks 
 
 	initial clk32f <= 0;
     initial clk16f <= 0;
@@ -104,8 +95,7 @@ initial begin
         end
    
 
-
-
+  
 	 // clock logic
 	
 	initial	clk	 				<= 0;			// Initial value to avoid indeterminations

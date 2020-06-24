@@ -23,9 +23,9 @@ input wire [9:0] in0,
 input wire [9:0] in1,
 input wire emptyF0,
 input wire emptyF1,
-input wire classif,
+//input wire classif,
 //Outputs
-output reg [7:0]out0, // out from fifo6x8 #0
+output reg [7:0] out0, // out from fifo6x8 #0
 output reg [7:0] out1,  // out from fifo6x8 #1
 output reg almost_full0,
 output reg almost_empty0,
@@ -42,7 +42,7 @@ output reg fifo1_pause,
 output reg Error
 );
 
-wire [7:0] out_mux;
+wire [9:0] out_mux;
 wire [7:0] out0_demux, out1_demux;
 // Push/Pop
 wire PP0, PP1;
@@ -91,8 +91,8 @@ demux12_8 demux12_8_routing (/*AUTOINST*/
     // Inputs
     .reset (reset),
     .clk (clk),
-    .in (out_mux),
-    .classif (classif),
+    .in (out_mux[7:0]),
+    .classif (out_mux[8]),
     .push_0 (PP0),
     .push_1 (PP1)
     );

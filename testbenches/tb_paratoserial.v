@@ -15,8 +15,7 @@ module paratoserial_tb;
 
 wire [7:0] in0;
 wire [7:0] in1;
-wire clk;
-wire clk8f;
+wire clk8f;                   // it means than is 8 times faster than normal clk (for data in)
 wire valid_0;
 wire valid_1;
 wire reset;
@@ -25,10 +24,10 @@ wire out1;
 wire out0_s;
 wire out1_s;
 
-paratoserial ptosgrande (
+paratoserial ptos_behav (
       .in0   (in0),
       .in1   (in1),
-      .clk   (clk),
+      .clk   (clk8f),
       .valid_0 (valid_0),
       .valid_1 (valid_1),
       .reset (reset),
@@ -36,10 +35,10 @@ paratoserial ptosgrande (
       .out1 (out1)
 );
 
-paratoserial_syn ptosgrandesyn (
+paratoserial_syn ptos_syn (
       .in0   (in0),
       .in1   (in1),
-      .clk   (clk),
+      .clk   (clk8f),
       .valid_0 (valid_0),
       .valid_1 (valid_1),
       .reset (reset),
@@ -50,7 +49,6 @@ paratoserial_syn ptosgrandesyn (
 paratoserial_tester tester (
       .in0   (in0),
       .in1   (in1),
-      .clk   (clk),
       .clk8f (clk8f),
       .valid_0 (valid_0),
       .valid_1 (valid_1),

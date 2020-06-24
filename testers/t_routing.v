@@ -7,8 +7,9 @@
 
 module t_route(
 // Outputs
-input wire [7:0]out0,
+input wire [7:0] out0,
 input wire [7:0] out1,
+// FIFO 0
 input wire almost_full0,
 input wire almost_empty0,
 input wire fifo0_empty,
@@ -23,23 +24,25 @@ input wire fifo1_empty,
 input wire fifo1_error,
 input wire fifo1_pause,
 //Syn
-input wire [7:0]out0_s,
+input wire [7:0] out0_s,
 input wire [7:0] out1_s,
+// FIFO 0 SYN
 input wire almost_full0_s,
 input wire almost_empty0_s,
 input wire fifo0_empty_s,
 input wire fifo0_error_s,
 input wire fifo0_pause_s,
 input wire fifo_full0_s,
+ // FIFO 1 SYN
 input wire fifo_full1_s,
 input wire almost_full1_s,
 input wire almost_empty1_s,
 input wire fifo1_empty_s,
 input wire fifo1_error_s,
 input wire fifo1_pause_s,
-input wire Error,
-// Data flow
 // input wire Error
+input wire Error,
+
 
 // Inputs
 output reg clk,
@@ -47,8 +50,8 @@ output reg reset,
 output reg [9:0] in0,
 output reg [9:0] in1,
 output reg  emptyF0,
-output reg  emptyF1,
-output reg classif
+output reg  emptyF1
+//output reg classif
 );
 
 
@@ -80,7 +83,7 @@ $dumpvars;
 
 in0 = 10'h00;
 in1 = 10'h00;
-classif = 0;
+//classif = 0;
 #4 reset = 0;
 emptyF0 = 0;
 emptyF1  = 0;
@@ -91,49 +94,68 @@ repeat (6) begin
 reset <= 0;
 end
 
-repeat (6) begin
 @(posedge clk);
 #4 reset <= 1;
-end
-// Write for fifo 1
-repeat (4) begin
+
+// Write for fifo 1  // testing dest 0
+repeat (2) begin
 @(posedge clk);
   in0 <= 10'hFF;
   in1 <= 10'hDD;
   emptyF0 <= 0;
   emptyF1 <= 1;
-  classif <= 1;
+  //classif <= 1;
 
 end
 
 // write for fifo0
-repeat (4) begin
+repeat (2) begin
 @(posedge clk);
   in0 <= 10'hEE;
   in1 <= 10'hCC;
   emptyF0 <= 0;
   emptyF1 <= 1;
-  classif <= 0;
+  //classif <= 0;
 end
 
-repeat (4) begin
+repeat (2) begin
 @(posedge clk);
   in0 <= 10'hBB;
   in1 <= 10'h99;
   emptyF0 <= 1;
   emptyF1 <= 0;
-  classif <= 1;
+  //classif <= 1;
 end
 
-repeat (4) begin
+// Write for fifo 1  // testing dest 1
+repeat (2) begin
 @(posedge clk);
-  in0 <= 10'hAA;
-  in1 <= 10'h88;
+  in0 <= 10'h1FF;
+  in1 <= 10'h1DD;
+  emptyF0 <= 0;
+  emptyF1 <= 1;
+  //classif <= 1;
+
+end
+
+// write for fifo0
+repeat (2) begin
+@(posedge clk);
+  in0 <= 10'h1EE;
+  in1 <= 10'h1CC;
+  emptyF0 <= 0;
+  emptyF1 <= 1;
+  //classif <= 0;
+end
+
+repeat (2) begin
+@(posedge clk);
+  in0 <= 10'h1BB;
+  in1 <= 10'h199;
   emptyF0 <= 1;
   emptyF1 <= 0;
-  classif <= 1;
+  //classif <= 1;
 end
-
 
 
 #40 $finish;

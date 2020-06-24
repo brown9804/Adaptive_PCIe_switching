@@ -3,7 +3,7 @@
 `timescale 1ns/1ps
 
 
-module paralelltoserial (
+module paralelo_a_serial (
 
 input wire [7:0] in,
 input wire in_valid,

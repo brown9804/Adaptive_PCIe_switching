@@ -16,7 +16,7 @@ module mux21 (
     input  fifo_empty1, // Enable data out from FiFo1 if fifo_empty0 = 0
     input  [9:0] in0, // Data from  FiFo0
     input  [9:0] in1, // Data from  FiFo1
-    output reg  [7:0] out
+    output reg  [9:0] out
 );
 
 // Mux 2:1 2 bits with valid

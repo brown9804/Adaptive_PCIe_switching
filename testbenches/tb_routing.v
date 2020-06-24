@@ -35,7 +35,7 @@ module TestBench; // Testbench
 wire clk, reset;
 wire [9:0] in0, in1;
 wire emptyF0, emptyF1;
-wire classif;
+//wire classif;
 wire [7:0] out0_BTB;
 wire [7:0] out1_BTB;
 wire almost_full0_BTB, almost_empty0_BTB;
@@ -85,8 +85,8 @@ route route_TB(/*AUTOINST*/
   .in0 (in0),
   .in1 (in1),
   .emptyF0 (emptyF0),
-  .emptyF1 (emptyF1),
-  .classif (classif)
+  .emptyF1 (emptyF1)
+  //.classif (classif)   // now internal in the data bus
 
 );
 
@@ -123,8 +123,8 @@ route_syn route_syn_TB(/*AUTOINST*/
   .in0 (in0),
   .in1 (in1),
   .emptyF0 (emptyF0),
-  .emptyF1 (emptyF1),
-  .classif (classif)
+  .emptyF1 (emptyF1)
+  //.classif (classif)
 );
 
 
@@ -172,8 +172,8 @@ t_route t_route_TB(/*AUTOINST*/
   .in0 (in0),
   .in1 (in1),
   .emptyF0 (emptyF0),
-  .emptyF1 (emptyF1),
-  .classif (classif)
+  .emptyF1 (emptyF1)
+  //.classif (classif)
 );
 
 

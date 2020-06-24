@@ -88,6 +88,8 @@ _MEMORY6x8 = memory_6x8.v
 _CLASS = class.v
 _ROUTING= routing.v
 _DFC = df_control.v 
+_SERIAL = paratoserial.v
+_PTOS = paralelltoserial.v
 
 
 
@@ -102,6 +104,9 @@ _SMEMORY6x8 = memory_6x8_syn.v
 _SCLASS = class_syn.v
 _SROUTING= routing_syn.v
 _SDFC= dfcontrol_syn.v
+_SSERIAL = paratoserial_syn.v
+_SPTOS = paralelltoserial_syn.v
+
 
 
 TESTBENCHES = ./testbenches/
@@ -115,6 +120,11 @@ _TB_MEMORY6x8 = tb_memory_6x8.v
 _TB_CLASS = tb_class.v
 _TB_ROUTING= tb_routing.v
 _TB_DFC= tb_dfcontrol.v
+_TB_SERIAL = tb_paratoserial.v
+_TB_PTOS = tb_ptos.v
+
+
+
 
 
 TESTERS = ./testers/
@@ -128,7 +138,8 @@ _T_MEMORY6x8 = t_memory_6x8.v
 _T_CLASS = t_class.v
 _T_ROUTING= t_routing.v
 _T_DFC=	t_dfcontrol.v
-
+_T_SERIAL = t_paratoserial.v
+_T_PTOS = t_ptos.v
 
 
 _VCD_MUX21 = mux21.vcd
@@ -141,6 +152,9 @@ _VCD_MEMORY6x8 = memory6x8.vcd
 _VCD_CLASS = class.vcd
 _VCD_ROUTING= routing.vcd
 _VCD_DFC= dfcontrol.vcd
+_VCD_SERIAL = paratoserial.vcd
+_VCD_PTOS = ptos.vcd
+
 
 
 
@@ -155,7 +169,8 @@ _VVP_MEMORY6x8 = memory6x8.vvp
 _VVP_CLASS = class.vvp
 _VVP_ROUTING= routing.vvp
 _VVP_DFC= dfcontrol.vvp
-
+_VVP_SERIAL	= paratoserial.vvp
+_VVP_PTOS = ptos.vvp
 
 YOSYS = ./yosys/
 _Y_MUX21 = mux21_y.ys
@@ -168,6 +183,8 @@ _Y_MEMORY6x8 = memory_6x8_y.ys
 _Y_CLASS = class_y.ys
 _Y_ROUTING= routing_y.ys
 _Y_DFC= dfcontrol_y.ys
+_Y_SERIAL = paratoserial_y.ys
+_Y_PTOS = ptos_y.ys
 
 #******************************************************************************
 
@@ -233,6 +250,26 @@ vdemux12_8:
 .PHONY: gtkwavedemux12_8
 gtkwavedemux12_8:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12_8)
+
+
+#******************************************************************************
+#### 														PARALLEL TO SERIAL
+#******************************************************************************
+
+yptos:
+	yosys $(YOSYS)$(_Y_PTOS)
+
+rptos:
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SPTOS)
+
+vptos:
+	iverilog -o $(OVVP)$(_VVP_PTOS) $(TESTBENCHES)$(_TB_PTOS)
+	vvp $(OVVP)$(_VVP_PTOS) > $(LOG_TXT)$(_VVP_PTOS)_log.txt
+
+#target phony
+.PHONY: gtkwaveptos
+gtkwaveptos:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_PTOS)
 
 
 
@@ -367,6 +404,23 @@ gtkwaveroute:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_ROUTING)
 
 
+#******************************************************************************
+#### 									 SERIALIZATION
+#******************************************************************************
+yserial:
+	yosys $(YOSYS)$(_Y_SERIAL)
+
+rserial:
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SSERIAL)
+
+vserial:
+	iverilog -o $(OVVP)$(_VVP_SERIAL) $(TESTBENCHES)$(_TB_SERIAL)
+	vvp $(OVVP)$(_VVP_SERIAL) > $(LOG_TXT)$(_VVP_SERIAL)_log.txt
+
+#target phony
+.PHONY: gtkwaveserial
+gtkwaveserial:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_SERIAL)
 
 
 #******************************************************************************
