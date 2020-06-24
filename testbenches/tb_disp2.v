@@ -2,7 +2,7 @@
 // Proyecto 2 - Circuitos Digitales 2
 // Michelle Gutiérrez
 
-`include "./scr/disp2.v"
+`include "./src/disp2.v"
 `include "./testers/t_disp2.v"
 
 module testbench_disp2;
