@@ -1,8 +1,8 @@
 // Dispositivo 2
 // Proyecto 2 - Circuitos Digitales 2
 // Michelle Gutiérrez
-`include "./scr/fifo_4x8.v"
-`include "./scr/serieparalelo.v"
+`include "./src/fifo_4x8.v"
+`include "./src/serieparalelo.v"
 
 
 module device2 (
