@@ -2,12 +2,8 @@
 // June, 2020
 // timna.brown@ucr.ac.cr
 
-`ifndef MEMORY
-`define MEMORY
-
-
-
-
+`ifndef MEMORY_4x8
+`define MEMORY_4x8
 
 module memory_4x8 #(
     parameter DATA_SIZE  = 8,
