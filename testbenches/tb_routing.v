@@ -62,7 +62,7 @@ wire fifo_full0_STB, fifo_full1_STB;
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-route route_TB(/*AUTOINST*/
+router route_TB(/*AUTOINST*/
   //Outputs
   .out0 (out0_BTB),
   .out1 (out1_BTB),
@@ -100,7 +100,7 @@ route route_TB(/*AUTOINST*/
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-route_syn route_syn_TB(/*AUTOINST*/
+router_syn route_syn_TB(/*AUTOINST*/
   //Outputs
   .out0 (out0_STB),
   .out1 (out1_STB),
