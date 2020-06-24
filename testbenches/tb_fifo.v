@@ -1,3 +1,15 @@
+/////////////////////////////////                      .        .
+//  Brandon Equivel             //                        .  .
+//  brandon.esquivel@ucr.ac.cr   //////////.............//////    .
+//                              //                        .    .      .
+////////////////////////////////                       .
+      ///           ///
+    ///               ///
+  ///                   ///
+////                    /////
+
+
+
 `timescale 	1ns	/ 1ps
 
 `include "./src/fifo.v"
@@ -5,7 +17,7 @@
 `include "./testers/t_fifo.v"
 `include "./lib/cmos_cells.v"
 
-module test_bench_fifo;
+module testbench_fifo_8X10;
 
 parameter DATA_SIZE = 10;
 parameter MAIN_SIZE = 8;
@@ -32,7 +44,7 @@ parameter MAIN_SIZE = 8;
     wire Fifo_full_s;
 
 
-fifo fifotb (
+fifo_8x10 fifotb (
                  .clk   (clk),
                  .reset (reset),
                  .read (read),
@@ -47,7 +59,7 @@ fifo fifotb (
                  .fifo_pause (fifo_pause)
 );
 
-fifo_syn fifos (
+fifo_8x10_syn fifos (
                  .clk   (clk),
                  .reset (reset),
                  .read (read),
@@ -57,9 +69,9 @@ fifo_syn fifos (
                  .almost_empty (almost_empty_s),
                  .Fifo_full (Fifo_full_s),
                  .data_out_pop (data_out_pop_s),
-                 .fifo_syn_empty (fifo_empty_s),
-                 .fifo_syn_error (fifo_error_s),
-                 .fifo_syn_pause (fifo_pause_s)
+                 .fifo_empty (fifo_empty_s),
+                 .fifo_error (fifo_error_s),
+                 .fifo_pause (fifo_pause_s)
 );
 
 

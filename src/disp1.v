@@ -1,9 +1,16 @@
-// Belinda Brown Ramírez
-// June, 2020
-// timna.brown@ucr.ac.cr
+/////////////////////////////////                      .        .
+//  Brandon Equivel             //                        .  .
+//  brandon.esquivel@ucr.ac.cr   //////////.............//////    .
+//                              //                        .    .      .
+////////////////////////////////                       .
+      ///           ///
+    ///               ///
+  ///                   ///
+////                    /////
 
-`ifndef ROUTING
-`define ROUTING
+
+`ifndef DISP1
+`define DISP1
 
 `timescale 1ns/1ps
 
@@ -11,7 +18,7 @@
 `include "./src/routing.v"
 `include "./src/serial.v"
 
-// Implementation of first layer device 1 for Adaptative PCIe Switching, 
+// Implementation of first layer "device 1" for Adaptative PCIe Switching, 
 // Assign 0 relative to fifo0
 // Assign 1 relative to fifo1
 
@@ -66,25 +73,25 @@ wire Error_class;
 
 classswitching classwit(/*AUTOINST*/
 // Outputs   
-    .out0     ( out0_class ),
-    .out1     ( out1_class ),
-    .almost_full0 (almost_full0_class),
-    .almost_empty0 (almost_empty0_class),
-    .fifo0_empty (fifo0_empty_class),
-    .fifo_full0 (fifo_full0_class),
-    .fifo0_error (fifo0_error_class),
-    .fifo0_pause (fifo0_pause_class),
-    .almost_full1 (almost_full1_class),
-    .almost_empty1 (almost_empty1_class),
-    .fifo1_empty (fifo1_empty_class),
-    .fifo_full1 (fifo_full1_class),
-    .fifo1_error (fifo1_error_class),
-    .fifo1_pause (fifo1_pause_class),
-    .Error (Error_class),
+    .out0            ( out0_class ),
+    .out1            ( out1_class ),
+    .almost_full0    (almost_full0_class),
+    .almost_empty0   (almost_empty0_class),
+    .fifo0_empty     (fifo0_empty_class),
+    .fifo_full0      (fifo_full0_class),
+    .fifo0_error     (fifo0_error_class),
+    .fifo0_pause     (fifo0_pause_class),
+    .almost_full1    (almost_full1_class),
+    .almost_empty1   (almost_empty1_class),
+    .fifo1_empty     (fifo1_empty_class),
+    .fifo_full1      (fifo_full1_class),
+    .fifo1_error     (fifo1_error_class),
+    .fifo1_pause     (fifo1_pause_class),
+    .Error           (Error_class),
     // Inputs
-    .in       ( in     ),
-    .clk      ( clk    ),
-    .reset    ( reset  )
+    .in               ( in     ),
+    .clk              ( clk    ),
+    .reset            ( reset  )
 
 );
 
@@ -92,28 +99,28 @@ classswitching classwit(/*AUTOINST*/
 
 route route_TB(/*AUTOINST*/
   //Outputs
-  .out0 (out0_route),
-  .out1 (out1_route),
-  .almost_full0 (almost_full0_route),
-  .almost_empty0 (almost_empty0_route),
-  .fifo0_empty (fifo0_empty_route),
-  .fifo0_error (fifo0_error_route),
-  .fifo0_pause (fifo0_pause_route),
-  .almost_full1 (almost_full1_route),
-  .almost_empty1 (almost_empty1_route),
-  .fifo1_empty (fifo1_empty_route),
-  .fifo1_error (fifo1_error_route),
-  .fifo1_pause (fifo1_pause_route),
-  .fifo_full0 (fifo_full0_route),
-  .fifo_full1 (fifo_full1_route),
-  .Error (Error_route),
-  // Inpu_routets
-  .clk (clk),
-  .reset (reset),
-  .in0 (out0_class),
-  .in1 (out1_class),
-  .emptyF0 (fifo0_empty_class),
-  .emptyF1 (fifo1_empty_class),
+  .out0           (out0_route),
+  .out1           (out1_route),
+  .almost_full0   (almost_full0_route),
+  .almost_empty0  (almost_empty0_route),
+  .fifo0_empty    (fifo0_empty_route),
+  .fifo0_error    (fifo0_error_route),
+  .fifo0_pause    (fifo0_pause_route),
+  .almost_full1   (almost_full1_route),
+  .almost_empty1  (almost_empty1_route),
+  .fifo1_empty    (fifo1_empty_route),
+  .fifo1_error    (fifo1_error_route),
+  .fifo1_pause    (fifo1_pause_route),
+  .fifo_full0     (fifo_full0_route),
+  .fifo_full1     (fifo_full1_route),
+  .Error          (Error_route),
+  // Input_route
+  .clk            (clk),
+  .reset          (reset),
+  .in0            (out0_class),
+  .in1            (out1_class),
+  .emptyF0        (fifo0_empty_class),        //priority P0 
+  .emptyF1        (fifo1_empty_class),
   //.classif (classif)
 
 );
@@ -121,6 +128,16 @@ route route_TB(/*AUTOINST*/
 
 
 
+paratoserial paralleltoSerial(
+      .in0     (in0),
+      .in1     (in1),
+      .clk     (clk8f),
+      .valid_0 (valid_0),
+      .valid_1 (valid_1),
+      .reset   (reset),
+      .out0    (out0),
+      .out1    (out1)
+);
 
 
 

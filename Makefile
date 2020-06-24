@@ -280,7 +280,7 @@ yfifo:
 	yosys $(YOSYS)$(_Y_FIFO)
 
 rfifo:
-	sed -i 's/fifo/fifo_syn/g; s/memory/memory_syn/g ' $(SYN)$(_SFIFO)
+	sed -i 's/fifo_8x10/fifo_8x10_syn/g; s/memory/memory_syn/g ' $(SYN)$(_SFIFO)
 
 vfifo:
 	iverilog -o $(OVVP)$(_VVP_FIFO) $(TESTBENCHES)$(_TB_FIFO)

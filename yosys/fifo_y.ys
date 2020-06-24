@@ -20,7 +20,7 @@ read_verilog ./src/fifo.v
 read_verilog -lib ./lib/cmos_cells.v
 
 #Hierarchy module
-hierarchy -check -top fifo
+hierarchy -check -top fifo_8x10
 
 #Process to nettlist
 proc
@@ -63,6 +63,6 @@ write_verilog ./syn/fifo_syn.v
 
 
 #show schemes
-show \fifo
+show \fifo_8x10
 # To save then in diagrams_generated folder
 #show -format ps -prefix ./diagrams_generated/demux1x2_behav

@@ -1,25 +1,37 @@
-// FIFO
-// Proyecto 2 Digitales II
+/////////////////////////////////                      .        .
+//  Brandon Equivel             //                        .  .
+//  brandon.esquivel@ucr.ac.cr   //////////.............//////    .
+//                              //                        .    .      .
+////////////////////////////////                       .
+      ///           ///
+    ///               ///
+  ///                   ///
+////                    /////
+
 
 `ifndef FIFO
 `define FIFO
 
-// DATA_SIZE: Bits de los datos
-// MAIN_SIZE: "Largo" o capacidad del fifo
+// DATA_SIZE: data bus size in bits
+// MAIN_SIZE: Fifo length or capacity
+// note: i know i know, 
 
 `include "./src/memory.v"
 
 module fifo_8x10 #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
+
     input                               clk,
     input                               reset,
     input                               read,
     input                               write,
-    input       [DATA_SIZE-1:0]         data_in_push,            //dato de entrada / hará push al fifo
+    input       [DATA_SIZE-1:0]         data_in_push,
+    
+    output reg  [DATA_SIZE-1:0]         data_out_pop,
     output reg                          almost_full,
     output reg                          almost_empty,
     output reg                          fifo_empty,
     output reg                          Fifo_full,
-    output reg  [DATA_SIZE-1:0]         data_out_pop,           //datos de salida / al que se le hace pop
+               //datos de salida / al que se le hace pop
     output reg                          fifo_error,
     output reg                          fifo_pause
 );
@@ -30,7 +42,7 @@ module fifo_8x10 #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
 wire [DATA_SIZE-1:0] data_out;
 // reg Fifo_full;
 //reg almost_full, almost_empty;
-reg [DATA_SIZE-1:0]data_count;
+reg [DATA_SIZE-1:0] data_count;
 reg [MAIN_SIZE-1:0]	rd_ptr;
 reg [MAIN_SIZE-1:0]	wr_ptr;
 reg datamod;
@@ -39,15 +51,15 @@ reg [DATA_SIZE-1:0] data_to_mem;
 
     memory #(DATA_SIZE,MAIN_SIZE) mem(
 		    // Outputs
-		    .data_out		(data_out[DATA_SIZE-1:0]),
+		    .data_out		(data_out),
 		    // Inputs
 		    .clk		(clk),
 		    .read		(read),
 		    .write		(write),
 		    .reset		(reset),
 		    .data_in	(data_in_push),
-		    .wr_ptr		(wr_ptr[MAIN_SIZE-1:0]),
-		    .rd_ptr		(rd_ptr[MAIN_SIZE-1:0])
+		    .wr_ptr		(wr_ptr),
+		    .rd_ptr		(rd_ptr)
 );
 
 always@(*) begin
@@ -102,7 +114,7 @@ always@(*) begin
     end
 
     // Acción del fifo
-     always@( posedge clk)begin
+    always@( posedge clk)begin
         if ( !reset ) begin
             data_count <= 'b0;
             data_out_pop <= 'b0;
@@ -111,17 +123,25 @@ always@(*) begin
             datamod         <= 'b0;
         end else begin
 
-     if( !Fifo_full && write )begin
-                wr_ptr <= wr_ptr + 1;
-
-                if ( !fifo_empty && read )begin
-                    rd_ptr <= rd_ptr + 1;
-                    data_count <= data_count;
+        if( !Fifo_full && write ) begin
+                if (wr_ptr == (DATA_SIZE-1) ) begin
+                    wr_ptr <= 0;
+                end else begin 
+                    wr_ptr <= wr_ptr + 1;
+                    end
+                if ( !fifo_empty && read ) begin
+                    if( rd_ptr == (DATA_SIZE-1) ) begin
+                        rd_ptr <= 0;
+                    end 
+                    else begin 
+                        rd_ptr <= rd_ptr + 1;
+                        data_count <= data_count;
+                    end
                 end else begin
                     rd_ptr <= rd_ptr;
                     data_count <= data_count + 1;
                 end
-            end else if( !fifo_empty && read ) begin
+        end else if( !fifo_empty && read ) begin
                 rd_ptr <= rd_ptr + 1;
                 wr_ptr <= wr_ptr;
                 data_count  <= data_count - 1;
@@ -129,7 +149,6 @@ always@(*) begin
             end else begin
                 rd_ptr <= rd_ptr;
                 wr_ptr <= wr_ptr;
-
                 data_count  <= data_count;
             end
         end
