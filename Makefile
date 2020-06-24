@@ -26,6 +26,8 @@
 # 8. For trafic class clasification ---------- class
 # 9. Routing port ---------- route
 # 10. Data Flow Control ---------- dfcontrol
+# 11. Serialization ---------- serial
+# 12. Device 1 ---------- disp1
 
 all:
 
@@ -90,6 +92,7 @@ _ROUTING= routing.v
 _DFC = df_control.v 
 _SERIAL = paratoserial.v
 _PTOS = paralelltoserial.v
+_D1 = disp1.v
 
 
 
@@ -106,6 +109,7 @@ _SROUTING= routing_syn.v
 _SDFC= dfcontrol_syn.v
 _SSERIAL = paratoserial_syn.v
 _SPTOS = paralelltoserial_syn.v
+_SD1 = disp1_syn.v
 
 
 
@@ -122,6 +126,7 @@ _TB_ROUTING= tb_routing.v
 _TB_DFC= tb_dfcontrol.v
 _TB_SERIAL = tb_paratoserial.v
 _TB_PTOS = tb_ptos.v
+_TB_D1 = tb_disp1.v
 
 
 
@@ -140,6 +145,7 @@ _T_ROUTING= t_routing.v
 _T_DFC=	t_dfcontrol.v
 _T_SERIAL = t_paratoserial.v
 _T_PTOS = t_ptos.v
+_T_D1 = t_disp1.v
 
 
 _VCD_MUX21 = mux21.vcd
@@ -154,6 +160,7 @@ _VCD_ROUTING= routing.vcd
 _VCD_DFC= dfcontrol.vcd
 _VCD_SERIAL = paratoserial.vcd
 _VCD_PTOS = ptos.vcd
+_VCD_D1 = disp1.vcd
 
 
 
@@ -171,6 +178,7 @@ _VVP_ROUTING= routing.vvp
 _VVP_DFC= dfcontrol.vvp
 _VVP_SERIAL	= paratoserial.vvp
 _VVP_PTOS = ptos.vvp
+_VVP_D1 = disp1.vvp
 
 YOSYS = ./yosys/
 _Y_MUX21 = mux21_y.ys
@@ -185,6 +193,7 @@ _Y_ROUTING= routing_y.ys
 _Y_DFC= dfcontrol_y.ys
 _Y_SERIAL = paratoserial_y.ys
 _Y_PTOS = ptos_y.ys
+_Y_D1 = disp1_y.ys
 
 #******************************************************************************
 
@@ -194,7 +203,7 @@ _Y_PTOS = ptos_y.ys
 
 
 #******************************************************************************
-#### 														MUX 		2:1
+####				MUX 		2:1
 #******************************************************************************
 
 ymux21:
@@ -214,7 +223,7 @@ gtkwavemux21:
 
 
 #******************************************************************************
-#### 									 DEMUX 				1:2				10 bits
+#### 	 DEMUX 				1:2				10 bits
 #******************************************************************************
 
 ydemux12:
@@ -233,7 +242,7 @@ gtkwavedemux12:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12)
 
 #******************************************************************************
-#### 									 DEMUX 				1:2 				8 bits
+#### 			DEMUX 		1:2 	8 bits
 #******************************************************************************
 
 ydemux12_8:
@@ -253,7 +262,7 @@ gtkwavedemux12_8:
 
 
 #******************************************************************************
-#### 														PARALLEL TO SERIAL
+#### 			PARALLEL TO SERIAL
 #******************************************************************************
 
 yptos:
@@ -274,7 +283,7 @@ gtkwaveptos:
 
 
 #******************************************************************************
-#### 									 FIFO 		8x10
+#### 			FIFO 		8x10
 #******************************************************************************
 yfifo:
 	yosys $(YOSYS)$(_Y_FIFO)
@@ -292,7 +301,7 @@ gtkwavefifo:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_FIFO)
 
 #******************************************************************************
-#### 									 FIFO 		6x8
+#### 		FIFO 		6x8
 #******************************************************************************
 yfifo6x8:
 	yosys $(YOSYS)$(_Y_FIFO6x8)
@@ -311,7 +320,7 @@ gtkwavefifo6x8:
 
 
 #******************************************************************************
-#### 									 MEMORY 8x10
+#### 				MEMORY 8x10
 #******************************************************************************
 ymemory:
 	yosys $(YOSYS)$(_Y_MEMORY)
@@ -329,7 +338,7 @@ gtkwavememory:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_MEMORY)
 
 #******************************************************************************
-#### 									 MEMORY 6x8
+#### 		MEMORY 6x8
 #******************************************************************************
 ymemory6x8:
 	yosys $(YOSYS)$(_Y_MEMORY6x8)
@@ -348,7 +357,7 @@ gtkwavememory6x8:
 
 
 #******************************************************************************
-#### 									 dfcontrol
+#### 		dfcontrol
 #******************************************************************************
 ydfcontrol:
 	yosys $(YOSYS)$(_Y_DFC)
@@ -368,7 +377,7 @@ gtkwavedfcontrol:
 
 
 #******************************************************************************
-#### 									 CLASS
+#### 			CLASS
 #******************************************************************************
 yclass:
 	yosys $(YOSYS)$(_Y_CLASS)
@@ -386,7 +395,7 @@ gtkwaveclass:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_CLASS)
 
 #******************************************************************************
-#### 									 ROUTING
+#### 			ROUTING
 #******************************************************************************
 yroute:
 	yosys $(YOSYS)$(_Y_ROUTING)
@@ -405,7 +414,7 @@ gtkwaveroute:
 
 
 #******************************************************************************
-#### 									 SERIALIZATION
+#### 			SERIALIZATION
 #******************************************************************************
 yserial:
 	yosys $(YOSYS)$(_Y_SERIAL)
@@ -421,6 +430,28 @@ vserial:
 .PHONY: gtkwaveserial
 gtkwaveserial:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_SERIAL)
+
+
+#******************************************************************************
+#### 			DEVICE 1
+#******************************************************************************
+ydips1:
+	yosys $(YOSYS)$(_Y_ROUTING)
+
+rdisp1:
+	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo_8x10/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g'  $(SYN)$(_SD1)
+	sed -i 's/route/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g'  $(SYN)$(_SD1)
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SSERIAL)
+	sed -i 's/device1/device1_syn/g' $(SYN)$(_SD1)
+vdisp1:
+	iverilog -o $(OVVP)$(_VVP_D1) $(TESTBENCHES)$(_TB_D1)
+	vvp $(OVVP)$(_VVP_D1) > $(LOG_TXT)$(_VVP_D1)_log.txt
+
+#target phony
+.PHONY: gtkwavedisp1
+gtkwavedisp1:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_D1)
+
 
 
 #******************************************************************************
