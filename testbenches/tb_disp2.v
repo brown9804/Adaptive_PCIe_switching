@@ -20,7 +20,7 @@ wire almost_full_f1;
 wire almost_full_f2;
 
 
-disp2 dis2 (
+divice2 dis2 (
               .in1 (in1),
               .in2 (in2),
               .reset (reset),
