@@ -14,23 +14,35 @@
 
 
 #******************************************************************************
-#													MARKS
+#				MARKS
 #******************************************************************************
 # 1. For mux 2:1 ---------- mux21
 # 2. For demux 1:2  10 bits ---------- demux12
 # 3. For demux 1:2 8 bits ---------- demux12_8
-# 4. For fifo 8x10 ---------- fifo
-# 5. For fifo 6x8 ---------- fifo6x8
-# 6. For memory 8x10 ---------- memory
-# 7. For memory 6x8 ---------- memory6x8
-# 8. For trafic class clasification ---------- class
-# 9. Routing port ---------- route
-# 10. Data Flow Control ---------- dfcontrol
-# 11. Serial-Parallel ---------- serno
-# 12. Serialization  layer---------- serial
-# 13. Device 1 ---------- disp1
-# 14. Device 2 ---------- disp2
-# 15. Device 3 ---------- disp3
+# 4. Parallel- Serial ---------- ptos
+# 5. Serial-Parallel ---------- serno
+
+# 6. Data Flow Control ---------- dfcontrol
+
+#### 		First in First Out
+# 7. For fifo 8x10 ---------- fifo
+# 8. For fifo 6x8 ---------- fifo6x8
+# 9. For fifo 4x8 ---------- fifo4x8
+
+####				Memories
+# 10. For memory 8x10 ---------- memory
+# 11. For memory 6x8 ---------- memory6x8
+# 12. For memory 4x8 ---------- memory4x8
+
+#### 				Layers
+# 13. For trafic class clasification ---------- class
+# 14. Routing port ---------- route
+# 15. Serialization  layer---------- serial
+
+####				Devices
+# 16. Device 1 ---------- disp1
+# 17. Device 2 ---------- disp2
+# 18. Device 3 ---------- disp3
 
 
 all:
@@ -280,6 +292,56 @@ gtkwavedemux12_8:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12_8)
 
 
+#******************************************************************************
+#### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
+#******************************************************************************
+
+yptos:
+	yosys $(YOSYS)$(_Y_PTOS)
+
+rptos:
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SPTOS)
+
+vptos:
+	iverilog -o $(OVVP)$(_VVP_PTOS) $(TESTBENCHES)$(_TB_PTOS)
+	vvp $(OVVP)$(_VVP_PTOS) > $(LOG_TXT)$(_VVP_PTOS)_log.txt
+
+#target phony
+.PHONY: gtkwaveptos
+gtkwaveptos:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_PTOS)
+
+
+
+
+#******************************************************************************
+#### 			 SERIAL TO PARALLEL INDIVIDUAL MODULE
+#******************************************************************************
+
+yserno:
+	yosys $(YOSYS)$(_Y_PTOS)
+
+rserno:
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SSERNO)
+
+vserno:
+	iverilog -o $(OVVP)$(_VVP_SERNO) $(TESTBENCHES)$(_TB_SERNO)
+	vvp $(OVVP)$(_VVP_SERNO) > $(LOG_TXT)$(_VVP_SERNO)_log.txt
+
+#target phony
+.PHONY: gtkwaveserno
+gtkwaveserno:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_SERNO)
+
+
+
+
+
+
+
+
+
+
 
 
 #******************************************************************************
@@ -411,26 +473,6 @@ vroute:
 .PHONY: gtkwaveroute
 gtkwaveroute:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_ROUTING)
-
-#******************************************************************************
-#### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
-#******************************************************************************
-
-yptos:
-	yosys $(YOSYS)$(_Y_PTOS)
-
-rptos:
-	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SPTOS)
-
-vptos:
-	iverilog -o $(OVVP)$(_VVP_PTOS) $(TESTBENCHES)$(_TB_PTOS)
-	vvp $(OVVP)$(_VVP_PTOS) > $(LOG_TXT)$(_VVP_PTOS)_log.txt
-
-#target phony
-.PHONY: gtkwaveptos
-gtkwaveptos:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_PTOS)
-
 
 
 #******************************************************************************
