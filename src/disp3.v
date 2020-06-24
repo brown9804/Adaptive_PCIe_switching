@@ -22,6 +22,7 @@ module device3 #(
 
 //INPUTS
 input wire clk,
+input wire clk8f,
 input wire reset,
 input wire [DATA_SIZE-1:0] in,
 
@@ -52,45 +53,47 @@ output reg fifo1_pause,*/
 // // wires internally
 wire outF0, outF1;
 wire Error_F0, Error_F1;
-
+wire out0_disp3, out1_disp3;
+wire nn_alf1, nn_alf2; // almost full 1 and 2
+wire nn_read, nn_write; // for write and write
 
 device1  device1_in3(/*AUTOINST*/
   //Outputs
-  .out0 (), // out from fifo6x8 #0
-  .out1 (),  // out from fifo6x8 #1
-  .Error_class (),
-  .Error_route (),
+  .out0 (outF0), // out from fifo6x8 #0
+  .out1 (outF1),  // out from fifo6x8 #1
+  .Error_class (Error_F0),
+  .Error_route (Error_F1),
   //INPUTS
-  .clk (),
-  .clk8f (),
+  .clk (clk),
+  .clk8f (clk8f),
 
-  .reset(),
-  .in ()
+  .reset(reset),
+  .in (in)
 );
 
 
 
 device2 device2_in3(/*AUTOINST*/
 // Outputs
-.out1 (),
-.out2 (),
-.almost_full_f1 (),
-.almost_full_f2 (),
+.out1 (out0_disp3),
+.out2 (out1_disp3),
+.almost_full_f1 (nn_alf1),
+.almost_full_f2 (nn_alf2),
 // Inputs
-.in1 (),
-.in2 (),
-.reset (),
-.clk (),
-.clk8f (),
-.read (),
-.write ()
+.in1 (outF0),
+.in2 (outF1),
+.reset (reset),
+.clk (clk),
+.clk8f (clk8f),
+.read (nn_read),
+.write (nn_write)
 );
 
 
 
   always@(*) begin      // pass to outputs
-    out0 = outF0;
-    out1 = outF1;
+    out0 = out0_disp3;
+    out1 = out1_disp3;
     Error0 = Error_F0;
     Error1  = Error_F1;
   end
