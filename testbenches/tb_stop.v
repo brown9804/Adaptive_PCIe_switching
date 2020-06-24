@@ -4,7 +4,9 @@
 
 `include "./testers/t_stop.v"
 `include "./src/serieparalelo.v"
-`include "./lib/cmos_cells.v" 
+`include "./syn/serieparalelo_syn.v"
+`include "./lib/cmos_cells.v"
+
 
 module bancoPruebas();
     wire in;
@@ -34,7 +36,7 @@ serieparalelo spc (
                     .valid(valid)
 );
 
-serieparalelo sps (
+serieparalelo_syn sps (
                     .in(in),
                     .clk8f(clk8f),
                     .clk(clk),
