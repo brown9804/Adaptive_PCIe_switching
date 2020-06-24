@@ -6,10 +6,12 @@
 //                                  //
 //////////////////////////////////////
 
+
+ 
 `ifndef T_DFCONTROL
 `define T_DFCONTROL
 
-// only necessary signals
+//// Note --> only necessary signals
 module t_dfcontrol (
 
   output reg  reset,
@@ -29,8 +31,8 @@ module t_dfcontrol (
   input wire  write1s,
   input wire  read1,
   input wire  read1s,
-  input wire Error,
-  input wire Errors
+  input wire  Error,
+  input wire  Errors
 );
 
 

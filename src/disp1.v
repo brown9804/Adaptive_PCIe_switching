@@ -1,13 +1,14 @@
 /////////////////////////////////                      .        .
 //  Brandon Equivel             //                        .  .
-//  brandon.esquivel@ucr.ac.cr   //////////.............//////    .
-//                              //                        .    .      .
+//  brandon.esquivel@ucr.ac.cr   ///////////............///////
+//  Belinda Brown Ramírez         //////////.............//////    .
+//  timna.brown@ucr.ac.cr        //
+//  June, 2020                 //                        .    .      .
 ////////////////////////////////                       .
       ///           ///
     ///               ///
   ///                   ///
 ////                    /////
-
 
 `ifndef DISP1
 `define DISP1
@@ -22,21 +23,22 @@
 // Assign 0 relative to fifo0
 // Assign 1 relative to fifo1
 
-module disp1 #(
+module device1 #(
   parameter DATA_SIZE = 10, 
   parameter MAIN_SIZE = 8) 
-  
   (
 
 //INPUTS
 input wire clk,
+input wire clk8f,
+
 input wire reset,
 input wire [DATA_SIZE-1:0] in,
 
 
 //Outputs
-output reg [7:0] out0, // out from fifo6x8 #0
-output reg [7:0] out1,  // out from fifo6x8 #1
+output reg [DATA_SIZE-3:0] out0, // out from fifo6x8 #0
+output reg [DATA_SIZE-3:0] out1,  // out from fifo6x8 #1
 output reg Error
 
 //control for fifos Internal - now in beta version
@@ -57,7 +59,7 @@ output reg fifo1_pause,*/
 
 );
 
-// wires internally
+// wires - Internal NOdes
 wire [DATA_SIZE-1:0] out0_class, out1_class;   // outputs from class to route
 wire fifo0_empty, fifo1_empty;                 // from class fifos to mux P0 P1 in routing, tells when fifos are empty and block pop
 wire [DATA_SIZE-3:0] out0_route, out1_route;   // outputs from route to serial
@@ -129,14 +131,15 @@ route route_TB(/*AUTOINST*/
 
 
 paratoserial paralleltoSerial(
-      .in0     (in0),
-      .in1     (in1),
+      .out0    (out0),
+      .out1    (out1),
+      .in0     (out0_route),
+      .in1     (out1_route),
       .clk     (clk8f),
       .valid_0 (valid_0),
       .valid_1 (valid_1),
-      .reset   (reset),
-      .out0    (out0),
-      .out1    (out1)
+      .reset   (reset)
+    
 );
 
 

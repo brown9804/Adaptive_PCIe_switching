@@ -1,13 +1,22 @@
-// Belinda Brown Ramírez
-// June, 2020
-// timna.brown@ucr.ac.cr
+/////////////////////////////////                      .        .
+//  Brandon Equivel             //                        .  .
+//  brandon.esquivel@ucr.ac.cr   ///////////............///////
+//  Belinda Brown Ramírez         //////////.............//////    .
+//  timna.brown@ucr.ac.cr       //
+//  June, 2020                 //                        .    .      .
+////////////////////////////////                       .
+      ///           ///
+    ///               ///
+  ///                   ///
+////                    /////
+
 
 `ifndef TB_CLASS
 `define TB_CLASS
 
 
 // scale time unit (value of one) / precision
-`timescale 	1ns	/ 100ps
+`timescale 	1ns	/ 1ps
 
 `include "./lib/cmos_cells.v"
 `include "./src/df_control.v"
@@ -18,7 +27,7 @@ module TestBench;
 
 /*AUTOWIRE*/
 
-// general 
+// general - ONly using one fifo 
 wire reset;
 wire write1;
 wire write1s;

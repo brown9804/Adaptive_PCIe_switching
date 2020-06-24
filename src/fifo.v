@@ -37,17 +37,14 @@ module fifo_8x10 #(parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8)(
 );
 
 
-// Cables internos
+// Internal wires
 
 wire [DATA_SIZE-1:0] data_out;
-// reg Fifo_full;
-//reg almost_full, almost_empty;
 reg [DATA_SIZE-1:0] data_count;
 reg [MAIN_SIZE-1:0]	rd_ptr;
 reg [MAIN_SIZE-1:0]	wr_ptr;
-reg datamod;
-
 reg [DATA_SIZE-1:0] data_to_mem;
+
 
     memory #(DATA_SIZE,MAIN_SIZE) mem(
 		    // Outputs
@@ -67,7 +64,6 @@ always@(*) begin
         Fifo_full = 0;
         almost_full = 0;
         almost_empty = 0;
-        datamod = 0;
         fifo_error = 0;
         fifo_pause=0;
         if ( ~reset ) begin
@@ -81,8 +77,8 @@ always@(*) begin
 
  else begin
 
-      // Condiciones para diferente estados del fifo: full, empty, casi lleno, casi vacío, error (escribir cuando está
-      // lleno o leer cuando está vacío)
+      // States and combinational logic of the fifos
+
             if ( data_count == 0 )begin
                 fifo_empty = 1;
                 fifo_pause = 0;
@@ -113,39 +109,43 @@ always@(*) begin
 
     end
 
-    // Acción del fifo
+    // Logic for fifo action and memory interaction
     always@( posedge clk)begin
         if ( !reset ) begin
             data_count <= 'b0;
             data_out_pop <= 'b0;
-            wr_ptr          <= 'b0;
-            rd_ptr          <= 'b0;
-            datamod         <= 'b0;
+            wr_ptr          <= 'b000;
+            rd_ptr          <= 'b000;
         end else begin
 
         if( !Fifo_full && write ) begin
-                if (wr_ptr == (DATA_SIZE-1) ) begin
-                    wr_ptr <= 0;
+                if (wr_ptr == (DATA_SIZE-2) ) begin
+                    wr_ptr <= 'b000;
                 end else begin 
                     wr_ptr <= wr_ptr + 1;
                     end
                 if ( !fifo_empty && read ) begin
-                    if( rd_ptr == (DATA_SIZE-1) ) begin
+                    if( rd_ptr == (DATA_SIZE-2) ) begin
                         rd_ptr <= 0;
                     end 
                     else begin 
                         rd_ptr <= rd_ptr + 1;
                         data_count <= data_count;
+                        data_out_pop    <= data_out;
                     end
                 end else begin
                     rd_ptr <= rd_ptr;
                     data_count <= data_count + 1;
                 end
         end else if( !fifo_empty && read ) begin
+            if( rd_ptr == (DATA_SIZE-2) ) begin
+                    rd_ptr <= 0;
+            end else begin
                 rd_ptr <= rd_ptr + 1;
                 wr_ptr <= wr_ptr;
                 data_count  <= data_count - 1;
                 data_out_pop    <= data_out;
+            end
             end else begin
                 rd_ptr <= rd_ptr;
                 wr_ptr <= wr_ptr;
