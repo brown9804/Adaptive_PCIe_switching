@@ -5,7 +5,7 @@
 `include "./scr/serieparalelo.v"
 
 
-module disp2 (
+module device2 (
 
 input in1,
 input in2,
