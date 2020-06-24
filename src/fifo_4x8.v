@@ -1,8 +1,8 @@
 // FIFO
 // Proyecto 2 Digitales II
 
-`ifndef FIFO
-`define FIFO
+`ifndef FIFO_4x8
+`define FIFO_4x8
 
 // DATA_SIZE: Bits de los datos
 // MAIN_SIZE: "Largo" o capacidad del fifo
