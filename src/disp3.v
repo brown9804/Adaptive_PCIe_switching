@@ -12,7 +12,6 @@
 `include "./src/disp2.v"
 
 
-// Implementation of first layer "device 1" for Adaptative PCIe Switching,
 // Assign 0 relative to fifo0
 // Assign 1 relative to fifo1
 
