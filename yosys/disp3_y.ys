@@ -9,7 +9,6 @@
 
 # Full synthesis script
 
-
 # Perform the high-level synthesis of the behavioral design.
 # This produces a generic structural description (RTLIL) that does not depend
 # on a particular technology. The components used in this description
