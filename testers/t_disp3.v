@@ -3,7 +3,6 @@
 // timna.brown@ucr.ac.cr
 //        &
 // Fixes --- Brandon Esquivel Molina
-// Tester for Device1
 // brandon.esquivel@ucr.ac.cr
 
 
