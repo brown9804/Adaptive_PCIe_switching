@@ -1,9 +1,6 @@
-// Assing --- Belinda Brown Ramírez
+//  Belinda Brown Ramírez
 // June, 2020
 // timna.brown@ucr.ac.cr
-//        &
-// Fixes --- Brandon Esquivel Molina
-// brandon.esquivel@ucr.ac.cr
 
 
 `ifndef T_DISP3
@@ -51,6 +48,16 @@ reset <= 0;
 
 repeat (2) begin
 @(posedge clk) begin
+repeat(5) begin
+  in <= 10'h0BC;
+end // end five BC's
+
+repeat(5) begin
+  in <= 10'h07C;
+end // end five 7C's
+
+
+@(posedge clk) begin
   in <= 10'h0FF;
 end
 
@@ -86,6 +93,7 @@ end
 	in <= 10'h377;
 end
 
+end // end clk
 end // end repeat
 #40 $finish;
 end // end initial
