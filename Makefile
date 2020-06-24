@@ -7,7 +7,7 @@
 ###
 
 
-# 							Makefile logic:
+# Makefile logic:
 # To create this file you need these files:
 # $ @ replace left
 # $ ^ right
@@ -542,7 +542,8 @@ rdisp3:
 	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo_8x10/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SD3)
 	sed -i 's/router/router_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SD3)
 	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SD3)
-	sed -i 's/device1/device1_syn/g; s/device2/device2_syn/g' $(SYN)$(_SD3)
+	sed -i 's/fifo_4x8/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD3)
+	sed -i 's/device1/device1_syn/g; s/device2/device2_syn/g;  s/device3/device3_syn/g' $(SYN)$(_SD3)
 vdisp3:
 	iverilog -o $(OVVP)$(_VVP_D3) $(TESTBENCHES)$(_TB_D3)
 	vvp $(OVVP)$(_VVP_D3) > $(LOG_TXT)$(_VVP_D3)_log.txt
