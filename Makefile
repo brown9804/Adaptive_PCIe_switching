@@ -93,7 +93,7 @@ _MEMORY = memory.v
 _MEMORY6x8 = memory_6x8.v
 _CLASS = class.v
 _ROUTING= routing.v
-_DFC = df_control.v 
+_DFC = df_control.v
 _SERIAL = paratoserial.v
 _PTOS = paralelltoserial.v
 _D1 = disp1.v
@@ -411,9 +411,9 @@ vroute:
 .PHONY: gtkwaveroute
 gtkwaveroute:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_ROUTING)
-	
+
 #******************************************************************************
-#### 			PARALLEL TO SERIAL INDIVIDUAL MODULE 
+#### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
 #******************************************************************************
 
 yptos:
@@ -475,8 +475,6 @@ gtkwavedisp1:
 #******************************************************************************
 #### 			DEVICE 2
 #******************************************************************************
-`include "./scr/fifo_4x8.v"
-`include "./scr/serieparalelo.v"
 
 ydisp2:
 	yosys $(YOSYS)$(_Y_D2)
