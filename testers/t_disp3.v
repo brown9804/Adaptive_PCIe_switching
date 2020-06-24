@@ -46,8 +46,8 @@ in = 10'h0;
 #4 reset = 0;
 reset <= 0;
 
-  @(posedge clk);
-  #4 reset <= 1;
+@(posedge clk);
+#4 reset <= 1;
 
 repeat (2) begin
 @(posedge clk) begin
@@ -86,39 +86,39 @@ end
 	in <= 10'h377;
 end
 
-end
+end // end repeat
 #40 $finish;
-end
+end // end initial
 
 // clock logic
-  initial	clkbase	 			<= 0;			// Initial value to avoid indeterminations
-  always	#10 clkbase	 <= ~clkbase;		// toggle every 10ns
+initial	clkbase	 			<= 0;			// Initial value to avoid indeterminations
+always	#10 clkbase	 <= ~clkbase;		// toggle every 10ns
 
-  initial clk8f <= 0;
-  initial clk4f <= 0;
-  initial clk2f <= 0;
-  initial	clk	 	<= 0;			// Initial value to avoid indeterminations
+initial clk8f <= 0;
+initial clk4f <= 0;
+initial clk2f <= 0;
+initial	clk	 	<= 0;			// Initial value to avoid indeterminations
 
 // Faster frequency
-  always @(posedge clkbase) begin
-  	clk8f <= ~clk8f; // if was LOW change to HIGH
-    end
+always @(posedge clkbase) begin
+	clk8f <= ~clk8f; // if was LOW change to HIGH
+  end
 
 
 // For 4 Hz
-  always @(posedge clk8f) begin
-      clk4f <= ~clk4f; // if was LOW change to HIGH
-      end
-         //////////////////////////////
-  // For 2 Hz
-  always @(posedge clk4f) begin
-      clk2f <= ~clk2f; // if was LOW change to HIGH
-      end
-         //////////////////////////////
-  // For 1 Hz
-  always @(posedge clk2f) begin
-      clk <= ~clk; // if was LOW change to HIGH
-      end
+always @(posedge clk8f) begin
+    clk4f <= ~clk4f; // if was LOW change to HIGH
+    end
+       //////////////////////////////
+// For 2 Hz
+always @(posedge clk4f) begin
+    clk2f <= ~clk2f; // if was LOW change to HIGH
+    end
+       //////////////////////////////
+// For 1 Hz
+always @(posedge clk2f) begin
+    clk <= ~clk; // if was LOW change to HIGH
+    end
 
 
 endmodule
