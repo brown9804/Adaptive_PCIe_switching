@@ -1,6 +1,15 @@
-// Tester Dispositivo 2
-// Proyecto 2
-// Circuitos Digitales II
+// Belinda Brown Ramírez
+// June, 2020
+// timna.brown@ucr.ac.cr
+
+//        &
+
+// Brandon Esquivel Molina
+// brandon.esquivel@ucr.ac.cr
+
+
+`ifndef T_DISP2
+`define T_DISP2
 
 module disp2_tester (
 
@@ -18,391 +27,556 @@ input almost_full_f1,
 input almost_full_f2
 
 );
-    
-    // AUXILIARES
-    reg clk16f;
-    reg clk32f;
-    reg clk2f;
-    reg clk1f;
-    reg clk4f;
-    
-    initial begin
-		$dumpfile("disp2.vcd");																						// "dump" file
-	$dumpvars;
-	
-      repeat (6) begin
-		@(posedge clk);	
+
+reg clkbase, clk4f, clk2f;
+
+initial begin
+  $dumpfile("disp2.vcd");		// "dump" file
+  $dumpvars;
+
+  in1 = 0;
+  in2 = 0;
+  #4 reset = 0;
+  clk = 0;
+  clk8f = 0;
+  read = 0;
+  write = 0;
+
+
+repeat (6) begin
+		@(posedge clk);
 		reset = 0;
-		end		
+end
 
-		repeat (6) begin																							
-		@(posedge clk);																																								 	
-		reset = 1;
-		end
+repeat (6) begin
+  @(posedge clk);
+      reset <= 1;
+end
 
-        @(posedge clk);
+  // Tests
 
-        // pruebas 
+repeat(3) begin         // 01010101  -> Active = 0 because BC < 4
+  @(posedge clk);
+  in1  <=  ~in1;
+  in2  <=  ~in2;
+end
 
-        repeat(3) begin         // 01010101  -> NO HAY ACTIVE YA QUE BC < 4
-        @(posedge clk);
-        in1  <=  ~in1;
-        in2  <=  ~in2;
+
+repeat(5) begin         // BC = 10 1111 00
+  @(posedge clk); // write
+    in1  <=  1;
+    in2  <=  1;
+  @(posedge clk8f);
+    write <= 1;
+    read <= 0;
+
+  @(posedge clk); // read
+    in1  <=  0;
+    in2  <=  0;
+  @(posedge clk8f);
+    write <= 0;
+    read <= 1;
+
+  @(posedge clk); // write
+    in1  <=  1;
+    in2  <=  1;
+  @(posedge clk8f);
+    write <= 1;
+    read <= 0;
+
+  @(posedge clk); // write
+    in1  <=  1;
+    in2  <=  1;
+  @(posedge clk8f);
+    write <= 1;
+    read <= 0;
+
+  @(posedge clk); // read
+    in1  <=  1;
+    in2  <=  1;
+  @(posedge clk8f);
+    write <= 0;
+    read <= 1;
+
+  @(posedge clk); // read
+    in1  <=  1;
+    in2  <=  1;
+  @(posedge clk8f);
+    write <= 0;
+    read <= 1;
+
+  @(posedge clk); // write
+    in1  <=  0;
+    in2  <=  0;
+  @(posedge clk8f);
+    write <= 1;
+    read <= 0;
+
+  @(posedge clk); // read
+    in1  <=  0;
+    in2  <=  0;
+  @(posedge clk8f);
+    write <= 0;
+    read <= 1;
+
+end
+
+
+  // AT THIS POINT YOU HAVE 5 BC> ACTIVE = 1 AND YOU RECEIVE A VALID WORD
+
+ // ######     -> FF -> 11111111
+ repeat(2) begin
+ @(posedge clk); // write
+   in1  <=  1;
+   in2  <=  1;
+ @(posedge clk8f);
+   write <= 1;
+   read <= 0;
+
+ @(posedge clk); // read
+   in1  <=  1;
+   in2  <=  1;
+ @(posedge clk8f);
+   write <= 0;
+   read <= 1;
+
+ @(posedge clk); // write
+   in1  <=  1;
+   in2  <=  1;
+ @(posedge clk8f);
+   write <= 1;
+   read <= 0;
+
+ @(posedge clk); // write
+   in1  <=  1;
+   in2  <=  1;
+ @(posedge clk8f);
+   write <= 1;
+   read <= 0;
+
+ @(posedge clk); // read
+   in1  <=  1;
+   in2  <=  1;
+ @(posedge clk8f);
+   write <= 0;
+   read <= 1;
+
+ @(posedge clk); // read
+   in1  <=  1;
+   in2  <=  1;
+ @(posedge clk8f);
+   write <= 0;
+   read <= 1;
+
+ @(posedge clk); // write
+   in1  <=  1;
+   in2  <=  1;
+ @(posedge clk8f);
+   write <= 1;
+   read <= 0;
+
+ @(posedge clk); // read
+   in1  <=  1;
+   in2  <=  1;
+ @(posedge clk8f);
+   write <= 0;
+   read <= 1;
+end // FF -> 11111111
+
+// #########  --> DD 11011101
+repeat(2) begin
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+end // ->  DD 11011101
+
+// #### -> EE -> 11101110
+repeat(2) begin
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+end // FF ->  EE -> 11101110
+
+//#### CC ->  11001100
+repeat(2) begin
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+end // CC ->  11001100
+
+//###### 99 -> 10011001
+repeat(2) begin
+@(posedge clk); // write // 1
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read // 0
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write // 0
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // write // 1
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read // 1
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // read // 0
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+end // end 99 -> 10011001
+
+// ### --> AA -> 10101010
+repeat(2) begin
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // read
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+end // end AA
+
+
+//### 88 -> 10001000
+repeat(2) begin
+@(posedge clk); // write
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  1;
+  in2  <=  1;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // read
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+
+@(posedge clk); // write
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 1;
+  read <= 0;
+
+@(posedge clk); // read
+  in1  <=  0;
+  in2  <=  0;
+@(posedge clk8f);
+  write <= 0;
+  read <= 1;
+end // end 88
+
+  #40  $finish;
+  end // end initial
+
+
+// clock logic
+  initial	clkbase	 			<= 0;			// Initial value to avoid indeterminations
+  always	#10 clkbase				<= ~clkbase;		// toggle every 10ns
+
+  initial clk8f <= 0;
+  initial clk4f <= 0;
+  initial clk2f <= 0;
+  initial	clk	 	<= 0;			// Initial value to avoid indeterminations
+
+// Faster frequency
+    always @(posedge clkbase) begin
+		clk8f <= ~clk8f; // if was LOW change to HIGH
         end
 
 
-        repeat(5) begin         // BC = 10 1111 00        
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        end
-    // Para controlar fifo
-        @(posedge clk8f);
-        write <= 1;
-        read <= 0;
-        @(posedge clk8f);
-        write <= 0;
-        read <= 1;
-        @(posedge clk8f);
-        write <= 1;
-        read <= 0;
-        @(posedge clk8f);
-        write <= 0;
-        read <= 1;
-        @(posedge clk8f);
-        write <= 1;
-        read <= 0;
-        @(posedge clk8f);
-        write <= 0;
-        read <= 1;
-        @(posedge clk8f);
-        write <= 1;
-        read <= 0;
-        @(posedge clk8f);
-        write <= 0;
-        read <= 1;
-        @(posedge clk8f);
-        write <= 1;
-        read <= 0;
-        @(posedge clk8f);
-        write <= 0;
-        read <= 1;
-        @(posedge clk8f);
-        write <= 1;
-        read <= 0;
-        @(posedge clk8f);
-        write <= 0;
-        read <= 1;
-
-
-        
-        // EN ESTE PUNTO SE TIENEN 5 BC > ACTIVE = 1 Y SE RECIBE UNA PALABRA valida
-        
-             // Nueva palabra a enviar  -> FF -> 11111111
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-
-        // nueva palabra DD 11011101
-        
-         @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-
-
-
-         // Nueva palabra a enviar  -> EE -> 11101110
-      @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        
-        // nueva palabra CC ->  11001100
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-
-        // NUEVA PALABRA BB -> 10111011 
-
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-
-        // NUEVA PALABRA 99 -> 10011001
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-
-        // NUEVA PALABRA 10101010 -> AA 
-            
-@(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-
-        // Nueva palabra a enviar  -88 -> 10001000
-      @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-        in1  <=  1;
-        in2  <=  1;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-        @(posedge clk);
-       in1  <=  0;
-       in2  <=  0;
-        @(posedge clk);
-        in1  <=  0;
-        in2  <=  0;
-
-         repeat(8) begin         
-        @(posedge clk);
-         end
-       
-
-        $finish;
-    end
-
-
-	// Initial Values
-	initial in1			= 0;
-    initial in2			= 0;	
-	initial reset 		= 0;
-
-	// clock logic
-	initial	clk	 	    = 0;			// Initial value to avoid indeterminations
-	always	#5 clk	    = ~clk;		// toggle every 1ns
-
-	// clks 
-
-	initial clk32f <= 0;
-    initial clk16f <= 0;
-    initial clk8f <= 0;
-    initial clk4f <= 0;
-    initial clk2f <= 0;
-    initial clk1f <= 0;
-
-	
-
-	// checker
-//reg test;
-
-//always@(posedge clk) begin
-  //  if(outc != outs)
-  //  begin
-  //     test <= 0;
-  //   end // end display
-
-  //   else begin
-  //      test <= 1;
-  //    end //else
-//end // always checker
-
-
-
-    // Faster frequency
-    always @(posedge clk) begin
-		clk32f <= ~clk32f; // if was LOW change to HIGH
-        end 
-    //////////////////////////////
-    // For 16 Hz
-    always @(posedge clk32f) begin
-        clk16f <= ~clk16f; // if was LOW change to HIGH
-        end
-    //////////////////////////////
-    // For 8 Hz
-    always @(posedge clk16f) begin
-            clk8f <= ~clk8f; // if was LOW change to HIGH
-    end
-    //////////////////////////////
-    // For 4 Hz
+// For 4 Hz
     always @(posedge clk8f) begin
         clk4f <= ~clk4f; // if was LOW change to HIGH
         end
-    //////////////////////////////
-    // At 2 Hz
+           //////////////////////////////
+    // For 2 Hz
     always @(posedge clk4f) begin
         clk2f <= ~clk2f; // if was LOW change to HIGH
         end
-
-    //////////////////////////////
-    // At 1 HZ
+           //////////////////////////////
+    // For 1 Hz
     always @(posedge clk2f) begin
-    clk1f <= ~clk1f; // if was LOW change to HIGH
- 	end
+        clk <= ~clk; // if was LOW change to HIGH
+        end
 
-endmodule // t_mux42
+
+endmodule
+// Local Variables:
+// verilog-library-directories:("."):
+// verilog-auto-wire-type:\"logic\"
+// End:
+
+`endif
