@@ -16,7 +16,7 @@
 # correspond to those of the Yosys synthesizer internal library.
 
 #Read the Behavioral desing
-read_verilog ./scr/memory_4x8.v
+read_verilog ./src/memory_4x8.v
 read_verilog -lib ./lib/cmos_cells.v
 #read_verilog paraelltoserial.v
 #read_verilog -lib cmos_cells.v
