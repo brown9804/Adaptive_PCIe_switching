@@ -22,7 +22,7 @@ module memory_tester #( parameter MAIN_SIZE=4, parameter DATA_SIZE = 8)(
 
  initial begin
 
-    $dumpfile("memory_4x8.vcd");
+    $dumpfile("memory4x8.vcd");
 		// Defining the dumpfile NAME_OF_FILE_CHOICE_PERSONAL.vcd), or known by change dump variable, this file contains
 		// information about the simulator used, time scale, creation date, variable definitions, and value changes.
     $dumpvars;
