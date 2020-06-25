@@ -4,7 +4,7 @@
 `timescale 	1ns	/ 100ps		
 
 
-`include "./scr/memory_4x8.v"
+`include "./src/memory_4x8.v"
 `include "./syn/memory_4x8_syn.v"
 `include "./testers/t_memory_4x8.v"
 `include "./lib/cmos_cells.v"
