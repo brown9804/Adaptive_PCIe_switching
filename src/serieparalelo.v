@@ -38,7 +38,7 @@ module serieparalelo(
     //reg active;                     // indica comunicación activa entre los modulos
     reg valido;                      // valid del dato de salida
     
-    always @( posedge clk ) begin
+    always @( posedge clk8f ) begin
         if (~reset) begin
             register    <=  0;
         end else begin 
@@ -49,7 +49,7 @@ module serieparalelo(
 
 
     // POSEDGE CLKS
-    always @(posedge clk8f) begin
+    always @(posedge clk) begin
         if (~reset) begin
             BC_counter   <=  0;          // condicion de reset para contador de BC
             valido       <=  0;          // set del valido de salida       
