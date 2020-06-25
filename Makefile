@@ -108,6 +108,7 @@ _ROUTING= routing.v
 _DFC = df_control.v
 _SERIAL = paratoserial.v
 _PTOS = paralelltoserial.v
+_SERIEPARLALELO = serieparalelo.v
 _D1 = disp1.v
 _D2 = disp2.v
 _D3 = disp3.v
@@ -127,6 +128,7 @@ _SROUTING= routing_syn.v
 _SDFC= dfcontrol_syn.v
 _SSERIAL = paratoserial_syn.v
 _SPTOS = paralelltoserial_syn.v
+_SSERIEPARLALELO = serieparalelo_syn.v
 _SD1 = disp1_syn.v
 _SD2 = disp2_syn.v
 _SD3 = disp3_syn.v
@@ -146,6 +148,7 @@ _TB_ROUTING= tb_routing.v
 _TB_DFC= tb_dfcontrol.v
 _TB_SERIAL = tb_paratoserial.v
 _TB_PTOS = tb_ptos.v
+_TB__SERIEPARLALELO = tb_stop.v
 _TB_D1 = tb_disp1.v
 _TB_D2 = tb_disp2.v
 _TB_D3 = tb_disp3.v
@@ -167,6 +170,7 @@ _T_ROUTING= t_routing.v
 _T_DFC=	t_dfcontrol.v
 _T_SERIAL = t_paratoserial.v
 _T_PTOS = t_ptos.v
+_T__SERIEPARLALELO = t_stop.v
 _T_D1 = t_disp1.v
 _T_D2 = t_disp2.v
 _T_D3 = t_disp3.v
@@ -184,6 +188,7 @@ _VCD_ROUTING= routing.vcd
 _VCD_DFC= dfcontrol.vcd
 _VCD_SERIAL = paratoserial.vcd
 _VCD_PTOS = ptos.vcd
+_VCD__STOP = stop.vcd
 _VCD_D1 = disp1.vcd
 _VCD_D2 = disp2.vcd
 _VCD_D3 = disp3.vcd
@@ -204,6 +209,7 @@ _VVP_ROUTING= routing.vvp
 _VVP_DFC= dfcontrol.vvp
 _VVP_SERIAL	= paratoserial.vvp
 _VVP_PTOS = ptos.vvp
+_VVP__STOP = stop.vvp
 _VVP_D1 = disp1.vvp
 _VVP_D2 = disp2.vvp
 _VVP_D3 = disp3.vvp
@@ -222,6 +228,7 @@ _Y_ROUTING= routing_y.ys
 _Y_DFC= dfcontrol_y.ys
 _Y_SERIAL = paratoserial_y.ys
 _Y_PTOS = ptos_y.ys
+_Y__STOP = serieparalelo_y.ys
 _Y_D1 = disp1_y.ys
 _Y_D2 = disp2_y.ys
 _Y_D3 = disp3_y.ys
@@ -319,19 +326,24 @@ gtkwaveptos:
 #******************************************************************************
 
 yserno:
-	yosys $(YOSYS)$(_Y_PTOS)
+	yosys $(YOSYS)$(_Y__STOP)
 
 rserno:
-	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g' $(SYN)$(_SSERNO)
+	sed -i 's/serieparalelo/serieparalelo_syn/' $(SYN)$(_SSERIEPARLALELO)
 
 vserno:
-	iverilog -o $(OVVP)$(_VVP_SERNO) $(TESTBENCHES)$(_TB_SERNO)
-	vvp $(OVVP)$(_VVP_SERNO) > $(LOG_TXT)$(_VVP_SERNO)_log.txt
+	iverilog -o $(OVVP)$(_VVP__STOP) $(TESTBENCHES)$(_TB__SERIEPARLALELO)
+	vvp $(OVVP)$(_VVP__STOP) > $(LOG_TXT)$(_VVP__STOP)_log.txt
 
 #target phony
 .PHONY: gtkwaveserno
 gtkwaveserno:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_SERNO)
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD__STOP)
+
+
+
+
+
 
 
 
@@ -407,25 +419,6 @@ vmemory6x8:
 .PHONY: gtkwavememory6x8
 gtkwavememory6x8:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_MEMORY6x8)
-
-
-#******************************************************************************
-#### 		dfcontrol
-#******************************************************************************
-ydfcontrol:
-	yosys $(YOSYS)$(_Y_DFC)
-
-rdfcontrol:
-	sed -i 's/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SDFC)
-
-vdfcontrol:
-	iverilog -o $(OVVP)$(_VVP_DFC) $(TESTBENCHES)$(_TB_DFC)
-	vvp $(OVVP)$(_VVP_DFC) > $(LOG_TXT)$(_VVP_DFC)_log.txt
-
-#target phony
-.PHONY: gtkwavedfcontrol
-gtkwavedfcontrol:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DFC)
 
 
 
