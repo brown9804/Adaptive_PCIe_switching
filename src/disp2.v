@@ -42,7 +42,7 @@ serieparalelo stop1(
 );
 
 fifo_4x8 fifo1 (
-                  .clk (clk8f),
+                  .clk (clk),
                   .reset (reset),
                   .read (read),
                   .write (write),
@@ -78,7 +78,7 @@ serieparalelo stop2(
 );
 
 fifo_4x8 fifo2 (
-                  .clk (clk8f),
+                  .clk (clk),
                   .reset (reset),
                   .read (read),
                   .write (write),
@@ -92,7 +92,7 @@ fifo_4x8 fifo2 (
                   .fifo_pause (fifo_pause_f2)
 );
 
-always @(posedge clk8f) begin
+always @(posedge clk) begin
 out1 <= outa1;
 out2 <= outa2;
 almost_full_f1 <= almost_full_f11;
