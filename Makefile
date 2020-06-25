@@ -354,21 +354,21 @@ gtkwaveserno:
 
 
 #******************************************************************************
- #### 		dfcontrol
- #******************************************************************************
- ydfcontrol:
+#### 		dfcontrol
+#******************************************************************************
+ydfcontrol:
 	yosys $(YOSYS)$(_Y_DFC)
 
-	rdfcontrol:
+rdfcontrol:
 	sed -i 's/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SDFC)
 
-	vdfcontrol:
+vdfcontrol:
 	iverilog -o $(OVVP)$(_VVP_DFC) $(TESTBENCHES)$(_TB_DFC)
 	vvp $(OVVP)$(_VVP_DFC) > $(LOG_TXT)$(_VVP_DFC)_log.txt
 
-	#target phony
- .PHONY: gtkwavedfcontrol
- gtkwavedfcontrol:
+#target phony
+.PHONY: gtkwavedfcontrol
+gtkwavedfcontrol:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DFC)
 
 
