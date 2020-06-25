@@ -44,78 +44,78 @@ initial begin
 
 
 repeat (6) begin
-		@(posedge clk);
+	@(posedge clk8f);
 		reset = 0;
 end
 
 repeat (6) begin
-  @(posedge clk);
+	@(posedge clk8f);
       reset <= 1;
 end
 
   // Tests
 
 repeat(3) begin         // 01010101  -> Active = 0 because BC < 4
-  @(posedge clk);
+  @(posedge clk8f);
   in1  <=  ~in1;
   in2  <=  ~in2;
 end
 
 
 repeat(5) begin         // BC = 10 1111 00
-  @(posedge clk); // write
+  @(posedge clk8f); // write
     in1  <=  1;
     in2  <=  1;
-  @(posedge clk8f);
+  @(posedge clk);
     write <= 1;
     read <= 0;
 
-  @(posedge clk); // read
+  @(posedge clk8f); // read
     in1  <=  0;
     in2  <=  0;
-  @(posedge clk8f);
+  @(posedge clk);
     write <= 0;
     read <= 1;
 
-  @(posedge clk); // write
+  @(posedge clk8f); // write
     in1  <=  1;
     in2  <=  1;
-  @(posedge clk8f);
+  @(posedge clk);
     write <= 1;
     read <= 0;
 
-  @(posedge clk); // write
+  @(posedge clk8f); // write
     in1  <=  1;
     in2  <=  1;
-  @(posedge clk8f);
+  @(posedge clk);
     write <= 1;
     read <= 0;
 
-  @(posedge clk); // read
+  @(posedge clk8f); // read
     in1  <=  1;
     in2  <=  1;
-  @(posedge clk8f);
+  @(posedge clk);
     write <= 0;
     read <= 1;
 
-  @(posedge clk); // read
+  @(posedge clk8f); // read
     in1  <=  1;
     in2  <=  1;
-  @(posedge clk8f);
+  @(posedge clk);
     write <= 0;
     read <= 1;
 
-  @(posedge clk); // write
+  @(posedge clk8f); // write
     in1  <=  0;
     in2  <=  0;
-  @(posedge clk8f);
+  @(posedge clk);
     write <= 1;
     read <= 0;
 
-  @(posedge clk); // read
+  @(posedge clk8f); // read
     in1  <=  0;
     in2  <=  0;
-  @(posedge clk8f);
+  @(posedge clk);
     write <= 0;
     read <= 1;
 
@@ -126,354 +126,354 @@ end
 
  // ######     -> FF -> 11111111
  repeat(2) begin
- @(posedge clk); // write
+ @(posedge clk8f); // write
    in1  <=  1;
    in2  <=  1;
- @(posedge clk8f);
+ @(posedge clk);
    write <= 1;
    read <= 0;
 
- @(posedge clk); // read
+ @(posedge clk8f); // read
    in1  <=  1;
    in2  <=  1;
- @(posedge clk8f);
+ @(posedge clk);
    write <= 0;
    read <= 1;
 
- @(posedge clk); // write
+ @(posedge clk8f); // write
    in1  <=  1;
    in2  <=  1;
- @(posedge clk8f);
+ @(posedge clk);
    write <= 1;
    read <= 0;
 
- @(posedge clk); // write
+ @(posedge clk8f); // write
    in1  <=  1;
    in2  <=  1;
- @(posedge clk8f);
+ @(posedge clk);
    write <= 1;
    read <= 0;
 
- @(posedge clk); // read
+ @(posedge clk8f); // read
    in1  <=  1;
    in2  <=  1;
- @(posedge clk8f);
+ @(posedge clk);
    write <= 0;
    read <= 1;
 
- @(posedge clk); // read
+ @(posedge clk8f); // read
    in1  <=  1;
    in2  <=  1;
- @(posedge clk8f);
+ @(posedge clk);
    write <= 0;
    read <= 1;
 
- @(posedge clk); // write
+ @(posedge clk8f); // write
    in1  <=  1;
    in2  <=  1;
- @(posedge clk8f);
+ @(posedge clk);
    write <= 1;
    read <= 0;
 
- @(posedge clk); // read
+ @(posedge clk8f); // read
    in1  <=  1;
    in2  <=  1;
- @(posedge clk8f);
+ @(posedge clk);
    write <= 0;
    read <= 1;
 end // FF -> 11111111
 
 // #########  --> DD 11011101
 repeat(2) begin
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 end // ->  DD 11011101
 
 // #### -> EE -> 11101110
 repeat(2) begin
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 end // FF ->  EE -> 11101110
 
 //#### CC ->  11001100
 repeat(2) begin
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 end // CC ->  11001100
 
 //###### 99 -> 10011001
 repeat(2) begin
-@(posedge clk); // write // 1
+@(posedge clk8f); // write // 1
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read // 0
+@(posedge clk8f); // read // 0
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write // 0
+@(posedge clk8f); // write // 0
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // write // 1
+@(posedge clk8f); // write // 1
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read // 1
+@(posedge clk8f); // read // 1
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // read // 0
+@(posedge clk8f); // read // 0
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 end // end 99 -> 10011001
 
 // ### --> AA -> 10101010
 repeat(2) begin
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 end // end AA
@@ -481,66 +481,65 @@ end // end AA
 
 //### 88 -> 10001000
 repeat(2) begin
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  1;
   in2  <=  1;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 
-@(posedge clk); // write
+@(posedge clk8f); // write
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 1;
   read <= 0;
 
-@(posedge clk); // read
+@(posedge clk8f); // read
   in1  <=  0;
   in2  <=  0;
-@(posedge clk8f);
+@(posedge clk);
   write <= 0;
   read <= 1;
 end // end 88
 
   #40  $finish;
   end // end initial
-
 
 // clock logic
   initial	clkbase	 			<= 0;			// Initial value to avoid indeterminations
