@@ -9,7 +9,7 @@
 // scale time unit (value of one) / precision
 `timescale 	1ns	/ 1ps
 
-
+`include "./lib/cmos_cells.v"
 `include "./src/disp2.v"
 `include "./syn/disp2_syn.v"
 `include "./testers/t_disp2.v"
@@ -80,10 +80,10 @@ device2  device2_TB (/*AUTOINST*/
 
 device2_syn device2_syn_TB (/*AUTOINST*/
 	// Outputs
-	.out0  (out0_BTB),
-	.out1  (out1_BTB),
-	.almost_full_f0 (almost_full_f0_BTB),
-	.almost_full_f1 (almost_full_f1_BTB),
+	.out0  (out0_STB),
+	.out1  (out1_STB),
+	.almost_full_f0 (almost_full_f0_STB),
+	.almost_full_f1 (almost_full_f1_STB),
 	.empty0 (empty0_STB),
 	.empty1 (empty1_STB),
 	// Inputs
