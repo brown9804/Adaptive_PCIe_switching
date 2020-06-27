@@ -12,7 +12,7 @@ module t_device2 (
 output reg in0,
 output reg in1,
 output reg reset,
-output reg clk8f,
+output reg clk,
 output reg clk8f,
 output reg read,
 output reg write,
