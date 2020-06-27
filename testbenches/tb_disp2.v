@@ -33,9 +33,11 @@ module TestBench;
 // Outputs
 wire [7:0] out0_BTB, out1_BTB;
 wire almost_full_f0_BTB, almost_full_f1_BTB;
+wire empty0_BTB, empty1_BTB;
 // Syn
 wire [7:0] out0_STB, out1_STB;
 wire almost_full_f0_STB, almost_full_f1_STB;
+wire empty0_STB, empty1_STB;
 // Inputs
 wire reset;
 wire clk, clk8f, read_TB, write_TB;
@@ -53,6 +55,8 @@ device2  device2_TB (/*AUTOINST*/
   .out1  (out1_BTB),
   .almost_full_f0 (almost_full_f0_BTB),
   .almost_full_f1 (almost_full_f1_BTB),
+  .empty0 (empty0_BTB),
+  .empty1 (empty1_BTB),
   // Inputs
   .clk   (clk),
   .clk8f (clk8f),
@@ -75,6 +79,8 @@ device2_syn  device2_syn_TB (/*AUTOINST*/
   .out1  (out1_BTB),
   .almost_full_f0 (almost_full_f0_BTB),
   .almost_full_f1 (almost_full_f1_BTB),
+  .empty0 (empty0_STB),
+  .empty1 (empty1_STB),
   // Inputs
   .clk   (clk),
   .clk8f (clk8f),
@@ -97,11 +103,15 @@ t_device2 t_device2_TB (/*AUTOINST*/
     .out1  (out1_BTB),
     .almost_full_f0 (almost_full_f0_BTB),
     .almost_full_f1 (almost_full_f1_BTB),
+    .empty0 (empty0_BTB),
+    .empty1 (empty1_BTB),
 
     .out0_s  (out0_STB),
     .out1_s  (out1_STB),
     .almost_full_f0_s (almost_full_f0_STB),
-    .almost_full_f1_s (almost_full_f1_STB),  
+    .almost_full_f1_s (almost_full_f1_STB),
+    .empty0_s (empty0_STB),
+    .empty1_s (empty1_STB),
     // Inputs
     .clk   (clk),
     .clk8f (clk8f),
