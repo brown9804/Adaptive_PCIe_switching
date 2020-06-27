@@ -17,16 +17,19 @@ output reg clk8f,
 output reg read,
 output reg write,
 // Behavioral
-input [7:0] out0,
-input [7:0] out1,
-input almost_full_f0,
-input almost_full_f1,
+input wire [7:0] out0,
+input wire [7:0] out1,
+input wire almost_full_f0,
+input wire almost_full_f1,
+input wire empty0, // output from fifo 0
+input wire empty1 // output from fifo 1
 // Syn
 input [7:0] out0_s,
 input [7:0] out1_s,
 input almost_full_f0_s,
-input almost_full_f1_s
-
+input almost_full_f1_s,
+input wire empty0_s, // output from fifo 0
+input wire empty1_s // output from fifo 1
 );
 
 reg clkbase, clk4f, clk2f;
