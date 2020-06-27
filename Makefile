@@ -581,7 +581,7 @@ ydisp2:
 	yosys $(YOSYS)$(_Y_D2)
 
 rdisp2:
-	sed -i 's/device1/device1_syn/g; s/fifo_4x8/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD2)
+	sed -i 's/device2/device2_syn/g; s/fifo_4x8/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD2)
 vdisp2:
 	iverilog -o $(OVVP)$(_VVP_D2) $(TESTBENCHES)$(_TB_D2)
 	vvp $(OVVP)$(_VVP_D2) > $(LOG_TXT)$(_VVP_D2)_log.txt
