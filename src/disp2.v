@@ -33,7 +33,8 @@ output reg empty1 // output from fifo  1
 wire nn_valid0, nn_valid1;
 wire nn_active0, nn_active1;
 
-wire [7:0] out_sp0, out_sp1;
+wire [7:0] out_sp0;
+wire [7:0] out_sp1;
 // About fifos
 wire n_almost_full0,n_almost_full1;
 wire nn_almost_empty0, nn_almost_empty1;
@@ -42,7 +43,8 @@ wire nn_Fifo_full0, nn_Fifo_full1;
 wire nn_fifo_error0,nn_fifo_error1;
 wire nn_fifo_pause0, nn_fifo_pause1;
 
-wire [7:0] n_outF0, n_outF1;
+wire [7:0] n_outF0;
+wire [7:0] n_outF1;
 
 
 
@@ -80,7 +82,6 @@ fifo_4x8 fifo_4x8_0(/*AUTOINST*/
     .fifo_empty (n_fifo_empty0),
     .Fifo_full (nn_Fifo_full0),
     .fifo_error (nn_fifo_error0),
-    .fifo_pause (nn_fifo_pause0),
     .data_out_pop (n_outF0), // 8 bits
     // Inputs
     .clk (clk8f),
@@ -97,7 +98,6 @@ fifo_4x8 fifo_4x8_1(/*AUTOINST*/
     .fifo_empty (n_fifo_empty1),
     .Fifo_full (nn_Fifo_full1),
     .fifo_error (nn_fifo_error1),
-    .fifo_pause (nn_fifo_pause1),
     .data_out_pop (n_outF1), // 8 bits
     // Inputs
     .clk (clk8f),
