@@ -76,7 +76,7 @@ repeat(5) begin         // BC = 10 1111 00
     in1  <=  1;
     write0 <= 1;
     read0 <= 0;
-    write1 <= 1;
+    write1 <= 0;
     read1 <= 0;
 
   @(posedge clk8f); // write on FIFO 0
@@ -226,7 +226,6 @@ end
 @(posedge clk8f); // read on FIFO 0 and write on fifo 1
   in0  <=  0;
   in1  <=  0;
-
   write0 <= 0;
   read0 <= 1;
   write1 <= 1;
