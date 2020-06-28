@@ -5,7 +5,6 @@
 `ifndef TB_DISP2
 `define TB_DISP2
 
-
 // scale time unit (value of one) / precision
 `timescale 	1ns	/ 1ps
 
