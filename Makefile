@@ -212,7 +212,7 @@ _CONFIG_CLASS	= class.gtkw
 _CONFIG_ROUTE	= routering.gtkw
 _CONFIG_PTOS 	= ptos.gtkw
 _CONFIG_SERIAL	= paratoserial.gtkw
-_CONFIG_D1 		= disp1.gtkw
+_CONFIG_D1  = disp1.gtkw
 
 
 #******************************************************************************
@@ -397,26 +397,6 @@ vroute:
 .PHONY: gtkwaveroute
 gtkwaveroute:
 	gtkwave $(_VCD_ROUTING) $(GTKWCONFIG)$(_CONFIG_ROUTE)
-
-#******************************************************************************
-#### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
-#******************************************************************************
-allptos: clean yptos rptos vptos gtkwaveptos
-yptos:
-	yosys $(YOSYS)$(_Y_PTOS)
-
-rptos:
-	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SPTOS)
-
-vptos:
-	iverilog -o $(OVVP)$(_VVP_PTOS) $(TESTBENCHES)$(_TB_PTOS)
-	vvp $(OVVP)$(_VVP_PTOS) > $(LOG_TXT)$(_VVP_PTOS)_log.txt
-
-#target phony
-.PHONY: gtkwaveptos
-gtkwaveptos:
-	gtkwave $(_VCD_PTOS) $(GTKWCONFIG)$(_CONFIG_PTOS)
-
 
 #******************************************************************************
 #### 			SERIALIZATION LAYER
