@@ -8,24 +8,27 @@
 
 // only necessary signals
 module t_device3 #(
-    //Parameters
-    parameter DATA_SIZE = 10,
-    parameter MAIN_SIZE = 8
+		//Parameters
+		parameter DATA_SIZE = 10,
+		parameter MAIN_SIZE = 8
 ) (
-  // Outputs
-  output reg reset,
-  output reg clk,
-  output reg clk8f,
-  output reg [DATA_SIZE-1:0] in,
+	// Outputs
+	output reg reset,
+	output reg clk,
+	output reg clk8f,
+	output reg [DATA_SIZE-1:0] in,
+	output reg read0,
+	output reg read1,
+	output reg write0,
+	output reg write1,
+	// Inputs
+	input wire [MAIN_SIZE-1:0] out0,
+	input wire [MAIN_SIZE-1:0] out1,
+	//Syn
+	input wire [MAIN_SIZE-1:0] out0_s,
+	input wire [MAIN_SIZE-1:0] out1_s,
 
-  // Inputs
-  input wire out0,
-  input wire out1,
-  //Syn
-  input wire out0_s,
-  input wire out1_s,
-
-  input wire Error0_BTB, Error1_BTB,Error0_STB,Error1_STB
+	input wire Error0_BTB, Error1_BTB,Error0_STB,Error1_STB
 
 );
 
@@ -34,67 +37,115 @@ reg clkbase, clk4f, clk2f;
 
 initial begin
 
-  $dumpfile("disp3.vcd");
-  $dumpvars;
+	$dumpfile("disp3.vcd");
+	$dumpvars;
 
 
 
 in = 10'h0;
 #4 reset = 0;
-reset <= 0;
+write0= 0;
+read0 = 0;
+write1 = 0;
+read1=0;
+
+repeat (6) begin
+	@(posedge clk);
+		reset = 0;
+end
 
 @(posedge clk);
-#4 reset <= 1;
+#40 reset = 1;
 
-repeat (2) begin
-@(posedge clk) begin
-repeat(5) begin
-  in <= 10'h0BC;
-end // end five BC's
+repeat(3) begin         // 01010101  -> Active = 0 because BC < 4
+	@(posedge clk);
+	in  <=  ~in;
+	end
+
+repeat (7) begin
+	@(posedge clk);
+end
 
 repeat(5) begin
-  in <= 10'h07C;
+@(posedge clk);
+	in <= 10'h0BC;
+end// end five BC's
+
+repeat(5) begin
+	@(posedge clk);
+	in <= 10'h07C;
 end // end five 7C's
 
 
-@(posedge clk) begin
-  in <= 10'h0FF;
-end
+@(posedge clk); // write --> fifo 0
+	in <= 10'h0FF;
+	write0 <= 1;
+	read0 <= 0;
+	write1 <= 0;
+	read1 <= 0;
+	@(posedge clk); // write --> fifo 1
+	write0 <= 0;
+	read0 <= 0;
+	write1 <= 1;
+	read1 <= 0;
 
-@(posedge clk) begin
-    in <= 10'h3DD;
-	  end
+@(posedge clk); // read fifo 0
+		write0 <= 0;
+		read0 <= 1;
+		write1 <= 0;
+		read1 <= 0;
+		@(posedge clk); // read fifo 1
+		write0 <= 0;
+		read0 <= 0;
+		write1 <= 0;
+		read1 <= 1;
 
-@(posedge clk) begin
-  in <= 10'h0EE;
-end
+@(posedge clk); // write on fifo 0
+	in <= 10'h0EE;
+	write0 <= 1;
+	read0 <= 0;
+	write1 <= 0;
+	read1 <= 0;
+	@(posedge clk); //  write on fifo 1
+	write0 <= 0;
+	read0 <= 0;
+	write1 <= 1;
+	read1 <= 0;
 
-@(posedge clk) begin
-	in <= 10'h3CC;
-end
+@(posedge clk); // read fifo 0
+		write0 <= 0;
+		read0 <= 1;
+		write1 <= 0;
+		read1 <= 0;
+		@(posedge clk); // read fifo 1
+		write0 <= 0;
+		read0 <= 0;
+		write1 <= 0;
+		read1 <= 1;
 
-@(posedge clk) begin
+@(posedge clk); //  write on fifo 0
 	in <= 10'h0BB;
-end
+	write0 <= 1;
+	read0 <= 0;
+	write1 <= 0;
+	read1 <= 0;
+	@(posedge clk); //  write on fifo 1
+	write0 <= 0;
+	read0 <= 0;
+	write1 <= 1;
+	read1 <= 0;
 
-@(posedge clk) begin
-	in <= 10'h399;
-end
+@(posedge clk); // read fifo 0
+		write0 <= 0;
+		read0 <= 1;
+		write1 <= 0;
+		read1 <= 0;
+		@(posedge clk); // read fifo 1
+		write0 <= 0;
+		read0 <= 0;
+		write1 <= 0;
+		read1 <= 1;
 
-@(posedge clk) begin
-	in <= 10'h0AA;
-end
-
-@(posedge clk) begin
-	in <= 10'h388;
-end
-
-@(posedge clk) begin
-	in <= 10'h377;
-end
-
-end // end clk
-end // end repeat
 #40 $finish;
 end // end initial
 
@@ -110,23 +161,23 @@ initial	clk	 	<= 0;			// Initial value to avoid indeterminations
 // Faster frequency
 always @(posedge clkbase) begin
 	clk8f <= ~clk8f; // if was LOW change to HIGH
-  end
+	end
 
 
 // For 4 Hz
 always @(posedge clk8f) begin
-    clk4f <= ~clk4f; // if was LOW change to HIGH
-    end
-       //////////////////////////////
+		clk4f <= ~clk4f; // if was LOW change to HIGH
+		end
+			 //////////////////////////////
 // For 2 Hz
 always @(posedge clk4f) begin
-    clk2f <= ~clk2f; // if was LOW change to HIGH
-    end
-       //////////////////////////////
+		clk2f <= ~clk2f; // if was LOW change to HIGH
+		end
+			 //////////////////////////////
 // For 1 Hz
 always @(posedge clk2f) begin
-    clk <= ~clk; // if was LOW change to HIGH
-    end
+		clk <= ~clk; // if was LOW change to HIGH
+		end
 
 
 endmodule

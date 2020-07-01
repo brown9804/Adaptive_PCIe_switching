@@ -212,7 +212,7 @@ _CONFIG_CLASS	= class.gtkw
 _CONFIG_ROUTE	= routering.gtkw
 _CONFIG_PTOS 	= ptos.gtkw
 _CONFIG_SERIAL	= paratoserial.gtkw
-_CONFIG_D1 		= disp1.gtkw
+_CONFIG_D1  = disp1.gtkw
 
 
 #******************************************************************************
@@ -399,26 +399,6 @@ gtkwaveroute:
 	gtkwave $(_VCD_ROUTING) $(GTKWCONFIG)$(_CONFIG_ROUTE)
 
 #******************************************************************************
-#### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
-#******************************************************************************
-allptos: clean yptos rptos vptos gtkwaveptos
-yptos:
-	yosys $(YOSYS)$(_Y_PTOS)
-
-rptos:
-	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SPTOS)
-
-vptos:
-	iverilog -o $(OVVP)$(_VVP_PTOS) $(TESTBENCHES)$(_TB_PTOS)
-	vvp $(OVVP)$(_VVP_PTOS) > $(LOG_TXT)$(_VVP_PTOS)_log.txt
-
-#target phony
-.PHONY: gtkwaveptos
-gtkwaveptos:
-	gtkwave $(_VCD_PTOS) $(GTKWCONFIG)$(_CONFIG_PTOS)
-
-
-#******************************************************************************
 #### 			SERIALIZATION LAYER
 #******************************************************************************
 allserial: clean yserial rserial vserial gtkwaveserial 
@@ -472,7 +452,7 @@ ydisp2:
 	yosys $(YOSYS)$(_Y_D2)
 
 rdisp2:
-	sed -i 's/device2/device2_syn/g; s/fifo_4x8/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD2)
+	sed -i 's/device2/device2_syn/g; s/fifo_param/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD2)
 vdisp2:
 	iverilog -o $(OVVP)$(_VVP_D2) $(TESTBENCHES)$(_TB_D2)
 	vvp $(OVVP)$(_VVP_D2) > $(LOG_TXT)$(_VVP_D2)_log.txt
@@ -489,11 +469,10 @@ ydisp3:
 	yosys $(YOSYS)$(_Y_D3)
 
 rdisp3:
-	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo_8x10/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SD3)
-	sed -i 's/router/router_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SD3)
+	sed -i 's/classswitching/classswitching_syn/g; s/fifo_param/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SD3)
+	sed -i 's/router/router_syn/g; s/fifo_param/fifo_6x8_syn/g; s/demux12/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory/memory_6x8_syn/g' $(SYN)$(_SD3)
 	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SD3)
-	sed -i 's/fifo_4x8/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD3)
-	sed -i 's/device1/device1_syn/g; s/device2/device2_syn/g;  s/device3/device3_syn/g' $(SYN)$(_SD3)
+	sed -i 's/device1/device1_syn/g; s/device2/device2_syn/g; s/serieparalelo/serieparalelo_syn/g; s/device3/device3_syn/g' $(SYN)$(_SD3)
 vdisp3:
 	iverilog -o $(OVVP)$(_VVP_D3) $(TESTBENCHES)$(_TB_D3)
 	vvp $(OVVP)$(_VVP_D3) > $(LOG_TXT)$(_VVP_D3)_log.txt
@@ -502,8 +481,6 @@ vdisp3:
 .PHONY: gtkwavedisp3
 gtkwavedisp3:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_D3)
-
-
 
 #******************************************************************************
 ############ CLEAN FOR ALL
