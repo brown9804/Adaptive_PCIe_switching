@@ -265,27 +265,7 @@ vdemux12:
 .PHONY: gtkwavedemux12
 gtkwavedemux12:
 	gtkwave $(_VCD_DEMUX12) $(GTKWCONFIG)$(_CONFIG_DEMUX12)
-
-#******************************************************************************
-#### 			DEMUX 		1:2 	8 bits
-#******************************************************************************
-
-ydemux12_8:
-	yosys $(YOSYS)$(_Y_DEMUX12_8)
-
-rdemux12_8:
-	sed -i 's/demux12_8/demux12_8_syn/g' $(SYN)$(_SDEMUX12_8)
-
-vdemux12_8:
-	iverilog -o $(OVVP)$(_VVP_DEMUX12_8) $(TESTBENCHES)$(_TB_DEMUX12_8)
-	vvp $(OVVP)$(_VVP_DEMUX12_8) > $(LOG_TXT)$(_VVP_DEMUX12_8)_log.txt
-
-#target phony
-.PHONY: gtkwavedemux12_8
-gtkwavedemux12_8:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12_8)
-
-
+	
 #******************************************************************************
 #### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
 #******************************************************************************
@@ -326,25 +306,6 @@ gtkwaveserno:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD__STOP)
 
 
-#******************************************************************************
-#### 		dfcontrol
-#******************************************************************************
-ydfcontrol:
-	yosys $(YOSYS)$(_Y_DFC)
-
-rdfcontrol:
-	sed -i 's/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SDFC)
-
-vdfcontrol:
-	iverilog -o $(OVVP)$(_VVP_DFC) $(TESTBENCHES)$(_TB_DFC)
-	vvp $(OVVP)$(_VVP_DFC) > $(LOG_TXT)$(_VVP_DFC)_log.txt
-
-#target phony
-.PHONY: gtkwavedfcontrol
-gtkwavedfcontrol:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DFC)
-
-
 ####################################
 #### 					First in First Out
 ####################################
@@ -369,49 +330,12 @@ vfifo:
 gtkwavefifo:
 	gtkwave $(_VCD_FIFO) $(GTKWCONFIG)$(_CONFIG_FIFO)
 
-#******************************************************************************
-#### 		FIFO 		6x8
-#******************************************************************************
-yfifo6x8:
-	yosys $(YOSYS)$(_Y_FIFO6x8)
-
-rfifo6x8:
-	sed -i 's/fifo_6x8/fifo_6x8_syn/g; s/memory_6x8/memory_6x8_syn/g' $(SYN)$(_SFIFO6x8)
-
-vfifo6x8:
-	iverilog -o $(OVVP)$(_VVP_FIFO6x8) $(TESTBENCHES)$(_TB_FIFO6x8)
-	vvp $(OVVP)$(_VVP_FIFO6x8) > $(LOG_TXT)$(_VVP_FIFO6x8)_log.txt
-
-#target phony
-.PHONY: gtkwavefifo6x8
-gtkwavefifo6x8:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_FIFO6x8)
-
-
-#******************************************************************************
-#### 		FIFO 		4x8
-#******************************************************************************
-yfifo4x8:
-	yosys $(YOSYS)$(_Y_FIFO4x8)
-
-rfifo4x8:
-	sed -i 's/fifo_4x8/fifo_4x8_syn/g; s/memory_4x8/memory_4x8_syn/g' $(SYN)$(_SFIFO4x8)
-
-vfifo4x8:
-	iverilog -o $(OVVP)$(_VVP_FIFO4x8) $(TESTBENCHES)$(_TB_FIFO4x8)
-	vvp $(OVVP)$(_VVP_FIFO4x8) > $(LOG_TXT)$(_VVP_FIFO4x8)_log.txt
-
-#target phony
-.PHONY: gtkwavefifo4x8
-gtkwavefifo4x8:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_FIFO4x8)
-
 
 ####################################
 ####				Memories
 ####################################
 #******************************************************************************
-#### 				MEMORY 8x10
+#### 				MEMORY
 #******************************************************************************
 ymemory:
 	yosys $(YOSYS)$(_Y_MEMORY)
@@ -427,43 +351,6 @@ vmemory:
 .PHONY: gtkwavememory
 gtkwavememory:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_MEMORY)
-
-#******************************************************************************
-#### 		MEMORY 6x8
-#******************************************************************************
-ymemory6x8:
-	yosys $(YOSYS)$(_Y_MEMORY6x8)
-
-rmemory6x8:
-	sed -i 's/memory6x8/memory6x8_syn/g' $(SYN)$(_SMEMORY6x8)
-
-vmemory6x8:
-	iverilog -o $(OVVP)$(_VVP_MEMORY6x8) $(TESTBENCHES)$(_TB_MEMORY6x8)
-	vvp $(OVVP)$(_VVP_MEMORY6x8) > $(LOG_TXT)$(_VVP_MEMORY6x8)_log.txt
-
-#target phony
-.PHONY: gtkwavememory6x8
-gtkwavememory6x8:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_MEMORY6x8)
-
-
-#******************************************************************************
-#### 		MEMORY 4x8
-#******************************************************************************
-ymemory4x8:
-	yosys $(YOSYS)$(_Y_MEMORY4x8)
-
-rmemory4x8:
-	sed -i 's/memory_4x8/memory_4x8_syn/g' $(SYN)$(_SMEMORY4x8)
-
-vmemory4x8:
-	iverilog -o $(OVVP)$(_VVP_MEMORY4x8) $(TESTBENCHES)$(_TB_MEMORY4x8)
-	vvp $(OVVP)$(_VVP_MEMORY4x8) > $(LOG_TXT)$(_VVP_MEMORY4x8)_log.txt
-
-#target phony
-.PHONY: gtkwavememory4x8
-gtkwavememory4x8:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_MEMORY4x8)
 
 
 ####################################
