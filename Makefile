@@ -18,32 +18,24 @@
 #******************************************************************************
 # 1. For mux 2:1 ---------- mux21
 # 2. For demux 1:2  10 bits ---------- demux12
-# 3. For demux 1:2 8 bits ---------- demux12_8
-# 4. Parallel- Serial ---------- ptos
-# 5. Serial-Parallel ---------- serno
-
-# 6. Data Flow Control ---------- dfcontrol
+# 3. Parallel- Serial ---------- ptos
+# 4. Serial-Parallel ---------- serno
 
 #### 		First in First Out
-# 7. For fifo 8x10 ---------- fifo
-# 8. For fifo 6x8 ---------- fifo6x8
-# 9. For fifo 4x8 ---------- fifo4x8
+# 5. For fifo  ---------- fifo
 
-####				Memories
-# 10. For memory 8x10 ---------- memory
-# 11. For memory 6x8 ---------- memory6x8
-# 12. For memory 4x8 ---------- memory4x8
+####				Memory
+# 6. For memory ---------- memory
 
 #### 				Layers
-# 13. For trafic class clasification ---------- class
-# 14. Routing port ---------- route
-# 15. Serialization  layer---------- serial
+# 7. For trafic class clasification ---------- class
+# 8. Routing port ---------- route
+# 9. Serialization  layer---------- serial
 
 ####				Devices
-# 16. Device 1 ---------- disp1
-# 17. Device 2 ---------- disp2
-# 18. Device 3 ---------- disp3
->>>>>>> bb383c9378a58765f93ccb9f41fddfd8d7993278
+# 10. Device 1 ---------- disp1
+# 11. Device 2 ---------- disp2
+# 12. Device 3 ---------- disp3
 
 
 all:
@@ -99,16 +91,10 @@ LOG_TXT = ./log_txt/
 SRC = ./src/
 _MUX21 = mux2x1.v
 _DEMUX12 = demux1x2.v
-_DEMUX12_8 = demux1x2_8_behav.v
 _FIFO = fifo.v
-_FIFO6x8 = fifo_6x8.v
-_FIFO4x8 = fifo_4x8.v
 _MEMORY = memory.v
-_MEMORY6x8 = memory_6x8.v
-_MEMORY4x8 = memory_4x8.v
 _CLASS = class.v
 _ROUTING= routing.v
-_DFC = df_control.v
 _SERIAL = paratoserial.v
 _PTOS = paralelltoserial.v
 _SERIEPARLALELO = serieparalelo.v
@@ -121,13 +107,8 @@ _D3 = disp3.v
 SYN = ./syn/
 _SMUX21 = mux2x1_syn.v
 _SDEMUX12 = demux1x2_syn.v
-_SDEMUX12_8 = demux1x2_8_behav_syn.v
 _SFIFO = fifo_syn.v
-_SFIFO6x8 = fifo_6x8_syn.v
-_SFIFO4x8 = fifo_4x8_syn.v
 _SMEMORY = memory_syn.v
-_SMEMORY6x8 = memory_6x8_syn.v
-_SMEMORY4x8 = memory_4x8_syn.v
 _SCLASS = class_syn.v
 _SROUTING= routing_syn.v
 _SDFC= dfcontrol_syn.v
@@ -143,13 +124,8 @@ _SD3 = disp3_syn.v
 TESTBENCHES = ./testbenches/
 _TB_MUX21 =  tb_mux21.v
 _TB_DEMUX12 = tb_demux12.v
-_TB_DEMUX12_8 = tb_demux12_8.v
 _TB_FIFO = tb_fifo.v
-_TB_FIFO6x8 = tb_fifo_6x8.v
-_TB_FIFO4x8 = tb_fifo_4x8.v
 _TB_MEMORY = tb_memory.v
-_TB_MEMORY6x8 = tb_memory_6x8.v
-_TB_MEMORY4x8 = tb_memory_4x8.v
 _TB_CLASS = tb_class.v
 _TB_ROUTING= tb_routing.v
 _TB_DFC= tb_dfcontrol.v
@@ -167,13 +143,8 @@ _TB_D3 = tb_disp3.v
 TESTERS = ./testers/
 _T_MUX21 = t_mux21.v
 _T_DEMUX12 = t_demux12.v
-_T_DEMUX12_8 = t_demux12_8.v
 _T_FIFO = t_fifo.v
-_T_FIFO6x8 = t_fifo_6x8.v
-_T_FIFO4x8 = t_fifo_4x8.v
 _T_MEMORY = t_memory.v
-_T_MEMORY6x8 = t_memory_6x8.v
-_T_MEMORY4x8 = t_memory_4x8.v
 _T_CLASS = t_class.v
 _T_ROUTING= t_routing.v
 _T_DFC=	t_dfcontrol.v
@@ -187,13 +158,8 @@ _T_D3 = t_disp3.v
 
 _VCD_MUX21 = mux21.vcd
 _VCD_DEMUX12 = demux12.vcd
-_VCD_DEMUX12_8 = demux12_8.vcd
 _VCD_FIFO = fifo.vcd
-_VCD_FIFO6x8 = fifo6x8.vcd
-_VCD_FIFO4x8 = fifo4x8.vcd
 _VCD_MEMORY = memory.vcd
-_VCD_MEMORY6x8 = memory6x8.vcd
-_VCD_MEMORY4x8 = memory4x8.vcd
 _VCD_CLASS = class.vcd
 _VCD_ROUTING= routing.vcd
 _VCD_DFC= dfcontrol.vcd
@@ -210,13 +176,8 @@ _VCD_D3 = disp3.vcd
 OVVP = ./vvp/
 _VVP_MUX21 = mux21.vvp
 _VVP_DEMUX12 = demux12.vvp
-_VVP_DEMUX12_8 = demux12_8.vvp
 _VVP_FIFO = fifo.vvp
-_VVP_FIFO6x8 = fifo6x8.vvp
-_VVP_FIFO4x8 = fifo4x8.vvp
 _VVP_MEMORY = memory.vvp
-_VVP_MEMORY6x8 = memory6x8.vvp
-_VVP_MEMORY4x8 = memory4x8.vvp
 _VVP_CLASS = class.vvp
 _VVP_ROUTING= routing.vvp
 _VVP_DFC= dfcontrol.vvp
@@ -231,13 +192,8 @@ _VVP_D3 = disp3.vvp
 YOSYS = ./yosys/
 _Y_MUX21 = mux21_y.ys
 _Y_DEMUX12 = demux12_y.ys
-_Y_DEMUX12_8 = demux12_8_y.ys
 _Y_FIFO = fifo_y.ys
-_Y_FIFO6x8 = fifo_6x8_y.ys
-_Y_FIFO4x8 = fifo_4x8_y.ys
 _Y_MEMORY = memory_y.ys
-_Y_MEMORY6x8 = memory_6x8_y.ys
-_Y_MEMORY4x8 = memory_4x8_y.ys
 _Y_CLASS = class_y.ys
 _Y_ROUTING= routing_y.ys
 _Y_DFC= dfcontrol_y.ys
