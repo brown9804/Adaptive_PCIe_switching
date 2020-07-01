@@ -25,30 +25,14 @@ input wire clk,
 input wire clk8f,
 input wire reset,
 input wire [DATA_SIZE-1:0] in,
-input wire read0, // need to connect with df control and fifo0
-input wire read1, // need to connect with df control and fifo1
-input wire write0, // need to connect with write and fifo0
-input wire write1, // need to connect with write and fifo1
-//Outputs
+input wire valid,
+
+
 output reg [MAIN_SIZE-1:0] out0, // out from fifo4x8 #0
 output reg [MAIN_SIZE-1:0] out1,  // out from fifo4x8 #1
 output reg Error0, // Error fifo4x8 #0
 output reg Error1 // Error fifo4x8 #1
 
-//control for fifos Internal - now in beta version
-/*
-output reg almost_full0,
-output reg almost_empty0,
-output reg fifo0_empty,
-output reg fifo0_error,
-output reg fifo0_pause,
-output reg fifo_full0,
-output reg fifo_full1,
-output reg almost_full1,
-output reg almost_empty1,
-output reg fifo1_empty,
-output reg fifo1_error,
-output reg fifo1_pause,*/
 
 
 );
@@ -56,10 +40,11 @@ output reg fifo1_pause,*/
 wire outF0, outF1;
 wire Error_F0, Error_F1;
 wire [MAIN_SIZE-1:0] out0_disp3, out1_disp3;
-wire nn_alf0, nn_alf1; // almost full 1 and 2
-wire nn_empty0, nn_empty1; // empty 1 and 2
-// wire nn_read0, nn_write0; // for write and write
-// wire nn_read1, nn_write1; // for write and write
+
+
+
+
+
 
 device1  #( .DATA_SIZE(DATA_SIZE), .MAIN_SIZE(MAIN_SIZE) )
  device1_in3(/*AUTOINST*/
@@ -73,8 +58,9 @@ device1  #( .DATA_SIZE(DATA_SIZE), .MAIN_SIZE(MAIN_SIZE) )
   .clk8f (clk8f),
   .reset(reset),
   .in (in),
-  .fifo0_disp2_almostfull (nn_alf0),
-  .fifo1_disp2_almostfull (nn_alf1)
+  .valid  (valid),
+  .fifo0_disp2_almostfull (almost_full0_disp2),
+  .fifo1_disp2_almostfull (almost_full1_disp2)
 );
 
 
@@ -83,22 +69,19 @@ device1  #( .DATA_SIZE(DATA_SIZE), .MAIN_SIZE(MAIN_SIZE) )
 device2  #( .DATA_SIZE(DATA_SIZE-2), .MAIN_SIZE(MAIN_SIZE-4) )
 device2_in3(/*AUTOINST*/
 // Outputs
-.out0 (out0_disp3),
-.out1 (out1_disp3),
-.almost_full_f0 (nn_alf0),
-.almost_full_f1 (nn_alf1),
-.empty0 (nn_empty0),
-.empty1 (nn_empty1),
-// Inputs
-.in0 (outF0),
-.in1 (outF1),
-.reset (reset),
-.clk (clk),
-.clk8f (clk8f),
-.read0 (read0),
-.read1 (read1),
-.write0 (write0),
-.write1 (write1)
+.out0                 (out0_disp3),
+.out1                 (out1_disp3),
+.almost_full_f0       (almost_full0_disp2),
+.almost_full_f1       (almost_full1_disp2),
+.pop_0                (pop_in0),
+.pop_1                (pop_in1),
+//
+.clk                   (clk),                   
+.clk8f                 (clk8f),                     
+.reset                 (reset),                                                                 
+.in0                   (outF0),                   
+.in1                   (outF1)               
+
 );
 
   always@(*) begin      // pass to outputs

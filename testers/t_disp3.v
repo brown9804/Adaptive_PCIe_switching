@@ -17,10 +17,7 @@ module t_device3 #(
 	output reg clk,
 	output reg clk8f,
 	output reg [DATA_SIZE-1:0] in,
-	output reg read0,
-	output reg read1,
-	output reg write0,
-	output reg write1,
+	output reg valid,
 	// Inputs
 	input wire [MAIN_SIZE-1:0] out0,
 	input wire [MAIN_SIZE-1:0] out1,
@@ -44,107 +41,252 @@ initial begin
 
 in = 10'h0;
 #4 reset = 0;
-write0= 0;
-read0 = 0;
-write1 = 0;
-read1=0;
+valid = 0;
+
 
 repeat (6) begin
 	@(posedge clk);
 		reset = 0;
 end
 
-@(posedge clk);
-#40 reset = 1;
 
-repeat(3) begin         // 01010101  -> Active = 0 because BC < 4
-	@(posedge clk);
-	in  <=  ~in;
+  // Begin test
+  repeat (6) begin
+  @(posedge clk);
+  reset <= 0;
+  end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0FF;
+    reset <= 1;
+    valid = 1;
+  end
+
+  // Sent to FiFo #1
+	@(posedge clk) begin
+    in              <= 10'h2DD;
 	end
 
-repeat (7) begin
-	@(posedge clk);
-end
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0EE;
+  end
 
-repeat(5) begin
-@(posedge clk);
-	in <= 10'h0BC;
-end// end five BC's
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in              <= 10'h2CC;
+  end
 
-repeat(5) begin
-	@(posedge clk);
-	in <= 10'h07C;
-end // end five 7C's
+  // TESTING PUSH BLOCK 0
+  @(posedge clk) begin
+	  in                     <= 10'h1BB;
+  end
+
+  // TESTING PUSH BLOCK 1
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h299;
+    
+  end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in                     <= 10'h0AA;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h288;
+    
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h1A7;
+
+   
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h277;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h1AA;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h2CC;
+  end
+
+  // Sent to FiFo #1
+	@(posedge clk) begin
+    in              <= 10'h2DD;
+	end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0EE;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in              <= 10'h2CC;
+  end
+
+  // TESTING PUSH BLOCK 0
+  @(posedge clk) begin
+	  in                     <= 10'h1BB;
+  end
+
+  // TESTING PUSH BLOCK 1
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h299;
+    
+  end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in                     <= 10'h0AA;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h288;
+    
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h1A7;
+
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h277;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h1AA;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h2CC;
+  end
+
+  // Sent to FiFo #1
+	@(posedge clk) begin
+    in              <= 10'h2DD;
+	end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0EE;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in              <= 10'h2CC;
+  end
+
+  // TESTING PUSH BLOCK 0
+  @(posedge clk) begin
+	  in                     <= 10'h1BB;
+  end
+
+  // TESTING PUSH BLOCK 1
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h299;
+    
+  end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in                     <= 10'h0AA;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h288;
+    
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h1A7;
+
+   
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h277;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h1AA;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h2CC;
+  end
+
+  // Sent to FiFo #1
+	@(posedge clk) begin
+    in              <= 10'h2DD;
+	end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0EE;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in              <= 10'h2CC;
+  end
+
+  // TESTING PUSH BLOCK 0
+  @(posedge clk) begin
+	  in                     <= 10'h1BB;
+  end
+
+  // TESTING PUSH BLOCK 1
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h299;
+    
+  end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in                     <= 10'h0AA;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h288;
+    
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h1A7;
+
+   
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h277;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h1AA;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h2CC;
+  end
 
 
-@(posedge clk); // write --> fifo 0
-	in <= 10'h0FF;
-	write0 <= 1;
-	read0 <= 0;
-	write1 <= 0;
-	read1 <= 0;
-	@(posedge clk); // write --> fifo 1
-	write0 <= 0;
-	read0 <= 0;
-	write1 <= 1;
-	read1 <= 0;
-
-@(posedge clk); // read fifo 0
-		write0 <= 0;
-		read0 <= 1;
-		write1 <= 0;
-		read1 <= 0;
-		@(posedge clk); // read fifo 1
-		write0 <= 0;
-		read0 <= 0;
-		write1 <= 0;
-		read1 <= 1;
-
-@(posedge clk); // write on fifo 0
-	in <= 10'h0EE;
-	write0 <= 1;
-	read0 <= 0;
-	write1 <= 0;
-	read1 <= 0;
-	@(posedge clk); //  write on fifo 1
-	write0 <= 0;
-	read0 <= 0;
-	write1 <= 1;
-	read1 <= 0;
-
-@(posedge clk); // read fifo 0
-		write0 <= 0;
-		read0 <= 1;
-		write1 <= 0;
-		read1 <= 0;
-		@(posedge clk); // read fifo 1
-		write0 <= 0;
-		read0 <= 0;
-		write1 <= 0;
-		read1 <= 1;
-
-@(posedge clk); //  write on fifo 0
-	in <= 10'h0BB;
-	write0 <= 1;
-	read0 <= 0;
-	write1 <= 0;
-	read1 <= 0;
-	@(posedge clk); //  write on fifo 1
-	write0 <= 0;
-	read0 <= 0;
-	write1 <= 1;
-	read1 <= 0;
-
-@(posedge clk); // read fifo 0
-		write0 <= 0;
-		read0 <= 1;
-		write1 <= 0;
-		read1 <= 0;
-		@(posedge clk); // read fifo 1
-		write0 <= 0;
-		read0 <= 0;
-		write1 <= 0;
-		read1 <= 1;
 
 #40 $finish;
 end // end initial

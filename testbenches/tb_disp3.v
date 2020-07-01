@@ -42,7 +42,7 @@ wire [MAIN_SIZE-1:0] out0_BTB, out1_BTB;
 wire [MAIN_SIZE-1:0] out0_STB, out1_STB;
 wire Error0_BTB, Error1_BTB;
 wire Error0_STB, Error1_STB;
-wire read0_TB, write0_TB, read1_TB, write1_TB;
+wire valid;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
               //////////// Device 3 BEHAVIORAL
@@ -63,10 +63,7 @@ device3_TB(
 .clk8f (clk8f),
 .reset (reset),
 .in (in),
-.read0  (read0_TB),
-.read1  (read1_TB),
-.write0 (write0_TB),
-.write1 (write1_TB)
+.valid  (valid)
 );
 ///////////////////////////////////////////////////////////////////////////////////////////
               //////////// Device 3 SYN
@@ -85,10 +82,7 @@ device3_syn device3_syn_TB (/*AUTOINST*/
 .clk8f (clk8f),
 .reset (reset),
 .in (in),
-.read0  (read0_TB),
-.read1  (read1_TB),
-.write0 (write0_TB),
-.write1 (write1_TB)
+.valid    (valid)
 );
 
 
@@ -104,10 +98,7 @@ t_device3 #( .DATA_SIZE (DATA_SIZE), .MAIN_SIZE (MAIN_SIZE) )
   .clk (clk),
   .clk8f (clk8f),
   .in (in),
-  .read0  (read0_TB),
-  .read1  (read1_TB),
-  .write0 (write0_TB),
-  .write1 (write1_TB),
+  .valid (valid),
   // Inputs
   .out0 (out0_BTB),
   .out1 (out1_BTB),
