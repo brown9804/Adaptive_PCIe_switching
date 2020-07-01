@@ -212,7 +212,9 @@ _CONFIG_CLASS	= class.gtkw
 _CONFIG_ROUTE	= routering.gtkw
 _CONFIG_PTOS 	= ptos.gtkw
 _CONFIG_SERIAL	= paratoserial.gtkw
-_CONFIG_D1  = disp1.gtkw
+_CONFIG_D1  	= disp1.gtkw
+_CONFIG_D2  	= disp2.gtkw
+_CONFIG_D3  	= disp3.gtkw
 
 
 #******************************************************************************
@@ -442,11 +444,13 @@ vdisp1:
 #target phony
 .PHONY: gtkwavedisp1
 gtkwavedisp1:
-	gtkwave $(_VCD_D1) $(GTKWCONFIG)$(_CONFIG_DISP1)
+	gtkwave $(_VCD_D1) $(GTKWCONFIG)$(_CONFIG_D1)
 
 #******************************************************************************
 #### 			DEVICE 2
 #******************************************************************************
+
+alldisp2: clean ydisp2 rdisp2 vdisp2 gtkwavedisp2
 
 ydisp2:
 	yosys $(YOSYS)$(_Y_D2)
@@ -460,7 +464,7 @@ vdisp2:
 #target phony
 .PHONY: gtkwavedisp2
 gtkwavedisp2:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_D2)
+	gtkwave $(_VCD_D2) $(GTKWCONFIG)$(_CONFIG_D2)
 
 #******************************************************************************
 #### 			DEVICE 3

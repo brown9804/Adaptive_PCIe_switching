@@ -46,6 +46,12 @@ wire clk, clk8f;
 wire read0_TB, write0_TB, read1_TB, write1_TB;
 
 wire in0_TB, in1_TB;
+wire fifo_almost_empty0;
+wire fifo_almost_empty1;
+wire almost_empty0;
+wire almost_empty1;
+wire pop_0;
+wire pop_1;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 							//////////// Device 2 BEHAV
@@ -56,20 +62,20 @@ wire in0_TB, in1_TB;
 device2 #( .DATA_SIZE (DATA_SIZE), .MAIN_SIZE (MAIN_SIZE) )
  device2_TB (/*AUTOINST*/
 	// Outputs
-	.out0  (out0_BTB),
-	.out1  (out1_BTB),
-	.almost_full_f0 (almost_full_f0_BTB),
-	.almost_full_f1 (almost_full_f1_BTB),
-	.empty0 (empty0_BTB),
-	.empty1 (empty1_BTB),
+	.out0  				(out0_BTB),
+	.out1  				(out1_BTB),
+	.almost_full_f0		(almost_full_f0_BTB),
+	.almost_full_f1		(almost_full_f1_BTB),							
+	.pop_0				(pop_0_BTB),					
+	.pop_1				(pop_1_BTB),					
 	// Inputs
 	.clk   (clk),
 	.clk8f (clk8f),
 	.reset (reset),
-	.read0  (read0_TB),
-	.read1  (read1_TB),
-	.write0 (write0_TB),
-	.write1 (write1_TB),
+	.empty0 (empty0),
+	.empty1 (empty1),
+	.fifo_almost_empty0 (fifo_almost_empty0),
+	.fifo_almost_empty1 (fifo_almost_empty1),
 	.in0 (in0_TB),
 	.in1 (in1_TB)
 );
@@ -81,21 +87,22 @@ device2 #( .DATA_SIZE (DATA_SIZE), .MAIN_SIZE (MAIN_SIZE) )
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 device2_syn device2_syn_TB (/*AUTOINST*/
-	// Outputs
-	.out0  (out0_STB),
-	.out1  (out1_STB),
-	.almost_full_f0 (almost_full_f0_STB),
-	.almost_full_f1 (almost_full_f1_STB),
-	.empty0 (empty0_STB),
-	.empty1 (empty1_STB),
+	
+		// Outputs
+	.out0  				(out0_STB),
+	.out1  				(out1_STB),
+	.almost_full_f0		(almost_full_f0_STB),
+	.almost_full_f1		(almost_full_f1_STB),							
+	.pop_0				(pop_0_STB),					
+	.pop_1				(pop_1_STB),
 	// Inputs
 	.clk   (clk),
 	.clk8f (clk8f),
 	.reset (reset),
-	.read0  (read0_TB),
-	.read1  (read1_TB),
-	.write0 (write0_TB),
-	.write1 (write1_TB),
+	.empty0 (empty0),
+	.empty1 (empty1),
+	.fifo_almost_empty0 (fifo_almost_empty0),
+	.fifo_almost_empty1 (fifo_almost_empty1),
 	.in0 (in0_TB),
 	.in1 (in1_TB)
 );
@@ -108,30 +115,32 @@ device2_syn device2_syn_TB (/*AUTOINST*/
 
 t_device2 #( .DATA_SIZE (DATA_SIZE), .MAIN_SIZE (MAIN_SIZE) )
 t_device2_TB (/*AUTOINST*/
-		// Outputs
-		.clk   (clk),
-		.clk8f (clk8f),
-		.reset (reset),
-		.read0  (read0_TB),
-		.read1  (read1_TB),
-		.write0 (write0_TB),
-		.write1 (write1_TB),
-		.in0 (in0_TB),
-		.in1 (in1_TB),
-    // Inputs
-    .out0  (out0_BTB),
-    .out1  (out1_BTB),
-    .almost_full_f0 (almost_full_f0_BTB),
-    .almost_full_f1 (almost_full_f1_BTB),
-    .empty0 (empty0_BTB),
-    .empty1 (empty1_BTB),
+	// Outputs
+	.out0  					(out0_BTB),
+	.out1  					(out1_BTB),
+	.almost_full_f0			(almost_full_f0_BTB),
+	.almost_full_f1			(almost_full_f1_BTB),							
+	.pop_0					(pop_0_BTB),					
+	.pop_1					(pop_1_BTB),
+		// SYN
+	.out0_s  				(out0_STB),
+	.out1_s  				(out1_STB),
+	.almost_full_f0_s		(almost_full_f0_STB),
+	.almost_full_f1_s		(almost_full_f1_STB),							
+	.pop_0_s				(pop_0_STB),					
+	.pop_1_s				(pop_1_STB),
 
-    .out0_s  (out0_STB),
-    .out1_s  (out1_STB),
-    .almost_full_f0_s (almost_full_f0_STB),
-    .almost_full_f1_s (almost_full_f1_STB),
-    .empty0_s (empty0_STB),
-    .empty1_s (empty1_STB)
+
+    // Inputs
+	.clk   (clk),
+	.clk8f (clk8f),
+	.reset (reset),
+	.empty0 (empty0),
+	.empty1 (empty1),
+	.fifo_almost_empty0 (fifo_almost_empty0),
+	.fifo_almost_empty1 (fifo_almost_empty1),
+	.in0 (in0_TB),
+	.in1 (in1_TB)
 );
 
 

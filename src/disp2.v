@@ -14,22 +14,29 @@ module device2 #(
 	parameter DATA_SIZE = 8,
 	parameter MAIN_SIZE = 4)
 	(
-input clk, // just to see
-input clk8f, // used to data manipulation
-input reset, // always requiered a reset in each block
-input in0, // output Paralelo - Serie #0
-input in1, // output Paralelo - Serie #1
-input read0, // need to connect with df control and fifo0
-input read1, // need to connect with df control and fifo1
-input write0, // need to connect with write and fifo0
-input write1, // need to connect with write and fifo1
-output reg [DATA_SIZE-1:0] out0, // out from fifo0
-output reg [DATA_SIZE-1:0] out1,  // out from fifo1
-output reg almost_full_f0, // output from fifo 0
-output reg almost_full_f1, // output from fifo 0
-output reg empty0, // output from fifo 0
-output reg empty1 // output from fifo  1
+
+
+	output reg [DATA_SIZE-1:0] out0, // out from fifo0
+	output reg [DATA_SIZE-1:0] out1,  // out from fifo1
+	output reg almost_full_f0, // output from fifo 0
+	output reg almost_full_f1, // output from fifo 0	
+	output reg pop_0,
+	output reg pop_1,
+	
+	input wire clk, 	// just to see
+	input wire clk8f, 	// used to data manipulation
+	input wire reset, 	// always requiered a reset in each block
+	input wire in0,		// output Paralelo - Serie #0
+	input wire in1,		// output Paralelo - Serie #1
+	input wire empty0, // output from fifo 0
+	input wire empty1,
+	input wire fifo_almost_empty0,
+	input wire fifo_almost_empty1
+
 );
+
+reg read0;
+reg read1;
 
 // Wires requiered to connect
 // About serial - parallel
@@ -91,7 +98,7 @@ fifo_4x8_0(/*AUTOINST*/
 		.clk (clk8f),
 		.reset (reset),
 		.read (read0), // Because not df right know it comming from tester
-		.write (write0),
+		.write (pop_0),
 		.data_in_push (out_sp0) // 8 bits
 );
 
@@ -108,7 +115,7 @@ fifo_4x8_1(/*AUTOINST*/
 		.clk (clk8f),
 		.reset (reset),
 		.read (read1), // Because not df right know it comming from tester
-		.write (write1),
+		.write (pop_1),
 		.data_in_push (out_sp1) // 8 bits
 );
 
@@ -121,13 +128,47 @@ fifo_4x8_1(/*AUTOINST*/
 // empty1 // output from fifo  1
 // So we need an bloking assing
 always @(*) begin
-out0 = n_outF0;
-out1 = n_outF1;
-almost_full_f0 = n_almost_full0;
-almost_full_f1 = n_almost_full1;
-empty0 = n_fifo_empty0;
-empty1 = n_fifo_empty1;
-end
+	out0 = n_outF0;
+	out1 = n_outF1;
+	almost_full_f0 = n_almost_full0;
+	almost_full_f1 = n_almost_full1;
+
+	if ( empty0 | fifo_almost_empty0) begin
+	  read0 = 0;
+	end else begin
+	  read0 = 1;
+	end
+
+	if( empty1 | fifo_almost_empty1) begin
+	  read1 = 0;
+	end else begin
+	  read1 = 1;
+	end
+
+	end
+
+
+  always @(posedge clk) begin      // Each positive edge of the clock make these changes
+    // Reset synchronous
+    if (!reset) begin             // If reset in LOW nonblobking assing zero
+      pop_0         <= 0;
+      pop_1         <= 0;
+    end           // end reset zero
+    else begin      // reset == 1
+      // data flow control push pop logig
+    if( empty0 | fifo_almost_empty0 ) begin
+        pop_0       <= 0;
+	end else begin
+        pop_0 <= 1;
+	end
+    
+	if( empty1 | fifo_almost_empty1 ) begin
+          pop_1      <= 0;
+        end else begin
+          pop_1      <= 1;
+        end 
+	end
+	end   
 
 endmodule
 

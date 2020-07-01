@@ -11,30 +11,34 @@
 module t_device2  #(
 	parameter DATA_SIZE = 8,
 	parameter MAIN_SIZE = 4)
-	(
-output reg in0,
-output reg in1,
-output reg reset,
+  (
+
 output reg clk,
 output reg clk8f,
-output reg read0,
-output reg read1,
-output reg write0,
-output reg write1,
-// Behavioral
+output reg reset,
+output reg in0,
+output reg in1,
+output reg empty0,
+output reg empty1,
+output reg fifo_almost_empty0,
+output reg fifo_almost_empty1,
+// behav
+
 input wire [DATA_SIZE-1:0] out0,
 input wire [DATA_SIZE-1:0] out1,
 input wire almost_full_f0,
 input wire almost_full_f1,
-input wire empty0, // output from fifo 0
-input wire empty1, // output from fifo 1
+input wire pop_0,
+input wire pop_1,
+
+
 // Syn
 input wire [DATA_SIZE-1:0] out0_s,
 input wire [DATA_SIZE-1:0] out1_s,
 input wire almost_full_f0_s,
 input wire almost_full_f1_s,
-input wire empty0_s, // output from fifo 0
-input wire empty1_s // output from fifo 1
+input wire pop_0_s,
+input wire pop_1_s
 );
 
 reg clkbase, clk4f, clk2f;
@@ -47,10 +51,11 @@ initial begin
   in0 = 0;
   in1 = 0;
   #4 reset = 0;
-  write0 = 0;
-  read0 = 0;
-  write1 = 0;
-  read1 = 0;
+  empty0 = 0;
+  empty1 = 0;
+  fifo_almost_empty0 = 0;
+  fifo_almost_empty1 = 0;
+
 
 
 repeat (6) begin
@@ -75,66 +80,41 @@ repeat(5) begin         // BC = 10 1111 00
   @(posedge clk8f); // write on FIFO 0
     in0  <=  1;
     in1  <=  1;
-    write0 <= 1;
-    read0 <= 0;
-    write1 <= 0;
-    read1 <= 0;
+
 
   @(posedge clk8f); // write on FIFO 0
     in0  <=  0;
     in1  <=  0;
-    write0 <= 1;
-    read0 <= 0;
-    write1 <= 0;
-    read1 <= 0;
 
   @(posedge clk8f); // read on FIFO 0 and write on fifo 1
     in0  <=  1;
     in1  <=  1;
-    write0 <= 0;
-    read0 <= 1;
-    write1 <= 1;
-    read1 <= 0;
+
 
   @(posedge clk8f); // read on FIFO 0 and write on fifo 1
     in0  <=  1;
     in1  <=  1;
-    write0 <= 0;
-    read0 <= 1;
-    write1 <= 1;
-    read1 <= 0;
+
 
   @(posedge clk8f); // Do nothing
     in0  <=  1;
     in1  <=  1;
-    write0 <=1;
-    read0 <= 0;
-    write1 <= 0;
-    read1 <= 0;
+
 
   @(posedge clk8f); // nothing
     in0  <=  1;
     in1  <=  1;
-    write0 <= 1;
-    read0 <= 0;
-    write1 <= 0;
-    read1 <= 0;
+
 
   @(posedge clk8f); // write FIFO 0
     in0  <=  0;
     in1  <=  0;
-    write0 <= 0;
-    read0 <= 1;
-    write1 <= 0;
-    read1 <= 0;
+
 
   @(posedge clk8f); // read FIFO 0
     in0  <=  0;
     in1  <=  0;
-    write0 <= 0;
-    read0 <= 1;
-    write1 <= 0;
-    read1 <= 0;
+
 
 end
 
@@ -144,66 +124,60 @@ end
  @(posedge clk8f); // write on FIFO 1
    in0  <=  1;
    in1  <=  1;
-   write0 <= 0;
-   read0 <= 0;
-   write1 <= 1;
-   read1 <= 0;
+
 
  @(posedge clk8f); // write on FIFO 1
    in0  <=  1;
    in1  <=  1;
-   write0 <= 0;
-   read0 <= 0;
-   write1 <= 1;
-   read1 <= 0;
+
 
  @(posedge clk8f); // write on fifo 0 and read on FIFO 1
    in0  <=  1;
    in1  <=  1;
-   write0 <= 1;
-   read0 <= 0;
-   write1 <= 0;
-   read1 <= 1;
+   
+   
+   
+   
 
  @(posedge clk8f); // write on fifo 0 and read on FIFO 1
    in0  <=  1;
    in1  <=  1;
-   write0 <= 1;
-   read0 <= 0;
-   write1 <= 0;
-   read1 <= 1;
+   
+   
+   
+   
 
  @(posedge clk8f); // Do nothing
    in0  <=  1;
    in1  <=  1;
-   write0 <= 0;
-   read0 <= 0;
-   write1 <= 0;
-   read1 <= 0;
+   
+   
+   
+   
 
  @(posedge clk8f); // Do nothing
    in0  <=  1;
    in1  <=  1;
-   write0 <= 0;
-   read0 <= 0;
-   write1 <= 0;
-   read1 <= 0;
+   
+   
+   
+   
 
  @(posedge clk8f); // write FIFO 1
    in0  <=  1;
    in1  <=  1;
-   write0 <= 0;
-   read0 <= 0;
-   write1 <= 1;
-   read1 <= 0;
+   
+   
+   
+   
 
  @(posedge clk8f); // read FIFO 1
    in0  <=  1;
    in1  <=  1;
-   write0 <= 0;
-   read0 <= 0;
-   write1 <= 0;
-   read1 <= 1;
+   
+   
+   
+   
 // FF -> 11111111
 ///////////////////////////////////////////
 ///////////////////////////////////////////
@@ -211,70 +185,70 @@ end
 @(posedge clk8f); // write on FIFO 0
   in0  <=  1;
   in1  <=  1;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on FIFO 0
   in0  <=  1;
   in1  <=  1;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // read on FIFO 0 and write on fifo 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 1;
-  read1 <= 0;
+  
+
+  
+  
 
 @(posedge clk8f); // read on FIFO 0 and write on fifo 1
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 1;
-  read1 <= 0;
+  
+
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
-	write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+	
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write FIFO 0
   in0  <=  0;
   in1  <=  0;
 
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // read FIFO 0
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 0;
-  read1 <= 0;
+  
+
+  
+  
 // ->  DD 11011101
 ///////////////////////////////////////////
 ///////////////////////////////////////////
@@ -283,73 +257,73 @@ end
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on FIFO 1
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on fifo 0 and read on FIFO 1
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
 
 @(posedge clk8f);  // write on fifo 0 and read on FIFO 1
   in0  <=  0;
   in1  <=  0;
 
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write FIFO 1
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // read FIFO 1
   in0  <=  0;
   in1  <=  0;
 
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
 // EE -> 11101110
 ///////////////////////////////////////////
 ///////////////////////////////////////////
@@ -358,68 +332,68 @@ end
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on FIFO 0
   in0  <=  1;
   in1  <=  1;
 
-	write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+	
+  
+  
+  
 
 @(posedge clk8f); // read on FIFO 0 and write on fifo 1
   in0  <=  1;
   in1  <=  1;
 
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 1;
-  read1 <= 0;
+  
+
+  
+  
 
 @(posedge clk8f); // read on FIFO 0 and write on fifo 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 1;
-  read1 <= 0;
+  
+
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write FIFO 0
   in0  <=  1;
   in1  <=  1;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // read FIFO 0
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 0;
-  read1 <= 0;
+  
+
+  
+  
 // CC ->  11001100
 ///////////////////////////////////////////
 ///////////////////////////////////////////
@@ -427,134 +401,134 @@ end
 @(posedge clk8f); // write on FIFO 1
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 
 @(posedge clk8f); // write on FIFO 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 
 @(posedge clk8f); // write on fifo 0 and read on FIFO 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on fifo 0 and read on FIFO 1
   in0  <=  1;
   in1  <=  1;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write FIFO 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // read FIFO 1
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
   // end 99 -> 10011001
 
 // ### --> AA -> 10101010
 @(posedge clk8f); // write on FIFO 0
   in0  <=  1;
   in1  <=  1;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on FIFO 0
   in0  <=  0;
   in1  <=  0;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // read on FIFO 0 and write on fifo 1
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 1;
-  read1 <= 0;
+  
+
+  
+  
 
 @(posedge clk8f); // read on FIFO 0 and write on fifo 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 1;
-  read1 <= 0;
+  
+
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write FIFO 0
   in0  <=  1;
   in1  <=  1;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // read FIFO 0
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 1;
-  write1 <= 0;
-  read1 <= 0;
+  
+
+  
+  
 // end AA
 
 
@@ -562,66 +536,66 @@ end
 @(posedge clk8f); // write on FIFO 1
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on FIFO 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on fifo 0 and read on FIFO 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
 
 @(posedge clk8f); // write on fifo 0 and read on FIFO 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 1;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // Do nothing
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // write FIFO 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 1;
-  read1 <= 0;
+  
+  
+  
+  
 
 @(posedge clk8f); // read FIFO 1
   in0  <=  0;
   in1  <=  0;
-  write0 <= 0;
-  read0 <= 0;
-  write1 <= 0;
-  read1 <= 1;
+  
+  
+  
+  
 // end 88
 
   #40  $finish;
