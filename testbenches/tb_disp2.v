@@ -13,8 +13,10 @@
 `include "./syn/disp2_syn.v"
 `include "./testers/t_disp2.v"
 
-module TestBench;
-
+module TestBench#(
+parameter DATA_SIZE = 8,
+parameter MAIN_SIZE = 4
+)();
 // Usually the signals in the test bench are wires.
 // They do not store a value, they are handled by other module instances.
 // Since they require matching the size of the inputs and outputs, they must be assigned their size
@@ -31,11 +33,11 @@ module TestBench;
 
 /*AUTOWIRE*/
 // Outputs
-wire [7:0] out0_BTB, out1_BTB;
+wire [DATA_SIZE-1:0] out0_BTB, out1_BTB;
 wire almost_full_f0_BTB, almost_full_f1_BTB;
 wire empty0_BTB, empty1_BTB;
 // Syn
-wire [7:0] out0_STB, out1_STB;
+wire [DATA_SIZE-1:0] out0_STB, out1_STB;
 wire almost_full_f0_STB, almost_full_f1_STB;
 wire empty0_STB, empty1_STB;
 // Inputs
@@ -51,7 +53,8 @@ wire in0_TB, in1_TB;
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-device2  device2_TB (/*AUTOINST*/
+device2 #( .DATA_SIZE (DATA_SIZE), .MAIN_SIZE (MAIN_SIZE) )
+ device2_TB (/*AUTOINST*/
 	// Outputs
 	.out0  (out0_BTB),
 	.out1  (out1_BTB),
@@ -103,22 +106,9 @@ device2_syn device2_syn_TB (/*AUTOINST*/
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-t_device2 t_device2_TB (/*AUTOINST*/
+t_device2 #( .DATA_SIZE (DATA_SIZE), .MAIN_SIZE (MAIN_SIZE) )
+t_device2_TB (/*AUTOINST*/
 		// Outputs
-		.out0  (out0_BTB),
-		.out1  (out1_BTB),
-		.almost_full_f0 (almost_full_f0_BTB),
-		.almost_full_f1 (almost_full_f1_BTB),
-		.empty0 (empty0_BTB),
-		.empty1 (empty1_BTB),
-
-		.out0_s  (out0_STB),
-		.out1_s  (out1_STB),
-		.almost_full_f0_s (almost_full_f0_STB),
-		.almost_full_f1_s (almost_full_f1_STB),
-		.empty0_s (empty0_STB),
-		.empty1_s (empty1_STB),
-		// Inputs
 		.clk   (clk),
 		.clk8f (clk8f),
 		.reset (reset),
@@ -127,7 +117,21 @@ t_device2 t_device2_TB (/*AUTOINST*/
 		.write0 (write0_TB),
 		.write1 (write1_TB),
 		.in0 (in0_TB),
-		.in1 (in1_TB)
+		.in1 (in1_TB),
+    // Inputs
+    .out0  (out0_BTB),
+    .out1  (out1_BTB),
+    .almost_full_f0 (almost_full_f0_BTB),
+    .almost_full_f1 (almost_full_f1_BTB),
+    .empty0 (empty0_BTB),
+    .empty1 (empty1_BTB),
+
+    .out0_s  (out0_STB),
+    .out1_s  (out1_STB),
+    .almost_full_f0_s (almost_full_f0_STB),
+    .almost_full_f1_s (almost_full_f1_STB),
+    .empty0_s (empty0_STB),
+    .empty1_s (empty1_STB)
 );
 
 
