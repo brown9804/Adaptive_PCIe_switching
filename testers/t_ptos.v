@@ -60,7 +60,49 @@ initial begin
 
 		@(posedge clk4f);	
 		    in <= 8'hBB;	
-			in_valid <= 1;			
+			in_valid <= 1;		
+
+			
+		@(posedge clk4f);	
+		    in <= 8'hAA;
+			in_valid <= 1;	
+	
+
+        	repeat (2) begin			// 1110 1110
+		@(posedge clk4f);	
+		    in <= 8'hEE;
+	
+		end
+    
+		@(posedge clk4f);	
+		    in <= 8'hCC;
+			in_valid <= 0;	
+		
+
+		@(posedge clk4f);	
+		    in <= 8'hBB;	
+			in_valid <= 1;	
+
+			
+		@(posedge clk4f);	
+		    in <= 8'hAA;
+			in_valid <= 1;	
+	
+
+        	repeat (2) begin			// 1110 1110
+		@(posedge clk4f);	
+		    in <= 8'hEE;
+	
+		end
+    
+		@(posedge clk4f);	
+		    in <= 8'hCC;
+			in_valid <= 0;	
+		
+
+		@(posedge clk4f);	
+		    in <= 8'hBB;	
+			in_valid <= 1;		
         		
 		$finish;		
 	end

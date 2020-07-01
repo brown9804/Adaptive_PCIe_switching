@@ -1,171 +1,170 @@
-// Belinda Brown Ramírez
-// June, 2020
-// timna.brown@ucr.ac.cr
+
+//////////////////////////////////////
+// Brandon ESquivel Molina          //
+// Tester for routering.v           //
+// brandon.esquivel@ucr.ac.cr       //
+// JUne, 2020                       //
+//////////////////////////////////////
 
 `ifndef T_ROUTING
 `define T_ROUTING
 
-module t_route(
-// Outputs
-input wire [7:0] out0,
-input wire [7:0] out1,
-// FIFO 0
-input wire almost_full0,
-input wire almost_empty0,
-input wire fifo0_empty,
-input wire fifo0_error,
-input wire fifo0_pause,
-input wire fifo_full0,
-// FIFO 1
-input wire fifo_full1,
-input wire almost_full1,
-input wire almost_empty1,
-input wire fifo1_empty,
-input wire fifo1_error,
-input wire fifo1_pause,
-//Syn
-input wire [7:0] out0_s,
-input wire [7:0] out1_s,
-// FIFO 0 SYN
-input wire almost_full0_s,
-input wire almost_empty0_s,
-input wire fifo0_empty_s,
-input wire fifo0_error_s,
-input wire fifo0_pause_s,
-input wire fifo_full0_s,
- // FIFO 1 SYN
-input wire fifo_full1_s,
-input wire almost_full1_s,
-input wire almost_empty1_s,
-input wire fifo1_empty_s,
-input wire fifo1_error_s,
-input wire fifo1_pause_s,
-// input wire Error
-input wire Error,
+module t_route ( // Outputs
+input wire [7:0]                out0,   
+input wire [7:0]                out1,      
+input wire                      Error,
+input wire                      pop_0,
+input wire                      pop_1,
+input wire                      fifo0_almost_empty, 
+input wire                      fifo1_almost_empty,
 
 
-// Inputs
-output reg clk,
-output reg reset,
-output reg [9:0] in0,
-output reg [9:0] in1,
-output reg  emptyF0,
-output reg  emptyF1
-//output reg classif
+input wire [7:0]                out0_s,   
+input wire [7:0]                out1_s,      
+input wire                      Error_s,
+input wire                      pop_0_s,
+input wire                      pop_1_s,
+input wire                      fifo0_almost_empty_s, 
+input wire                      fifo1_almost_empty_s,
+// outputs
+output reg [9:0]                in0,
+output reg [9:0]                in1,
+output reg                      clk,
+output reg                      reset,
+output reg                      pop_0_in, 
+output reg                      pop_1_in,
+output reg                      fifo_empty0,
+output reg                      fifo_empty1  
 );
 
 
-
 initial begin
-// Defining the dumpfile NAME_OF_FILE_CHOICE_PERSONAL.vcd), or known by change dump variable, this file contains
-// information about the simulator used, time scale, creation date, variable definitions, and value changes.
-$dumpfile("routing.vcd");
-$dumpvars;
+  $dumpfile("routing.vcd");
+  $dumpvars;
+
+  //Initials
+  in0                      = 10'h0;               
+  in1                      = 10'h0;                             
+  #4 reset                 = 0;                 
+  pop_0_in                 = 0;                     
+  pop_1_in                 = 0;                     
+  fifo_empty0              = 0;                       
+  fifo_empty1              = 0;
+	
+	// Begin test
+	repeat (6) begin
+	@(posedge clk);
+	reset               <= 0;
+	end
+
+	@(posedge clk) begin
+	#4 reset            <= 1;
+	end
+
+	@(posedge clk) begin
+	in0                 <= 10'h3FF;
+	in1                 <= 10'h1DD;
+	end
 
 
-// The stimulus must be changed, where it allows testing to give an idea of ​​the behavior of the signals.
-// Therefore, the inputs will be initialized with a value chosen between one and zero. Since they are not defined
-// initial conditions in the algorithm request. They are personally chosen.
+	@(posedge clk) begin
+	in0                 <= 10'h3EF;
+	in1                 <= 10'h2CC;
+	end
 
-// VERILOG ASSIGNMENTS FOR NUMBERS - FORMAT
-// 'b binary base
-// 'd Decimal base
-// 'h Hexadecimal base
-// 'or octal base
-// and what comes after the letter is the value then in the case of binary
-// the following examples are considered for understanding
-// 2'b0 = 2'b00 = 00
-// 2'b1 = 2'b01 = 01
-// 2'b10 = 10
-// 2'b11 = 11
-// If it does not indicate the size, 32 bits are assigned by default, that is, 'b0 = 00000000000000000000000000000000
-// This passes the first clock cycle ... Defining initial values ​​....
+	@(posedge clk) begin
+	  in0               <= 10'h0EE;
+	  in1               <= 10'h0CC;
+	  fifo_empty0         <= 1;
+	end
 
-in0 = 10'h00;
-in1 = 10'h00;
-//classif = 0;
-#4 reset = 0;
-emptyF0 = 0;
-emptyF1  = 0;
-
-// Begin test
-repeat (6) begin
-@(posedge clk);
-reset <= 0;
-end
-
-@(posedge clk);
-#4 reset <= 1;
-
-// Write for fifo 1  // testing dest 0
-repeat (2) begin
-@(posedge clk);
-  in0 <= 10'hFF;
-  in1 <= 10'hDD;
-  emptyF0 <= 0;
-  emptyF1 <= 1;
-  //classif <= 1;
-
-end
-
-// write for fifo0
-repeat (2) begin
-@(posedge clk);
-  in0 <= 10'hEE;
-  in1 <= 10'hCC;
-  emptyF0 <= 0;
-  emptyF1 <= 1;
-  //classif <= 0;
-end
-
-repeat (2) begin
-@(posedge clk);
-  in0 <= 10'hBB;
-  in1 <= 10'h99;
-  emptyF0 <= 1;
-  emptyF1 <= 0;
-  //classif <= 1;
-end
-
-// Write for fifo 1  // testing dest 1
-repeat (2) begin
-@(posedge clk);
-  in0 <= 10'h1FF;
-  in1 <= 10'h1DD;
-  emptyF0 <= 0;
-  emptyF1 <= 1;
-  //classif <= 1;
-
-end
-
-// write for fifo0
-repeat (2) begin
-@(posedge clk);
-  in0 <= 10'h1EE;
-  in1 <= 10'h1CC;
-  emptyF0 <= 0;
-  emptyF1 <= 1;
-  //classif <= 0;
-end
-
-repeat (2) begin
-@(posedge clk);
-  in0 <= 10'h1BB;
-  in1 <= 10'h199;
-  emptyF0 <= 1;
-  emptyF1 <= 0;
-  //classif <= 1;
-end
+	
+	@(posedge clk) begin
+	in0 <= 10'h0BB;
+	in1 <= 10'h099;
+	end
 
 
-#40 $finish;
-end
+	@(posedge clk) begin
+	in0 <= 10'h2BA;
+	in1 <= 10'h399;
+	end
 
-// clock logic
-initial	clk	 			<= 0;			// Initial value to avoid indeterminations
-always	#10 clk				<= ~clk;		// toggle every 10ns
 
-endmodule
+	@(posedge clk) begin
+	in0 <= 10'h2BA;
+	in1 <= 10'h399;
+  
+	end
+
+
+
+	@(posedge clk) begin
+	in0             <= 10'h2BA;
+	in1             <= 10'h3CC;
+  fifo_empty0     <= 0;
+  fifo_empty1     <= 1;
+
+	end
+
+
+  @(posedge clk) begin
+	  in0               <= 10'h0EE;
+	  in1               <= 10'h0CC;
+	  pop_0_in          <= 1;
+    pop_1_in          <= 1;
+	end
+
+
+	repeat(2) begin
+	  @(posedge clk) begin
+	    in0 <= 10'h0AA;
+	    in1 <= 10'h088;
+	    fifo_empty0 <= 0;
+	    fifo_empty1 <= 1;
+	  end
+	end
+
+	
+	repeat(2) begin
+	  @(posedge clk) begin
+	    in0 <= 10'h077;
+	    in1 <= 10'h066;
+	    fifo_empty0 <= 1;
+	    fifo_empty1 <= 1;
+	  end
+	end
+
+	repeat(2) begin
+	  @(posedge clk) begin
+	    in0 <= 10'h077;
+	    in1 <= 10'h066;
+	    fifo_empty0 <= 1;
+	    fifo_empty1 <= 1;
+	  end
+	end
+
+  @(posedge clk) begin
+  pop_0_in        <= 0;
+  end
+
+  @(posedge clk) begin
+  pop_0_in        <= 0;
+  end
+  
+  @(posedge clk) begin
+  pop_1_in       <= 0;
+  end
+
+
+	#40 $finish;
+	end
+
+  // clock logic
+  initial	clk	 			<= 0;			// Initial value to avoid indeterminations
+  always	#10 clk				<= ~clk;		// toggle every 10ns
+
+  endmodule
 
 
 // Local Variables:

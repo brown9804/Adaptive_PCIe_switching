@@ -10,20 +10,28 @@
 `include "./src/paralelltoserial.v"
 
 
-module paratoserial (
+module paratoserial #( parameter DATA_SIZE = 8) (
 
-input wire [7:0] in0,
-input wire [7:0] in1,
+input wire [DATA_SIZE-1:0] in0,
+input wire [DATA_SIZE-1:0] in1,
 input wire clk,                 // MUST BE 8 TIMES FASTER THAN DATA IN CLK
-input wire valid_0,
-input wire valid_1,
+input wire fifo_empty0,         // Enable data out from FiFo0 if fifo_empty0 != 0
+input wire fifo_empty1,         // Enable data out from FiFo1 if fifo_empty0 = 0
+input wire fifo_up0_almostfull,
+input wire fifo_up1_almostfull,
 input wire reset,
+
 output reg out0,
-output reg out1
+output reg out1,
+output reg pop_0,
+output reg pop_1
+
 );
 /*AUTOWIRE*/
 // internal nodes
 wire out00 , out11;
+reg valid_0;
+reg valid_1;
 
 paralelo_a_serial ptos1 (    /*AUTOINST*/
                     // OUTPUTS
@@ -50,6 +58,24 @@ paralelo_a_serial ptos2 (    /*AUTOINST*/
 always @(*) begin
 out0 = out00;
 out1 = out11;
+valid_0 = pop_0;
+valid_1 = pop_1;
+
+// data flow control push pop logic
+
+if(fifo_empty0 | fifo_up0_almostfull) begin
+pop_0 = 0;
+end else begin
+  pop_0 = 1;
+end 
+
+
+if(fifo_empty1 | fifo_up1_almostfull) begin
+pop_1 = 0;
+end else begin
+  pop_1 = 1;
+end 
+
 
 end
 

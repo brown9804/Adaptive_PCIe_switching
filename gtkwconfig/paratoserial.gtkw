@@ -1,0 +1,53 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Wed Jul  1 07:27:14 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/paratoserial.vcd"
+[dumpfile_mtime] "Wed Jul  1 07:26:50 2020"
+[dumpfile_size] 142954
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/paratoserial.gtkw"
+[timestart] 4441000
+[size] 1853 859
+[pos] -1 -1
+*-20.862230 12885000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] paratoserial_tb.
+[sst_width] 43
+[signals_width] 214
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@200
+-Inputs
+@28
+paratoserial_tb.clk8f
+paratoserial_tb.reset
+@200
+-
+@22
+paratoserial_tb.in0[7:0]
+paratoserial_tb.in1[7:0]
+@200
+-
+-blue for struct-syn
+-
+@28
+paratoserial_tb.out0
+[color] 5
+paratoserial_tb.out0_s
+@200
+-
+@28
+paratoserial_tb.out1
+[color] 5
+paratoserial_tb.out1_s
+@200
+-
+@28
+paratoserial_tb.fifo_empty0
+paratoserial_tb.fifo_empty1
+@200
+-
+@28
+paratoserial_tb.fifo_up0_almostfull
+paratoserial_tb.fifo_up1_almostfull
+[pattern_trace] 1
+[pattern_trace] 0

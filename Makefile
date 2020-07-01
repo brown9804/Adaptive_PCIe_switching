@@ -19,7 +19,7 @@
 # 1. For mux 2:1 ---------- mux21
 # 2. For demux 1:2  10 bits ---------- demux12
 # 3. For demux 1:2 8 bits ---------- demux12_8
-# 4. For fifo 8x10 ---------- fifo
+# 4. For fifo  ---------- fifo
 # 5. For fifo 6x8 ---------- fifo6x8
 # 6. For memory 8x10 ---------- memory
 # 7. For memory 6x8 ---------- memory6x8
@@ -84,8 +84,8 @@ LIB = ./lib/
 LOG_TXT = ./log_txt/
 
 SRC = ./src/
-_MUX21 = mux2x1_behav.v
-_DEMUX12 = demux1x2_behav.v
+_MUX21 = mux2x1.v
+_DEMUX12 = demux1x2.v
 _DEMUX12_8 = demux1x2_8_behav.v
 _FIFO = fifo.v
 _FIFO6x8 = fifo_6x8.v
@@ -103,8 +103,8 @@ _D3 = disp3.v
 
 
 SYN = ./syn/
-_SMUX21 = mux2x1_behav_syn.v
-_SDEMUX12 = demux1x2_behav_syn.v
+_SMUX21 = mux2x1_syn.v
+_SDEMUX12 = demux1x2_syn.v
 _SDEMUX12_8 = demux1x2_8_behav_syn.v
 _SFIFO = fifo_syn.v
 _SFIFO6x8 = fifo_6x8_syn.v
@@ -214,6 +214,17 @@ _Y_D1 = disp1_y.ys
 _Y_D2 = disp2_y.ys
 _Y_D3 = disp3_y.ys
 
+GTKWCONFIG = ./gtkwconfig/
+_CONFIG_DEMUX12 = demux21.gtkw
+_CONFIG_MUX12 	= mux21.gtkw
+_CONFIG_FIFO 	= fifo.gtkw
+_CONFIG_CLASS	= class.gtkw
+_CONFIG_ROUTE	= routering.gtkw
+_CONFIG_PTOS 	= ptos.gtkw
+_CONFIG_SERIAL	= paratoserial.gtkw
+_CONFIG_D1 		= disp1.gtkw
+
+
 #******************************************************************************
 
 # # IVERILOG
@@ -222,8 +233,11 @@ _Y_D3 = disp3_y.ys
 
 
 #******************************************************************************
-####				MUX 		2:1
+####				MUX 		2:1			param 		10 bits by default
 #******************************************************************************
+
+allmux21: ymux21 rmux21 vmux21 gtkwavemux21
+
 
 ymux21:
 	yosys $(YOSYS)$(_Y_MUX21)
@@ -238,12 +252,14 @@ vmux21:
 #target phony
 .PHONY: gtkwavemux21
 gtkwavemux21:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_MUX21)
+	gtkwave $(_VCD_MUX21) $(GTKWCONFIG)$(_CONFIG_MUX12)
 
 
 #******************************************************************************
-#### 	 DEMUX 				1:2				10 bits
+#### 	 DEMUX 				1:2   param				10 bits by default
 #******************************************************************************
+alldemux21: ydemux12 rdemux12 vdemux12 gtkwavedemux12
+
 
 ydemux12:
 	yosys $(YOSYS)$(_Y_DEMUX12)
@@ -258,7 +274,7 @@ vdemux12:
 #target phony
 .PHONY: gtkwavedemux12
 gtkwavedemux12:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12)
+	gtkwave $(_VCD_DEMUX12) $(GTKWCONFIG)$(_CONFIG_DEMUX12)
 
 #******************************************************************************
 #### 			DEMUX 		1:2 	8 bits
@@ -283,13 +299,16 @@ gtkwavedemux12_8:
 
 
 #******************************************************************************
-#### 			FIFO 		8x10
+#### 			FIFO 		PARAM
 #******************************************************************************
+allfifo: clean yfifo rfifo vfifo gtkwavefifo
+
+
 yfifo:
 	yosys $(YOSYS)$(_Y_FIFO)
 
 rfifo:
-	sed -i 's/fifo_8x10/fifo_8x10_syn/g; s/memory/memory_syn/g ' $(SYN)$(_SFIFO)
+	sed -i 's/fifo_param/fifo_param_syn/g; s/memory/memory_syn/g ' $(SYN)$(_SFIFO)
 
 vfifo:
 	iverilog -o $(OVVP)$(_VVP_FIFO) $(TESTBENCHES)$(_TB_FIFO)
@@ -298,7 +317,7 @@ vfifo:
 #target phony
 .PHONY: gtkwavefifo
 gtkwavefifo:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_FIFO)
+	gtkwave $(_VCD_FIFO) $(GTKWCONFIG)$(_CONFIG_FIFO)
 
 #******************************************************************************
 #### 		FIFO 		6x8
@@ -379,11 +398,14 @@ gtkwavedfcontrol:
 #******************************************************************************
 #### 			CLASS
 #******************************************************************************
+allclass: clean yclass rclass vclass gtkwaveclass 
+
+
 yclass:
 	yosys $(YOSYS)$(_Y_CLASS)
 
 rclass:
-	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo_8x10/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SCLASS)
+	sed -i 's/classswitching/classswitching_syn/g;  s/fifo_param/fifo_param_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SCLASS)
 
 vclass:
 	iverilog -o $(OVVP)$(_VVP_CLASS) $(TESTBENCHES)$(_TB_CLASS)
@@ -392,16 +414,18 @@ vclass:
 #target phony
 .PHONY: gtkwaveclass
 gtkwaveclass:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_CLASS)
+	gtkwave $(_VCD_CLASS) $(GTKWCONFIG)$(_CONFIG_CLASS)
 
 #******************************************************************************
 #### 			ROUTING
 #******************************************************************************
+allroute: clean yroute rroute vroute gtkwaveroute
+
 yroute:
 	yosys $(YOSYS)$(_Y_ROUTING)
 
 rroute:
-	sed -i 's/router/router_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SROUTING)
+	sed -i 's/router/router_syn/g;  s/fifo_param/fifo_param_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g; s/mux21/mux21_syn/g' $(SYN)$(_SROUTING)
 
 vroute:
 	iverilog -o $(OVVP)$(_VVP_ROUTING) $(TESTBENCHES)$(_TB_ROUTING)
@@ -410,12 +434,12 @@ vroute:
 #target phony
 .PHONY: gtkwaveroute
 gtkwaveroute:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_ROUTING)
+	gtkwave $(_VCD_ROUTING) $(GTKWCONFIG)$(_CONFIG_ROUTE)
 
 #******************************************************************************
 #### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
 #******************************************************************************
-
+allptos: clean yptos rptos vptos gtkwaveptos
 yptos:
 	yosys $(YOSYS)$(_Y_PTOS)
 
@@ -429,13 +453,14 @@ vptos:
 #target phony
 .PHONY: gtkwaveptos
 gtkwaveptos:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_PTOS)
+	gtkwave $(_VCD_PTOS) $(GTKWCONFIG)$(_CONFIG_PTOS)
 
 
 
 #******************************************************************************
 #### 			SERIALIZATION LAYER
 #******************************************************************************
+allserial: clean yserial rserial vserial gtkwaveserial 
 yserial:
 	yosys $(YOSYS)$(_Y_SERIAL)
 
@@ -449,18 +474,21 @@ vserial:
 #target phony
 .PHONY: gtkwaveserial
 gtkwaveserial:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_SERIAL)
+	gtkwave $(_VCD_SERIAL) $(GTKWCONFIG)$(_CONFIG_SERIAL)
 
 
 #******************************************************************************
 #### 			DEVICE 1
 #******************************************************************************
+
+alldisp1: clean ydisp1 rdisp1 vdisp1 gtkwavedisp1
+
 ydisp1:
 	yosys $(YOSYS)$(_Y_D1)
 
 rdisp1:
-	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo_8x10/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g'  $(SYN)$(_SD1)
-	sed -i 's/router/route_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g'  $(SYN)$(_SD1)
+	sed -i 's/classswitching/classswitching_syn/g;  s/fifo_param/fifo_param_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g'  $(SYN)$(_SD1)
+	sed -i 's/router/router_syn/g; s/mux21/mux21_syn/g; s/memory/memory_syn/g'  $(SYN)$(_SD1)
 	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SD1)
 	sed -i 's/device1/device1_syn/g' $(SYN)$(_SD1)
 vdisp1:
@@ -470,7 +498,7 @@ vdisp1:
 #target phony
 .PHONY: gtkwavedisp1
 gtkwavedisp1:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_D1)
+	gtkwave $(_VCD_D1) $(GTKWCONFIG)$(_CONFIG_DISP1)
 
 #******************************************************************************
 #### 			DEVICE 2

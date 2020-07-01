@@ -9,9 +9,12 @@ module paratoserial_tester (
 output reg [7:0] in0,
 output reg [7:0] in1,
 output reg clk8f,
-output reg valid_0,
-output reg valid_1,
 output reg reset,
+
+output reg fifo_empty0, 
+output reg fifo_empty1,
+output reg fifo_up0_almostfull,
+output reg fifo_up1_almostfull,
 
 input wire out0,
 input wire out1,
@@ -27,9 +30,12 @@ initial begin
 		$dumpfile("paratoserial.vcd");	
 		$dumpvars;			
 	    	
-		 valid_0 = 0;
-         valid_1 = 0;
-		 reset <= 0;
+	reset 		= 0;
+	fifo_empty0 = 0;
+	fifo_empty1 = 0;
+	fifo_up0_almostfull = 0;
+	fifo_up1_almostfull = 0;
+		 
 
 		repeat (2) begin			// checking reset
 		@(posedge clk1f);
@@ -51,9 +57,7 @@ initial begin
 
 		@(posedge clk1f);	
 		    in0 <= 8'hAA;
-			valid_0 <= 1;	
 	        in1 <= 8'hAA;
-			valid_1 <= 1;	
 	
 
         	repeat (2) begin			// 1110 1110
@@ -65,16 +69,12 @@ initial begin
     
 		@(posedge clk1f);	
 		    in0 <= 8'hCC;
-			valid_0 <= 0;	
-		    in1 <= 8'hCC;
-			valid_1 <= 0;	
+		    in1 <= 8'hCC;	
 		
 
 		@(posedge clk1f);	
 		    in0 <= 8'hBB;	
-			valid_0 <= 1;
-            in1 <= 8'hBB;	
-			valid_1 <= 1;			
+            in1 <= 8'hBB;			
         
 
 
@@ -87,18 +87,79 @@ initial begin
     
 		@(posedge clk1f);	
 		    in0 <= 8'hCC;
-			valid_0 <= 0;	
 		    in1 <= 8'hFF;
-			valid_1 <= 1;	
 		
 
 		@(posedge clk1f);	
 		    in0 <= 8'hBB;	
-			valid_0 <= 1;
+            in1 <= 8'hEE;		
+
+			repeat (2) begin			// 1110 1110
+		@(posedge clk1f);	
+		    in0 <= 8'hEE;
+            in1 <= 8'hAA;
+		
+    
+		@(posedge clk1f);	
+		    in0 <= 8'hCC;
+		    in1 <= 8'hFF;
+			fifo_empty0 <= 1;
+			fifo_empty1 <= 1;
+	
+		
+
+		@(posedge clk1f);	
+		    in0 <= 8'hBB;	
             in1 <= 8'hEE;	
-			valid_1 <= 0;		
+		
+	    
+		@(posedge clk1f);	
+		    in0 <= 8'hCC;
+		    in1 <= 8'hFF;
 
+		end
 
+		@(posedge clk1f) begin
+		    in0 <= 8'hCC;
+		    in1 <= 8'hFF;
+			fifo_empty0 <= 0;
+			fifo_empty1 <= 0;
+		end
+		
+
+		@(posedge clk1f) begin
+		    in0 <= 8'hBB;	
+            in1 <= 8'hEE;	
+		
+		end
+		@(posedge clk1f) begin	
+		    in0 <= 8'hCC;
+		    in1 <= 8'hFF;
+
+		end
+		
+		@(posedge clk1f) begin
+		    in0 <= 8'hCC;
+		    in1 <= 8'hFF;
+			fifo_up0_almostfull <= 1;
+			fifo_up1_almostfull <= 1;
+		end
+
+		@(posedge clk1f) begin
+		    in0 <= 8'hBB;	
+            in1 <= 8'hEE;
+		end
+
+		@(posedge clk1f) begin
+		    in0 <= 8'hBB;	
+            in1 <= 8'hEE;	
+		end
+	    
+		@(posedge clk1f) begin
+		    in0 <= 8'hCC;
+		    in1 <= 8'hFF;
+
+		end
 		$finish;		
 	end
 

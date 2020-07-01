@@ -1,0 +1,48 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Sat Jun 27 07:41:20 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/memory.vcd"
+[dumpfile_mtime] "Sat Jun 27 07:35:31 2020"
+[dumpfile_size] 23767
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/memory.gtkw"
+[timestart] 137800
+[size] 1853 859
+[pos] -29 -29
+*-14.736184 350000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] memory_tb.
+[sst_width] 43
+[signals_width] 182
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@200
+-INPUTS
+@28
+memory_tb.clk
+memory_tb.reset
+@200
+-
+@22
+memory_tb.data_in[9:0]
+@200
+-
+@28
+memory_tb.write
+memory_tb.read
+@200
+-
+-Outputs
+-blue for struct-syn
+@22
+memory_tb.data_out[9:0]
+[color] 5
+memory_tb.data_out_s[9:0]
+@200
+-
+@22
+memory_tb.wr_ptr[7:0]
+memory_tb.rd_ptr[7:0]
+@200
+-
+[pattern_trace] 1
+[pattern_trace] 0

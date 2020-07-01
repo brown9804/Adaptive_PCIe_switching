@@ -1,0 +1,92 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Wed Jul  1 07:03:36 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/routing.vcd"
+[dumpfile_mtime] "Wed Jul  1 06:51:38 2020"
+[dumpfile_size] 68790
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/routering.gtkw"
+[timestart] 0
+[size] 1853 859
+[pos] -29 -29
+*-15.981030 290000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TestBench.
+[treeopen] TestBench.route_TB.
+[sst_width] 43
+[signals_width] 182
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@28
+TestBench.route_TB.mux21_TB.clk
+TestBench.route_TB.mux21_TB.reset
+@22
+TestBench.route_TB.mux21_TB.in0[9:0]
+TestBench.route_TB.mux21_TB.in1[9:0]
+@200
+-
+-MUX
+@28
+TestBench.route_TB.mux21_TB.pop_0
+TestBench.route_TB.mux21_TB.pop_1
+@200
+-
+@22
+TestBench.route_TB.mux21_TB.out[9:0]
+@200
+-
+@28
+TestBench.route_TB.mux21_TB.valid
+@200
+-
+@28
+TestBench.route_TB.mux21_TB.fifo_empty0
+TestBench.route_TB.mux21_TB.fifo_empty1
+@200
+-
+-DEMUX
+@22
+TestBench.route_TB.demux1x2_Routering.in[7:0]
+@28
+TestBench.route_TB.demux1x2_Routering.classif
+@200
+-
+@22
+TestBench.route_TB.demux1x2_Routering.out0[7:0]
+TestBench.route_TB.demux1x2_Routering.out1[7:0]
+@200
+-
+@28
+TestBench.route_TB.demux1x2_Routering.push_0
+TestBench.route_TB.demux1x2_Routering.push_1
+@200
+-
+-FIFOs
+@22
+TestBench.route_TB.fifo6x8_routering_0.data_in_push[7:0]
+TestBench.route_TB.fifo6x8_routering_1.data_in_push[7:0]
+@200
+-
+@22
+TestBench.route_TB.fifo6x8_routering_0.data_out_pop[7:0]
+TestBench.route_TB.fifo6x8_routering_1.data_out_pop[7:0]
+@200
+-
+@22
+TestBench.route_TB.fifo6x8_routering_0.data_count[7:0]
+TestBench.route_TB.fifo6x8_routering_1.data_count[7:0]
+@200
+-
+-OUTPUT
+@22
+TestBench.out0_BTB[7:0]
+TestBench.out0_STB[7:0]
+@200
+-
+@22
+TestBench.out1_BTB[7:0]
+@23
+TestBench.out1_STB[7:0]
+@200
+-
+[pattern_trace] 1
+[pattern_trace] 0

@@ -1,0 +1,68 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Sat Jun 27 06:16:58 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/demux12.vcd"
+[dumpfile_mtime] "Sat Jun 27 06:16:14 2020"
+[dumpfile_size] 8159
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/demux21.gtkw"
+[timestart] 0
+[size] 1853 859
+[pos] -1 -1
+*-15.907787 169800 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TestBench.
+[sst_width] 43
+[signals_width] 230
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@201
+-inputs
+@28
+TestBench.clk_TB
+TestBench.reset_TB
+@200
+-
+@22
+TestBench.in_TB[9:0]
+@28
+TestBench.classif_TB
+@200
+-
+@28
+TestBench.fifo_up0_almostfull_TB
+TestBench.fifo_up1_almostfull_TB
+@200
+-
+-Outputs
+-Blue for struct-syn
+@22
+TestBench.out0_BTB[9:0]
+[color] 5
+TestBench.out0_STB[9:0]
+@200
+-
+@22
+TestBench.out1_BTB[9:0]
+[color] 5
+TestBench.out1_STB[9:0]
+@200
+-
+@28
+TestBench.push_0_BTB
+[color] 5
+TestBench.push_0_STB
+@200
+-
+@28
+TestBench.push_1_BTB
+[color] 5
+TestBench.push_1_STB
+@200
+-
+-
+-
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0

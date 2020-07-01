@@ -1,31 +1,39 @@
-// Belinda Brown Ramírez
-// June, 2020
-// timna.brown@ucr.ac.cr
+/////////////////////////////////                      .        .
+//  Brandon Equivel             //                        .  .
+//  brandon.esquivel@ucr.ac.cr   ///////////............///////
+//  Belinda Brown Ramírez         //////////.............//////    .
+//  timna.brown@ucr.ac.cr        //
+//  June, 2020                 //                        .    .      .
+////////////////////////////////                       .
+      ///           ///
+    ///               ///
+  ///                   ///
+////                    /////
 
 `ifndef T_MEMORY
 `define T_MEMORY
 
 
-module memory_tester #( parameter MAIN_SIZE=8, parameter DATA_SIZE = 10)(
+module memory_tester #( parameter DATA_SIZE = 10, parameter MAIN_SIZE = 8 )(
 	// Outputs
-	output reg  clk,
-  output reg	read,
-  output reg  write,
-	output reg  reset,
-	output reg [MAIN_SIZE-1:0] wr_ptr,
-	output reg [MAIN_SIZE-1:0] rd_ptr,
-	output reg [DATA_SIZE-1:0] data_in,
+	output reg 		 			clk,
+  	output reg		 			read,
+  	output reg 		 			write,
+	output reg 		 			reset,
+	output reg [MAIN_SIZE-1:0] 	wr_ptr,
+	output reg [MAIN_SIZE-1:0] 	rd_ptr,
+	output reg [DATA_SIZE-1:0] 	data_in,
 	// Inputs
-	input  [DATA_SIZE-1:0] data_out,
-  input [DATA_SIZE-1:0] data_out_s
+	input wire [DATA_SIZE-1:0]  data_out,
+  	input wire [DATA_SIZE-1:0]  data_out_s
 );
 
- initial begin
+ 	initial begin
 
-    $dumpfile("memory.vcd");
+    	$dumpfile("memory.vcd");
 		// Defining the dumpfile NAME_OF_FILE_CHOICE_PERSONAL.vcd), or known by change dump variable, this file contains
 		// information about the simulator used, time scale, creation date, variable definitions, and value changes.
-    $dumpvars;
+    	$dumpvars;
 
 		// The stimulus must be changed, where it allows testing to give an idea of ​​the behavior of the signals.
 		// Therefore, the inputs will be initialized with a value chosen between one and zero. Since they are not defined
@@ -46,189 +54,88 @@ module memory_tester #( parameter MAIN_SIZE=8, parameter DATA_SIZE = 10)(
 		// This passes the first clock cycle ... Defining initial values ​​....
 
 
-    {data_in} = 'h0;
-    {wr_ptr}  = 'h0;
-    {rd_ptr}  = 'h0;
-		#4 reset = 0;
-    read = 0;
-    write = 0;
+    	{data_in}		= 'h0;
+    	{wr_ptr}		= 'h0;
+    	{rd_ptr}		= 'h0;
+		#4 reset		= 	0;
+    	read 			= 	0;
+    	write 			= 	0;
+
+
 
 		// Begin test
 		repeat (6) begin
-		@(posedge clk);
-		reset <= 0;
+		@(posedge clk)
+		reset 			<= 0;
+		end
+	
+		@(posedge clk) begin
+		#4 reset 		<= 1;
 		end
 
-		repeat (6) begin
-		@(posedge clk);
-		#4 reset <= 1;
+		// IN seqs starts
+		@(posedge clk) begin
+		data_in 		 <= 'h1FF;
+		write			 <=  1;
+		wr_ptr			 <= 'h1;
 		end
 
-repeat(2) begin
-		repeat(4) begin
-		read <= 0;
-		write <= 1;
-		wr_ptr <= 'h1;
-		rd_ptr <= 'h0;
+		@(posedge clk) begin
+		data_in 		 <= 'h1EE;
+		wr_ptr			 <= 'h2;
 		end
 
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hFF;
-			end
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hDD;
-			end
-end // end repeat 2
-
-repeat(2) begin
-		repeat(4) begin
-		read <= 1;
-		write <= 0;
-		wr_ptr <= 'h0;
-		rd_ptr <= 'h1;
+		@(posedge clk) begin
+		data_in 		 <= 'h1CC;
+		wr_ptr			 <= 'h3;
+		end
+		
+		@(posedge clk) begin
+		data_in 		 <= 'h0FF;
+		wr_ptr			 <= 'h4;
+		rd_ptr			 <= 'h1;
+		read 			 <=  1;
+		end
+		
+		@(posedge clk) begin
+		data_in 		 <= 'h0AA;
+		wr_ptr			 <= 'h5;
+		rd_ptr			 <= 'h2;
+		end
+		
+		@(posedge clk) begin
+		data_in 		 <= 'h1DD;
+		rd_ptr			 <= 'h3;
+		write 			 <=  0;
 		end
 
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hEE;
-			end
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hCC;
-			end
-end // end repeat 2
-
-repeat(2) begin
-		repeat(4) begin
-		read <= 0;
-		write <= 1;
-		wr_ptr <= 'h1;
-		rd_ptr <= 'h0;
+		@(posedge clk) begin
+		data_in 		 <= 'h1FA;
+		rd_ptr			 <= 'h4;
 		end
 
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hBB;
-			end
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'h99;
-			end
-end // end repeat 2
-
- repeat (2) begin
-		repeat(4) begin
-		read <= 1;
-		write <= 0;
-		wr_ptr <= 'h0;
-		rd_ptr <= 'h1;
+		@(posedge clk) begin
+		data_in 		 <= 'h1DD;
+		rd_ptr			 <= 'h5;
 		end
 
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hAA;
-			end
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'h88;
-			end
-end // end repeat 2
-
-// Same test but two write and two read  instructions
-
-repeat(2) begin
-		repeat(4) begin
-		read <= 0;
-		write <= 1;
-		wr_ptr <= 'h1;
-		rd_ptr <= 'h0;
+		@(posedge clk) begin
+		data_in 		 <= 'h0AA;
+		read  			 <= 0;
 		end
 
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hFF;
-			end
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hDD;
-			end
-end // end repeat 2
-
-
-repeat(2) begin
-		repeat(4) begin
-		read <= 0;
-		write <= 1;
-		wr_ptr <= 'h1;
-		rd_ptr <= 'h0;
+		@(posedge clk) begin
+		reset    		<= 0;
+		end
+		@(posedge clk) begin
+		reset    		<= 0;
 		end
 
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hEE;
-			end
+   		#40 $finish;
+	end
 
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hCC;
-			end
-end // end repeat 2
-
-repeat(2) begin
-		repeat(4) begin
-		read <= 1;
-		write <= 0;
-		wr_ptr <= 'h0;
-		rd_ptr <= 'h1;
-		end
-
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hBB;
-			end
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'h99;
-			end
-end // end repeat 2
-
- repeat (2) begin
-		repeat(4) begin
-		read <= 1;
-		write <= 0;
-		wr_ptr <= 'h0;
-		rd_ptr <= 'h1;
-		end
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'hAA;
-			end
-
-		repeat (4) begin
-		@(posedge clk);
-		  data_in <= 'h88;
-			end
-end // end repeat 2
-
-
-
-
-    #40 $finish;
-end
-
-    initial clk <= 0;
-    always # 5 clk <= ~clk;
+    initial 	clk 	<= 0;
+    always #10 	clk		<= ~clk;
 
 endmodule
 

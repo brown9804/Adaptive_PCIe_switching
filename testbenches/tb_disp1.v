@@ -1,6 +1,8 @@
-// Belinda Brown Ramírez
-// June, 2020
-// timna.brown@ucr.ac.cr
+// Brandon Esquivel Molina
+// Belinda Brown Ramirez
+// Testbench for Device1 
+// brandon.esquivel@ucr.ac.cr
+// timna.brown@ucr.ac.cr 
 
 `ifndef TB_DISP1
 `define TB_DISP1
@@ -16,25 +18,30 @@
 
 module TestBench;
 
-// Usually the signals in the test bench are wires.
-// They do not store a value, they are handled by other module instances.
-// Since they require matching the size of the inputs and outputs, they must be assigned their size
-// defined in the modules
 
-// If you define quantity format, it is recommended to keep it in the same format being the
-// same used in the module for the number of bits - [1: 0] ---, another way to do it is with
-// [0: 1]
 
-// We are going to use AUTOINST: It is responsible for replacing the connections (considering it is HDL)
-// pin to an instance (module) with variables as they change over time automatically in the instantiated module
+parameter DATA_SIZE = 10;       
+parameter MAIN_SIZE = 8;
 
-// It's needed /*AUTOWIRE*/ because: Creates wires for outputs that ins't declare
 
 /*AUTOWIRE*/
-wire out0_BTB, out1_BTB, out0_STB, out1_STB;
-wire error_class_BTB, error_class_STB, error_route_BTB, error_route_STB;
-wire clk, clk8f, reset;
-wire [9:0] in_TB;
+wire [DATA_SIZE-1:0]      in_TB;
+wire                      clk1f;
+wire                      clk8f;
+wire                      reset;
+wire                      pop_0;
+wire                      pop_1;
+wire                      fifo0_disp2_almostfull;
+wire                      fifo1_disp2_almostfull;
+wire                      out0_STB;
+wire                      out1_STB;
+wire                      out0_BTB;
+wire                      out1_BTB;
+wire                      error_class_STB;
+wire                      error_route_STB;
+wire                      error_class_BTB;
+wire                      error_route_BTB;
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
               //////////// Device 1 BEHAV
@@ -43,14 +50,18 @@ wire [9:0] in_TB;
 
 device1  device1_b(/*AUTOINST*/
   //Outputs
-  .out0           (out0_BTB), 
-  .out1           (out1_BTB), 
-  .Error_class    (error_class_BTB),
-  .Error_route    (error_route_BTB),
-  .clk            (clk),
-  .clk8f          (clk8f),
-  .reset          (reset),
-  .in             (in_TB)
+  .out0                            (out0_BTB),
+  .out1                            (out1_BTB),
+  .Error_class                     (error_class_BTB),
+  .Error_route                     (error_route_BTB),
+   // INPUTS                                             
+  .in                              (in_TB),           
+  .clk                             (clk1f),             
+  .clk8f                           (clk8f),               
+  .reset                           (reset),                             
+  .fifo0_disp2_almostfull          (fifo0_disp2_almostfull),                               
+  .fifo1_disp2_almostfull          (fifo1_disp2_almostfull)                               
+
 );
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -60,17 +71,19 @@ device1  device1_b(/*AUTOINST*/
 
 device1_syn  device1_s(/*AUTOINST*/
   //Outputs
-  .out0           (out0_STB), 
-  .out1           (out1_STB), 
-  .Error_class    (error_class_STB),
-  .Error_route    (error_route_STB),
+  .out0                            (out0_STB),
+  .out1                            (out1_STB),
+  .Error_class                     (error_class_STB),
+  .Error_route                     (error_route_STB),
+   // INPUTS                                             
+  .in                              (in_TB),           
+  .clk                             (clk1f),             
+  .clk8f                           (clk8f),               
+  .reset                           (reset),                            
+  .fifo0_disp2_almostfull          (fifo0_disp2_almostfull),                               
+  .fifo1_disp2_almostfull          (fifo1_disp2_almostfull)                               
 
-  .clk            (clk),
-  .clk8f          (clk8f),
-  .reset          (reset),
-  .in             (in_TB)
 );
-
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -79,19 +92,26 @@ device1_syn  device1_s(/*AUTOINST*/
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 t_device1 t_device1TB (/*AUTOINST*/
-  //Outputs
-  .out0                  (out0_BTB), // out from fifo6x8 #0
-  .out1                  (out1_BTB), // out from fifo6x8 #0
-  .Error_route_BTB       (error_route_BTB),
-  .Error_class_BTB       (error_class_BTB),
-  .out0_s                (out0_STB), // out from fifo6x8 #0
-  .out1_s                (out1_STB), // out from fifo6x8 #0
-  .Error_class_STB       (error_class_STB),
-  .Error_route_STB       (error_route_STB),
-  .clk                   (clk),
-  .clk8f                 (clk8f),
-  .reset                 (reset),
-  .in                    (in_TB)
+  // OUTPUTS
+  .in                              (in_TB),
+  .clk                             (clk1f),
+  .clk8f                           (clk8f),
+  .reset                           (reset),
+  .fifo0_disp2_almostfull          (fifo0_disp2_almostfull),
+  .fifo1_disp2_almostfull          (fifo1_disp2_almostfull),
+ 
+ // IMPUTS
+  // Structural/synth
+  .out0_s                          (out0_STB),
+  .out1_s                          (out1_STB),
+  .Error_class_s                   (error_class_STB),
+  .Error_route_s                   (error_route_STB),
+  // Behavorial
+  .out0                            (out0_BTB),
+  .out1                            (out1_BTB),
+  .Error_class                     (error_class_BTB),
+  .Error_route                     (error_route_BTB)
+                                           
 );
 
 

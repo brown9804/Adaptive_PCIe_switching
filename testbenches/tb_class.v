@@ -1,6 +1,15 @@
-// Belinda Brown Ramírez
-// June, 2020
-// timna.brown@ucr.ac.cr
+// 	//	 /////  /////
+//  //   //		  // //
+// 	//	 //	    ///_
+//////   /////  //  // 
+
+////////////////////////////////
+// Belinda Brown Ramírez      //
+// timna.brown@ucr.ac.cr      // 
+// Brandon Esquivel Molina    //
+// brandon.esquivel@ucr.ac.cr //
+// Revision: June, 2020 	    //
+////////////////////////////////
 
 `ifndef TB_CLASS
 `define TB_CLASS
@@ -38,24 +47,27 @@ parameter MAIN_SIZE = 8;
 /*AUTOWIRE*/
 
 //wire emptyF0, emptyF1; 
-
-// behav wires
-wire almost_full0_BTB, almost_empty0_BTB, fifo0_empty_BTB, fifo_full0_BTB, fifo0_error_BTB, fifo0_pause_BTB;   // almost_full1_in_BTB;
-wire almost_full1_BTB, almost_empty1_BTB, fifo1_empty_BTB, fifo_full1_BTB, fifo1_error_BTB, fifo1_pause_BTB;
-// struct wires
-wire almost_full0_STB, almost_empty0_STB, fifo0_empty_STB, fifo_full0_STB, fifo0_error_STB, fifo0_pause_STB;   // almost_full1_in_STB;
-wire almost_full1_STB, almost_empty1_STB, fifo1_empty_STB, fifo_full1_STB, fifo1_error_STB, fifo1_pause_STB;
+wire                      wire_fifo0_empty_BTB;
+wire                      wire_fifo1_empty_BTB;
+wire                      wire_fifo0_empty_STB;
+wire                      wire_fifo1_empty_STB;
+wire                      Error_BTB;
+wire                      Error_STB;
 // behav out
-wire [DATA_SIZE-1:0] out0_BTB;
-wire [DATA_SIZE-1:0] out1_BTB;
+wire [DATA_SIZE-1:0]      out0_BTB;
+wire [DATA_SIZE-1:0]      out1_BTB;
 // struct out
-wire  [DATA_SIZE-1:0] out0_STB;
-wire  [DATA_SIZE-1:0] out1_STB;
+wire  [DATA_SIZE-1:0]     out0_STB;
+wire  [DATA_SIZE-1:0]     out1_STB;
+
 // general 
-wire  reset;
-wire  clk;
-wire  [DATA_SIZE-1:0] in;
-wire Error;
+wire  [DATA_SIZE-1:0]     in;
+wire                      reset;
+wire                      clk;
+wire                      fifo_up0_almostfull;
+wire                      fifo_up1_almostfull;
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -63,28 +75,22 @@ wire Error;
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-classswitching  class_b(/*AUTOINST*/
-    // Outputs   
-    .out0     ( out0_BTB ),
-    .out1     ( out1_BTB ),
-    .almost_full0 (almost_full0_BTB),
-    .almost_empty0 (almost_empty0_BTB),
-    .fifo0_empty (fifo0_empty_BTB),
-    .fifo0_error (fifo0_error_BTB),
-    .fifo0_pause (fifo0_pause_BTB),
-    .almost_full1 (almost_full1_BTB),
-    .almost_empty1 (almost_empty1_BTB),
-    .fifo1_empty (fifo1_empty_BTB),
-    .fifo1_error (fifo1_error_BTB),
-    .fifo1_pause (fifo1_pause_BTB),
-    .fifo_full0 (fifo_full0_BTB),
-    .fifo_full1 (fifo_full1_BTB),
-    .Error (Error),
-    // Inputs
-    .in       ( in     ),
-    .clk      ( clk    ),
-    .reset    ( reset  )
-);
+classswitching #( .DATA_SIZE (DATA_SIZE), .MAIN_SIZE (MAIN_SIZE) ) 
+  class_b(/*AUTOINST*/
+    // Outputs    
+    .out0                   (out0_BTB),
+    .out1                   (out1_BTB),
+    .Error                  (Error_BTB),  
+    .fifo_empty0            (wire_fifo0_empty_BTB),        
+    .fifo_empty1            (wire_fifo1_empty_BTB),        
+
+    //Inputs  
+    .reset                  (reset),  
+    .clk                    (clk),    
+    .pop_0                  (pop_0),
+    .pop_1                  (pop_1),    
+    .in                     (in)
+    );
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -94,28 +100,20 @@ classswitching  class_b(/*AUTOINST*/
 
 
 classswitching_syn  class_s(/*AUTOINST*/
-    // Outputs
-    .out0 (out0_STB),
-    .out1 (out1_STB),
-    .almost_full0 (almost_full0_STB),
-    .almost_empty0 (almost_empty0_STB),
-    .fifo0_empty (fifo0_empty_STB),
-    .fifo0_error (fifo0_error_STB),
-    .fifo0_pause (fifo0_pause_STB),
-    .almost_full1 (almost_full1_STB),
-    .almost_empty1 (almost_empty1_STB),
-    .fifo1_empty (fifo1_empty_STB),
-    .fifo1_error (fifo1_error_STB),
-    .fifo1_pause (fifo1_pause_STB),
-    .fifo_full0 (fifo_full0_STB),
-    .fifo_full1 (fifo_full1_STB),
-    .Error (Error),
-    // Inputs
-    .in       ( in     ),
-    .clk      ( clk    ),
-    .reset    ( reset  )
-);
+    // Outputs   
+    .out0                   (out0_STB),
+    .out1                   (out1_STB),
+    .Error                  (Error_STB),  
+    .fifo_empty0            (wire_fifo0_empty_STB),        
+    .fifo_empty1            (wire_fifo1_empty_STB),        
 
+    //Inputs  
+    .reset                  (reset),  
+    .clk                    (clk),
+    .pop_0                  (pop_0),
+    .pop_1                  (pop_1),    
+    .in                     (in)
+    );
 
 
 
@@ -125,45 +123,28 @@ classswitching_syn  class_s(/*AUTOINST*/
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-t_class t_classTB (/*AUTOINST*/
-  //Outputs
-  .out0 (out0_BTB),
-  .out1 (out1_BTB),
-  .almost_full0 (almost_full0_BTB),
-  .almost_empty0 (almost_empty0_BTB),
-  .fifo0_empty (fifo0_empty_BTB),
-  .fifo0_error (fifo0_error_BTB),
-  .fifo0_pause (fifo0_pause_BTB),
-  .fifo_full0 (fifo_full0_BTB),
-  .fifo_full1 (fifo_full1_BTB),
-  .almost_full1 (almost_full1_BTB),
-  .almost_empty1 (almost_empty1_BTB),
-  .fifo1_empty (fifo1_empty_BTB),
-  .fifo1_error (fifo1_error_BTB),
-  .fifo1_pause (fifo1_pause_BTB),
-    // Structural
-    .out0_s (out0_STB),
-    .out1_s (out1_STB),
-    .almost_full0_s (almost_full0_STB),
-    .almost_empty0_s (almost_empty0_STB),
-    .fifo0_empty_s (fifo0_empty_STB),
-    .fifo0_error_s (fifo0_error_STB),
-    .fifo0_pause_s (fifo0_pause_STB),
-    .almost_full1_s (almost_full1_STB),
-    .almost_empty1_s (almost_empty1_STB),
-    .fifo1_empty_s (fifo1_empty_STB),
-    .fifo1_error_s (fifo1_error_STB),
-    .fifo1_pause_s (fifo1_pause_STB),
-    .fifo_full0_s (fifo_full0_STB),
-    .fifo_full1_s (fifo_full1_STB),
-    .Error    (Error),
-  // Inputs
-    .in       ( in     ),
-    .clk      ( clk    ),
-    .reset    ( reset  )
+t_class  #( .DATA_SIZE ( DATA_SIZE), .MAIN_SIZE(MAIN_SIZE))
+  t_classTB (/*AUTOINST*/
+    //Outputs   
+    .out0                   (out0_BTB),
+    .out1                   (out1_BTB),
+    .Error                  (Error_BTB),  
+    .fifo_empty0            (wire_fifo0_empty_BTB),        
+    .fifo_empty1            (wire_fifo1_empty_BTB),
+    // Structural 
+    .out0_s                 (out0_STB),
+    .out1_s                 (out1_STB),
+    .Error_s                (Error_STB),
+    .fifo_empty0_s          (wire_fifo0_empty_STB),        
+    .fifo_empty1_s          (wire_fifo1_empty_STB),        
 
-);
-
+    // OUTPUTS
+    .reset                  (reset),  
+    .clk                    (clk),
+    .pop_0                  (pop_0),
+    .pop_1                  (pop_1),    
+    .in                     (in)
+    );
 
 
 endmodule

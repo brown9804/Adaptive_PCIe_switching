@@ -5,26 +5,26 @@
 `ifndef T_DISP1
 `define T_DISP1
 
-// only necessary signals
-module t_device1 #(
-    //Parameters
-    parameter DATA_SIZE = 10,
-    parameter MAIN_SIZE = 8
-) (
-  // outputs
-  output reg reset,
-  output reg clk,
-  output reg clk8f,
-  output reg [DATA_SIZE-1:0] in,
-
-  // BEHAV
-  input wire out0,
-  input wire out1,
-  //Syn
-  input wire out0_s,
-  input wire out1_s,
-
-  input wire Error_class_BTB, Error_route_BTB,Error_class_STB, Error_route_STB
+module t_device1 (
+  // OUTPUTS
+  output reg [9:0]  in,                       
+  output reg clk,                             
+  output reg clk8f,                           
+  output reg reset,                           
+  //output reg pop_0,                           
+  //output reg pop_1,                           
+  output reg fifo0_disp2_almostfull,          
+  output reg fifo1_disp2_almostfull,          
+  // STRUCT
+  input wire out0_s,                          
+  input wire out1_s,                          
+  input wire Error_class_s,                   
+  input wire Error_route_s,                   
+  // behavorial
+  input wire out0,                            
+  input wire out1,                            
+  input wire Error_class,                     
+  input wire Error_route                                                      
 
 );
 
@@ -36,53 +36,96 @@ initial begin
   $dumpfile("disp1.vcd");
   $dumpvars;
 
+// INITIAL VALUES
+  in = 10'h0;
+  #4 reset = 0;
+  fifo0_disp2_almostfull = 0;
+  fifo1_disp2_almostfull = 0;
+
+  // This passes the first clock cycle ... Defining initial values ​​....
+
+    // Binary, Hexadecimal
+    // 0x88 = 1000 1000
+    // 0x99 = 1001 1001
+    // 0xAA = 1010 1010
+    // 0xBB = 1011 1011
+    // 0xCC = 1100 1100
+    // 0xDD = 1101 1101
+    // 0XEE = 1110 1110
+    // 0XFF = 1111 1111
 
 
-in = 10'h0;
-#4 reset = 0;
-reset <= 0;
 
+
+
+  // Begin test
+  repeat (6) begin
   @(posedge clk);
-  #4 reset <= 1;
+  reset <= 0;
+  end
 
-repeat (2) begin
-@(posedge clk) begin
-  in <= 10'h0FF;
-end
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0FF;
+    reset <= 1;
+  end
 
-@(posedge clk) begin
-    in <= 10'h3DD;
-	  end
+  // Sent to FiFo #1
+	@(posedge clk) begin
+    in              <= 10'h2DD;
+	end
 
-@(posedge clk) begin
-  in <= 10'h0EE;
-end
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0EE;
+  end
 
-@(posedge clk) begin
-	in <= 10'h3CC;
-end
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in              <= 10'h2CC;
+  end
 
-@(posedge clk) begin
-	in <= 10'h0BB;
-end
+  // TESTING PUSH BLOCK 0
+  @(posedge clk) begin
+	  in                     <= 10'h1BB;
+  end
 
-@(posedge clk) begin
-	in <= 10'h399;
-end
+  // TESTING PUSH BLOCK 1
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h299;
+    fifo0_disp2_almostfull <= 1;
+  end
 
-@(posedge clk) begin
-	in <= 10'h0AA;
-end
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in                     <= 10'h0AA;
+  end
 
-@(posedge clk) begin
-	in <= 10'h388;
-end
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h288;
+    fifo0_disp2_almostfull <= 0;
+  end
 
-@(posedge clk) begin
-	in <= 10'h377;
-end
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h1A7;
 
-end
+    fifo1_disp2_almostfull <= 1;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h277;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h1AA;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h2CC;
+  end
+
 #40 $finish;
 end
 

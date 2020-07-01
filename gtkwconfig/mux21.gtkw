@@ -1,0 +1,89 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Sun Jun 28 09:18:34 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/mux21.vcd"
+[dumpfile_mtime] "Sun Jun 28 09:16:58 2020"
+[dumpfile_size] 4511
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/mux21.gtkw"
+[timestart] 42300
+[size] 1853 859
+[pos] -1 -1
+*-15.553248 181700 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TestBench.
+[sst_width] 223
+[signals_width] 220
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@28
+TestBench.mux21_TB.reset
+TestBench.mux21_TB.clk
+@200
+-
+@22
+TestBench.mux21_TB.in0[9:0]
+TestBench.mux21_TB.in1[9:0]
+@200
+-
+@22
+TestBench.mux21_TB.out[9:0]
+[color] 5
+TestBench.mux21_syn_TB.out[9:0]
+@200
+-
+@28
+TestBench.mux21_TB.valid
+@29
+[color] 5
+TestBench.mux21_syn_TB.valid
+@200
+-
+-
+@28
+TestBench.mux21_TB.pop_0
+[color] 5
+TestBench.mux21_syn_TB.pop_0
+TestBench.mux21_TB.pop_1
+[color] 5
+TestBench.mux21_syn_TB.pop_1
+@200
+-
+-
+@28
+TestBench.mux21_TB.fifo_empty0
+[color] 5
+TestBench.mux21_syn_TB.fifo_empty0
+TestBench.mux21_TB.fifo_empty1
+[color] 5
+TestBench.mux21_syn_TB.fifo_empty1
+TestBench.mux21_TB.fifo_up0_almostfull
+[color] 5
+TestBench.mux21_syn_TB.fifo_up0_almostfull
+TestBench.mux21_TB.fifo_up1_almostfull
+[color] 5
+TestBench.mux21_syn_TB.fifo_up1_almostfull
+@200
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0

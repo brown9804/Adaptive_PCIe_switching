@@ -16,7 +16,7 @@
 # correspond to those of the Yosys synthesizer internal library.
 
 #Read the Behavioral desing
-read_verilog ./src/demux1x2_behav.v
+read_verilog ./src/demux1x2.v
 read_verilog -lib ./lib/cmos_cells.v
 
 #Hierarchy module
@@ -59,7 +59,7 @@ clean
 stat -liberty ./lib/cmos_cells.lib
 
 #Writing the structural of the description
-write_verilog ./syn/demux1x2_behav_syn.v
+write_verilog ./syn/demux1x2_syn.v
 
 
 #show schemes

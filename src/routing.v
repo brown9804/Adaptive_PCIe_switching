@@ -1,185 +1,161 @@
-// Belinda Brown Ramírez
-// June, 2020
-// timna.brown@ucr.ac.cr
+
+//////////////////////////////////////////
+// Brandon Esquivel Molina           ////
+// brandon.esquivel@ucr.ac.cr        ///
+// JUne,2020                         //
+//////////////////////////////////////
 
 `ifndef ROUTING
 `define ROUTING
 
 `timescale 1ns/1ps
 
-`include "./src/mux2x1_behav.v"
-`include "./src/demux1x2_8_behav.v"
-`include "./src/fifo_6x8.v"
-`include "./src/df_control.v"
+`include "./src/mux2x1.v"
+`include "./src/demux1x2.v"
+`include "./src/fifo.v"
 
 
-module router(
-input wire clk,
-input wire reset,
-// Outputs from fifos 8x10
+module router #(
+  parameter DATA_SIZE = 10, 
+  parameter MAIN_SIZE = 8) 
+
+  // Outputs from fifos 8x10
 // Assign 0 relative to fifo0
 // Assign 1 relative to fifo1
-input wire [9:0] in0,
-input wire [9:0] in1,
-input wire emptyF0,
-input wire emptyF1,
-//input wire classif,
-//Outputs
-output reg [7:0] out0, // out from fifo6x8 #0
-output reg [7:0] out1,  // out from fifo6x8 #1
-output reg almost_full0,
-output reg almost_empty0,
-output reg fifo0_empty,
-output reg fifo0_error,
-output reg fifo0_pause,
-output reg fifo_full0,
-output reg fifo_full1,
-output reg almost_full1,
-output reg almost_empty1,
-output reg fifo1_empty,
-output reg fifo1_error,
-output reg fifo1_pause,
-output reg Error,
-output reg pop_0, pop_1
+
+( // Outputs
+output reg [DATA_SIZE-3:0]      out0,           
+output reg [DATA_SIZE-3:0]      out1,           
+output reg                      Error,
+output reg                      pop_0,
+output reg                      pop_1,
+output reg                      fifo0_almost_empty, 
+output reg                      fifo1_almost_empty,
+// Inputs
+input wire [DATA_SIZE-1:0]      in0,
+input wire [DATA_SIZE-1:0]      in1,
+input wire                      clk,
+input wire                      reset,
+input wire                      pop_0_in, 
+input wire                      pop_1_in,
+input wire                      fifo_empty0,
+input wire                      fifo_empty1 
+
 );
+// Internal wires and nodes
 
-wire [9:0] out_mux;
-wire [7:0] out0_demux, out1_demux;
-// Push/Pop
-wire PP0, PP1;
-// wire Error_F;
-wire  read0;
-wire  read1;
-wire write0;
-wire write1;
-// //Regs for outputs of module routing
-wire n_almost_full0;
-wire n_almost_empty0;
-wire n_fifo0_empty;
-wire n_fifo0_error;
-wire n_fifo0_pause;
-wire n_Fifo_full0;
-wire [7:0] n_out0;
+wire                            fifo_up0_almostfull;
+wire                            fifo_up1_almostfull;
+wire [DATA_SIZE-1:0]            out_mux;
+wire [DATA_SIZE-3:0]            out0_demux;
+wire [DATA_SIZE-3:0]            out1_demux;
+wire [DATA_SIZE-3:0]            data_out_fifo0_to_out;
+wire                            wire_fifo0_almost_full;
+wire                            wire_fifo0_almost_empty;
+wire                            wire_fifo0_full;
+wire                            wire_fifo0_empty;
+wire                            wire_fifo0_error;
 
-// FIFO #1
-wire n_almost_full1;
-wire n_almost_empty1;
-wire n_fifo1_empty;
-wire n_fifo1_error;
-wire n_fifo1_pause;
-wire n_Fifo_full1;
-wire [7:0] n_out1;
+wire  [DATA_SIZE-3:0]           data_out_fifo1_to_out;
+wire                            wire_fifo1_almost_full;
+wire                            wire_fifo1_almost_empty;
+wire                            wire_fifo1_full;
+wire                            wire_fifo1_empty;
+wire                            wire_fifo1_error;
 
+wire                            valid;
+wire                            n_pop0;
+wire                            n_pop1;
+wire                            push_0;
+wire                            push_1;
 
 
-mux21 mux21_routing(/*AUTOINST*/
+  mux21 #(.DATA_SIZE(DATA_SIZE) ) 
+    mux21_TB (/*AUTOINST*/
     // Outputs
-    .out (out_mux),
-    // Inputs
-    .clk (clk),
-    .reset (reset),
-    .fifo_empty0 (emptyF0),
-    .fifo_empty1 (emptyF1),
-    .in0 (in0), // data out pop fifo0
-    .in1 (in1) // data out pop fifo1
-);
+    .out                    (out_mux),
+    .valid                  (valid),
+    .pop_0                  (n_pop0),
+    .pop_1                  (n_pop1),
+    //Inputs
+    .clk                    (clk),
+    .reset                  (reset),
+    .fifo_empty0            (fifo_empty0),
+    .fifo_empty1            (fifo_empty1),
+    .fifo_up0_almostfull    (wire_fifo0_almost_full),   
+    .fifo_up1_almostfull    (wire_fifo0_almost_full),
+    .in0                    (in0),
+    .in1                    (in1)
+  );
 
 
-demux12_8 demux12_8_routing (/*AUTOINST*/
-    // Outputs
-    .out0         (out0_demux),
-    .out1         (out1_demux),
-    // Inputs
-    .reset        (reset),
-    .clk          (clk),
-    .in           (out_mux[7:0]),
-    .classif      (out_mux[8]),
-    .push_0       (PP0),
-    .push_1       (PP1)
+
+
+demux12  #(	  .DATA_SIZE        (DATA_SIZE-2)                     // OVERWRITING INTERNAL PARAMETER 
+)  
+
+    demux1x2_Routering ( /*AUTOINST*/
+        // Outputs
+        .push_0                 (push_0),
+        .push_1                 (push_1),
+        .out0                   (out0_demux),
+        .out1                   (out1_demux),
+        // Inputs   
+        .reset                  (reset),
+        .clk                    (clk),
+        .valid                  (valid),
+        .in                     (out_mux[(DATA_SIZE-3):0]),
+        .fifo_up0_almostfull    (wire_fifo0_almost_full),
+        .fifo_up1_almostfull    (wire_fifo1_almost_full),
+        .classif                (out_mux[ (DATA_SIZE-2) ])
     );
 
 
-  dfcontrol datacontrol(
-    .clk (clk),
-    .reset                          ( reset ),
-    .push_0                         (PP0),
-    .push_1                         (PP1),
-    .almost_full1                   (n_almost_full0),
-    .almost_empty1                  (n_almost_empty0),
-    .fifo_empty1                    (n_fifo0_empty),
-    .Fifo_full1                     (n_Fifo_full0),
-    .fifo_error1                    (n_fifo0_error),
-    .fifo_pause1                    (n_fifo0_pause),
-    .almost_full2                   (n_almost_full1),
-    .almost_empty2                  (n_almost_empty1),
-    .fifo_empty2                    (n_fifo1_empty),
-    .Fifo_full2                     (n_Fifo_full1),
-    .fifo_error2                    (n_fifo1_error),
-    .fifo_pause2                    (n_fifo1_pause),
-    .read1                          (read0),
-    .write1                         (write0),           // from/to dtcontrol/fifo 1
-    .read2                          (read1),            // from/to dtcontrol/fifo 2
-    .write2                         (write1),
-    .Error (Error_F)
-  );
-
-  fifo_6x8  fifo6x8B0(/*AUTOINST*/
+  fifo_param  #(	  .DATA_SIZE        (DATA_SIZE-2), .MAIN_SIZE ((DATA_SIZE - 4)) ) 
+  fifo6x8_routering_0 (/*AUTOINST*/
       // Outputs
-      .fifo_empty    (n_fifo0_empty),
-      .Fifo_full     (n_Fifo_full0),
-      .data_out_pop  (n_out0),
-      .fifo_error    (n_fifo0_error),
-      .fifo_pause    (n_fifo0_pause),
-      //Inputs
-      .clk           (clk),
-      .reset         (reset),
-      .read          (read0),
-      .write         (write0),
-      .data_in_push  (out0_demux),
-      .almost_full   (n_almost_full0),
-      .almost_empty  (n_almost_empty0)
+      .data_out_pop             (data_out_fifo0_to_out),
+      .almost_full              (wire_fifo0_almost_full),
+      .almost_empty             (wire_fifo0_almost_empty),
+      .Fifo_full                (wire_fifo0_full),        // not connected
+      .fifo_empty               (wire_fifo0_empty),
+      .fifo_error               (wire_fifo0_error),
+       //Inputs
+      .clk                      (clk),                
+      .reset                    (reset),    
+      .read                     (pop_0_in),    
+      .write                    (push_0),    
+      .data_in_push             (out0_demux)            
   );
 
-  fifo_6x8  fifo6x8B1(/*AUTOINST*/
-    // Outputs
-    .fifo_empty      (n_fifo1_empty),
-    .Fifo_full       (n_Fifo_full1),
-    .data_out_pop    (n_out1),
-    .fifo_error      (n_fifo1_error),
-    .fifo_pause      (n_fifo1_pause),
-    //Inputs
-    .clk             (clk),
-    .reset           (reset),
-    .read            (read1),
-    .write           (write1),
-    .data_in_push    (out1_demux),
-    .almost_full     (n_almost_full1),
-    .almost_empty    (n_almost_empty1)
+
+  fifo_param  #(	  .DATA_SIZE        (DATA_SIZE-2), .MAIN_SIZE ((DATA_SIZE - 4)) ) 
+  fifo6x8_routering_1 (/*AUTOINST*/
+      // Outputs
+      .data_out_pop             (data_out_fifo1_to_out),
+      .almost_full              (wire_fifo1_almost_full),
+      .almost_empty             (wire_fifo1_almost_empty),
+      .Fifo_full                (wire_fifo1_full),        // not connected
+      .fifo_empty               (wire_fifo1_empty),
+      .fifo_error               (wire_fifo1_error),
+       //Inputs
+      .clk                      (clk),                
+      .reset                    (reset),    
+      .read                     (pop_1_in),    
+      .write                    (push_1),    
+      .data_in_push             (out1_demux)            
   );
+
 
   always@(*) begin      // pass to outputs
-    out0   = n_out0;
-    out1   = n_out1;
-    pop_0  = read0;
-    pop_1  = read1;
-    Error  = Error_F;
-
-    almost_full0  = n_almost_full0;
-    almost_empty0 = n_almost_empty0;
-    fifo0_empty   = n_fifo0_empty;
-    fifo0_error   = n_fifo0_error;
-    fifo0_pause   = n_fifo0_pause;
-    almost_full1  = n_almost_full1;
-    almost_empty1 = n_almost_empty1;
-    fifo1_empty   =  n_fifo1_empty;
-    fifo1_error   =  n_fifo1_error;
-    fifo1_pause   =  n_fifo1_pause;
-    fifo_full0    =  n_Fifo_full0;
-    fifo_full1    =  n_Fifo_full1;
-
+    out0                = data_out_fifo0_to_out;
+    out1                = data_out_fifo1_to_out;
+    pop_0               = n_pop0;
+    pop_1               = n_pop1;
+    Error               = (wire_fifo0_error | wire_fifo1_error );
+    fifo0_almost_empty  = wire_fifo0_almost_empty;
+    fifo1_almost_empty  = wire_fifo1_almost_empty;
   end
-
-
 
 endmodule
 

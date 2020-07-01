@@ -1,0 +1,39 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Wed Jul  1 07:14:36 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/ptos.vcd"
+[dumpfile_mtime] "Wed Jul  1 07:13:16 2020"
+[dumpfile_size] 34470
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/ptos.gtkw"
+[timestart] 0
+[size] 1853 859
+[pos] -29 -29
+*-18.853962 2225000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 43
+[signals_width] 136
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@28
+testbench_ptos.clk4f
+testbench_ptos.clk32f
+@200
+-
+@28
+testbench_ptos.reset
+@200
+-
+@22
+testbench_ptos.in[7:0]
+@201
+-
+@28
+testbench_ptos.in_valid
+@200
+-
+@28
+testbench_ptos.outc
+[color] 5
+testbench_ptos.outs
+[pattern_trace] 1
+[pattern_trace] 0

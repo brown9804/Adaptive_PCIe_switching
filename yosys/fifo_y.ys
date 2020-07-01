@@ -2,8 +2,10 @@
 
 
 # Belinda Brown Ramírez
+# Brandon Esquivel
 # Mayo, 2020
 # timna.brown@ucr.ac.cr
+# brandon.esquivel@ucr.ac.cr
 
 
 
@@ -20,7 +22,7 @@ read_verilog ./src/fifo.v
 read_verilog -lib ./lib/cmos_cells.v
 
 #Hierarchy module
-hierarchy -check -top fifo_8x10
+hierarchy -check -top fifo_param
 
 #Process to nettlist
 proc
@@ -63,6 +65,6 @@ write_verilog ./syn/fifo_syn.v
 
 
 #show schemes
-show \fifo_8x10
+show \fifo_param
 # To save then in diagrams_generated folder
 #show -format ps -prefix ./diagrams_generated/demux1x2_behav

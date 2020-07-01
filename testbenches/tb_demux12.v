@@ -12,11 +12,14 @@
 // Can be omitted and called from the testbench
 // Cmos
 `include "./lib/cmos_cells.v"
-`include "./src/demux1x2_behav.v"
-`include "./syn/demux1x2_behav_syn.v"
+`include "./src/demux1x2.v"
+`include "./syn/demux1x2_syn.v"
 `include "./testers/t_demux12.v"
 
-module TestBench; // Testbench
+module TestBench #(
+    parameter DATA_SIZE = 10
+)();
+// Testbench
 // Usually the signals in the test bench are wires.
 // They do not store a value, they are handled by other module instances.
 // Since they require matching the size of the inputs and outputs, they must be assigned their size
@@ -35,29 +38,36 @@ module TestBench; // Testbench
 wire reset_TB, clk_TB, classif_TB;
 wire push_0_BTB, push_1_BTB;
 wire push_0_STB, push_1_STB;
-wire [9:0] in_TB;
-wire [9:0] out0_BTB;
-wire [9:0] out1_BTB;
-wire [9:0] out0_STB;
-wire [9:0] out1_STB;
+
+wire [DATA_SIZE-1:0] in_TB;
+
+wire [DATA_SIZE-1:0] out0_BTB;
+wire [DATA_SIZE-1:0] out1_BTB;
+wire [DATA_SIZE-1:0] out0_STB;
+wire [DATA_SIZE-1:0] out1_STB;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
               //////////// DEMUX 1:2 BEHAVIORAL
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-demux12 demux12_TB (/*AUTOINST*/
-// Outputs
-.push_0 (push_0_BTB),
-.push_1 (push_1_BTB),
-.out0 (out0_BTB),
-.out1 (out1_BTB),
-//Inputs
-.reset (reset_TB),
-.clk (clk_TB),
-.in (in_TB),
-.classif (classif_TB)
-);
+demux12  #(	  .DATA_SIZE        (DATA_SIZE)                     // OVERWRITING INTERNAL PARAMETER 
+)  
+
+    demux1x2_BTB ( /*AUTOINST*/
+        // Outputs
+        .push_0                 (push_0_BTB),
+        .push_1                 (push_1_BTB),
+        .out0                   (out0_BTB),
+        .out1                   (out1_BTB),
+        // Inputs   
+        .reset                  (reset_TB),
+        .clk                    (clk_TB),
+        .in                     (in_TB),
+        .fifo_up0_almostfull    (fifo_up0_almostfull_TB),
+        .fifo_up1_almostfull    (fifo_up1_almostfull_TB),
+        .classif                (classif_TB)
+    );
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -65,18 +75,21 @@ demux12 demux12_TB (/*AUTOINST*/
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-demux12_syn demux12_syn_TB (/*AUTOINST*/
-// Outputs
-.push_0 (push_0_STB),
-.push_1 (push_1_STB),
-.out0 (out0_STB),
-.out1 (out1_STB),
-// Inputs
-.reset (reset_TB),
-.clk (clk_TB),
-.in (in_TB),
-.classif (classif_TB)
-);
+demux12_syn  demux1x2_STB( /*AUTOINST*/
+        // Outputs
+        .push_0                 (push_0_STB),
+        .push_1                 (push_1_STB),
+        .out0                   (out0_STB),
+        .out1                   (out1_STB),
+        // Inputs       
+        .reset                  (reset_TB),
+        .clk                    (clk_TB),
+        .in                     (in_TB),
+        .fifo_up0_almostfull    (fifo_up0_almostfull_TB),
+        .fifo_up1_almostfull    (fifo_up1_almostfull_TB),
+        .classif                (classif_TB)
+    );
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -84,23 +97,27 @@ demux12_syn demux12_syn_TB (/*AUTOINST*/
               ////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-t_demux1x2 t_demux1x2_TB (/*AUTOINST*/
-// Outputs
-.push_0 (push_0_BTB),
-.push_1 (push_1_BTB),
-.out0 (out0_BTB),
-.out1 (out1_BTB),
-// Syn
-.push_0_s (push_0_STB),
-.push_1_s (push_1_STB),
-.out0_s (out0_STB),
-.out1_s (out1_STB),
-//Inputs
-.reset (reset_TB),
-.clk (clk_TB),
-.in (in_TB),
-.classif (classif_TB)
-);
+t_demux1x2  #(	  .DATA_SIZE        (DATA_SIZE)                     // OVERWRITING INTERNAL PARAMETER 
+) 
+
+    tester_demux1x2_TB( /*AUTOINST*/
+        // Outputs
+        .reset                  (reset_TB),
+        .clk                    (clk_TB),
+        .in                     (in_TB),
+        .classif                (classif_TB),
+        .fifo_up0_almostfull    (fifo_up0_almostfull_TB),
+        .fifo_up1_almostfull    (fifo_up1_almostfull_TB),
+        // Inputs
+        .push_0                 (push_0_BTB),
+        .push_1                 (push_1_BTB),
+        .push_0_s               (push_0_STB),
+        .push_1_s               (push_1_STB),
+        .out0                   (out0_BTB),
+        .out1                   (out1_BTB),
+        .out0_s                 (out0_STB),
+        .out1_s                 (out1_STB)
+    );
 
 
 

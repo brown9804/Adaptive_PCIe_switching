@@ -1,0 +1,100 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Sat Jun 27 13:16:13 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/class.vcd"
+[dumpfile_mtime] "Sat Jun 27 12:54:24 2020"
+[dumpfile_size] 90728
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/class.gtkw"
+[timestart] 119000
+[size] 1853 859
+[pos] -67 -67
+*-14.777143 350000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] TestBench.
+[treeopen] TestBench.class_b.
+[sst_width] 43
+[signals_width] 278
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@200
+-blue for struct-syn
+-INPUTS
+@28
+TestBench.clk
+TestBench.reset
+@200
+-
+@22
+TestBench.in[9:0]
+@200
+-
+@28
+TestBench.fifo_up0_almostfull
+TestBench.fifo_up1_almostfull
+@200
+-OUTPUTS
+-DEMUX
+@29
+TestBench.class_b.demux1x2.classif
+@22
+TestBench.class_b.demux1x2.in[9:0]
+@200
+-
+@22
+TestBench.class_b.demux1x2.out0[9:0]
+[color] 5
+TestBench.class_b.demux1x2.out0[9:0]
+@200
+-
+@22
+TestBench.class_b.demux1x2.out1[9:0]
+[color] 5
+TestBench.class_b.demux1x2.out1[9:0]
+@200
+-
+@28
+TestBench.class_b.demux1x2.push_0
+TestBench.class_b.demux1x2.push_1
+@200
+-FIFOs
+@28
+TestBench.class_b.fifo0.write
+TestBench.class_b.fifo1.write
+@200
+-
+@28
+TestBench.class_b.fifo0.read
+TestBench.class_b.fifo1.read
+@200
+-
+@22
+TestBench.class_b.data_out_fifo0_to_out[9:0]
+[color] 5
+TestBench.class_s.data_out_fifo0_to_out[9:0]
+@200
+-
+@22
+TestBench.class_b.data_out_fifo1_to_out[9:0]
+[color] 5
+TestBench.class_s.data_out_fifo1_to_out[9:0]
+@200
+-
+-
+@28
+TestBench.wire_fifo0_empty_BTB
+[color] 5
+TestBench.wire_fifo0_empty_STB
+@200
+-
+@28
+TestBench.wire_fifo1_empty_BTB
+[color] 5
+TestBench.wire_fifo1_empty_STB
+@200
+-
+@28
+TestBench.Error_BTB
+[color] 5
+TestBench.Error_STB
+[pattern_trace] 1
+[pattern_trace] 0

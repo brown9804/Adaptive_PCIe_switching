@@ -28,151 +28,115 @@ module device1 #(
   parameter MAIN_SIZE = 8) 
   (
 
-//INPUTS
-input wire clk,
-input wire clk8f,
-
-input wire reset,
-input wire [DATA_SIZE-1:0] in,
-
 
 //Outputs
-output reg out0, // out from fifo6x8 #0
-output reg out1,  // out from fifo6x8 #1
-output reg Error_class,
-output reg Error_route
-
-
+output reg                      out0,                  // out from serial parallel #0
+output reg                      out1,                  // out from serial parallel #0
+output reg                      Error_class,
+output reg                      Error_route,
+//INPUTS                                                          
+input wire [DATA_SIZE-1:0]      in,
+input wire                      clk,
+input wire                      clk8f,
+input wire                      reset,
+//input wire                      pop_0,
+//input wire                      pop_1,
+input wire                      fifo0_disp2_almostfull,
+input wire                      fifo1_disp2_almostfull
 );
 
 
-//control for fifos Internal - now in beta version
-/*
-output reg almost_full0,
-output reg almost_empty0,
-output reg fifo0_empty,
-output reg fifo0_error,
-output reg fifo0_pause,
-output reg fifo_full0,
-output reg fifo_full1,
-output reg almost_full1,
-output reg almost_empty1,
-output reg fifo1_empty,
-output reg fifo1_error,
-output reg fifo1_pause,*/
+// Internal nodes and wires
 
+wire [DATA_SIZE-1:0]            out0_class;
+wire [DATA_SIZE-1:0]            out1_class;
+wire                            error_class;
+wire                            fifo0_empty_class;
+wire                            fifo1_empty_class;
+wire                            n_pop0_class;
+wire                            n_pop1_class;
+wire                            n_pop0_route;
+wire                            n_pop1_route;
+wire [DATA_SIZE-3:0]            out0_route;
+wire [DATA_SIZE-3:0]            out1_route;
+wire                            fifo0_almost_empty_route;
+wire                            fifo1_almost_empty_route;
+wire                            error_route;
+wire                            out0_serial;
+wire                            out1_serial;
 
+classswitching #(.DATA_SIZE(DATA_SIZE),.MAIN_SIZE(MAIN_SIZE) )
+  classwit(/*AUTOINST*/
+    // Outputs   
+    .out0                   ( out0_class ),
+    .out1                   ( out1_class ),
+    .Error                  ( error_class),
+    .fifo_empty0            ( fifo0_empty_class),
+    .fifo_empty1            ( fifo1_empty_class),
 
-// wires - Internal NOdes
-wire [DATA_SIZE-1:0] out0_class, out1_class;   // outputs from class to route
-wire fifo0_empty, fifo1_empty;                 // from class fifos to mux P0 P1 in routing, tells when fifos are empty and block pop
-wire [DATA_SIZE-3:0] out0_route, out1_route;   // outputs from route to serial
-wire out0_serial, out1serial;
-
-// for fifos control, not used for now
-// fifos in class
-wire almost_full0_class, almost_empty0_class, fifo0_empty_class, fifo_full0_class, fifo0_error_class, fifo0_pause_class;
-wire almost_full1_class, almost_empty1_class, fifo1_empty_class, fifo_full1_class, fifo1_error_class, fifo1_pause_class;
-wire error_class, error_route;
-wire n_out0, n_out1, n_pop0_route, n_pop1_route;
-
-//fifos in route
-
-classswitching classwit(/*AUTOINST*/
-// Outputs   
-    .out0            ( out0_class ),
-    .out1            ( out1_class ),
-    .almost_full0    (almost_full0_class),
-    .almost_empty0   (almost_empty0_class),
-    .fifo0_empty     (fifo0_empty_class),
-    .fifo_full0      (fifo_full0_class),
-    .fifo0_error     (fifo0_error_class),
-    .fifo0_pause     (fifo0_pause_class),
-    .almost_full1    (almost_full1_class),
-    .almost_empty1   (almost_empty1_class),
-    .fifo1_empty     (fifo1_empty_class),
-    .fifo_full1      (fifo_full1_class),
-    .fifo1_error     (fifo1_error_class),
-    .fifo1_pause     (fifo1_pause_class),
-    .Error           (error_class),
     // Inputs
-    .in               ( in     ),
-    .clk              ( clk    ),
-    .reset            ( reset  )
+    .in                     ( in     ),
+    .clk                    ( clk    ),
+    .reset                  ( reset  ), 
+    .pop_0                  ( n_pop0_class),   // from tester/disp
+    .pop_1                  ( n_pop1_class)
 
 );
 
 
 
-router route_TB(/*AUTOINST*/
-  //Outputs
-  .out0           (out0_route),
-  .out1           (out1_route),
-  .pop_0          (n_pop0_route),
-  .pop_1          (n_pop1_route),
-/*
-  .almost_full0   (almost_full0_route),
-  .almost_empty0  (almost_empty0_route),
-  .fifo0_empty    (fifo0_empty_route),
-  .fifo0_error    (fifo0_error_route),
-  .fifo0_pause    (fifo0_pause_route),
-  .almost_full1   (almost_full1_route),
-  .almost_empty1  (almost_empty1_route),
-  .fifo1_empty    (fifo1_empty_route),
-  .fifo1_error    (fifo1_error_route),
-  .fifo1_pause    (fifo1_pause_route),
-  .fifo_full0     (fifo_full0_route),
-  .fifo_full1     (fifo_full1_route),*/
-  .Error          (error_route),
-  // Input_route
-  .clk            (clk),
-  .reset          (reset),
-  .in0            (out0_class),
-  .in1            (out1_class),
-  .emptyF0        (fifo0_empty_class),        //priority P0 
-  .emptyF1        (fifo1_empty_class)
-  //.classif (classif)
+router #( .DATA_SIZE(DATA_SIZE), .MAIN_SIZE(MAIN_SIZE) )
+  route_TB(/*AUTOINST*/
+    //Outputs
+    .out0                   (out0_route),
+    .out1                   (out1_route),
+    .pop_0                  (n_pop0_class),
+    .pop_1                  (n_pop1_class),
+    .fifo0_almost_empty     (fifo0_almost_empty_route),
+    .fifo1_almost_empty     (fifo1_almost_empty_route),
+    .Error                  (error_route),
+
+    // Input_route
+    .clk                    (clk),
+    .reset                  (reset),
+    .in0                    (out0_class),
+    .in1                    (out1_class),
+    .fifo_empty0            (fifo0_empty_class),        //priority P0 
+    .fifo_empty1            (fifo1_empty_class),
+    .pop_0_in               (n_pop0_route),
+    .pop_1_in               (n_pop1_route)
 
 );
 
 
 
 
-paratoserial paralleltoSerial(
-      .out0    (n_out0),
-      .out1    (n_out1),
-      .in0     (out0_route),
-      .in1     (out1_route),
-      .clk     (clk8f),
-      .valid_0 (n_pop0_route),
-      .valid_1 (n_pop1_route),
-      .reset   (reset)
-    
+paratoserial #( .DATA_SIZE(DATA_SIZE-2) )
+  paralleltoSerial(
+    // Outputs
+    .out0                   (out0_serial),
+    .out1                   (out1_serial),
+    .pop_0                  (n_pop0_route),   // to routering
+    .pop_1                  (n_pop1_route),
+    // Inputs
+    .fifo_empty0            (fifo0_almost_empty_route),  
+    .fifo_empty1            (fifo1_almost_empty_route),
+    .fifo_up0_almostfull    (fifo0_disp2_almostfull),     
+    .fifo_up1_almostfull    (fifo1_disp2_almostfull), 
+    .in0                    (out0_route),
+    .in1                    (out1_route),
+    .clk                    (clk8f),
+    .reset                  (reset)
+
 );
-
-
 
 
 
   always@(*) begin      // pass to outputs
-    out0 = n_out0;
-    out1 = n_out1;
-    Error_class = error_class;
-    Error_route = error_route;
-
-/*    almost_full0  = n_almost_full0;
-    almost_empty0  = n_almost_empty0;
-    fifo0_empty  = n_fifo0_empty;
-    fifo0_error  = n_fifo0_error;
-    fifo0_pause = n_fifo0_pause;
-    almost_full1 = n_almost_full1;
-    almost_empty1  = n_almost_empty1;
-    fifo1_empty  = n_fifo1_empty;
-    fifo1_error = n_fifo1_error;
-    fifo1_pause  = n_fifo1_pause;
-    fifo_full0 = n_Fifo_full0;
-    fifo_full1 = n_Fifo_full1;
-*/
+    out0              = out0_serial;
+    out1              = out1_serial;
+    Error_class       = error_class;
+    Error_route       = error_route;
   end
 
 

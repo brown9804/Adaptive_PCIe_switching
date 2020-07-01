@@ -1,0 +1,90 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Sat Jun 27 10:17:09 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/fifo.vcd"
+[dumpfile_mtime] "Sat Jun 27 10:13:56 2020"
+[dumpfile_size] 49541
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/fifo.gtkw"
+[timestart] 78500
+[size] 1853 859
+[pos] -1 -1
+*-16.444838 449500 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] testbench_fifo_8X10.
+[treeopen] testbench_fifo_8X10.fifo_BTB.
+[treeopen] testbench_fifo_8X10.fifo_STB.
+[sst_width] 223
+[signals_width] 212
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@200
+-INPUTS
+@28
+testbench_fifo_8X10.reset
+testbench_fifo_8X10.clk
+@200
+-
+@22
+testbench_fifo_8X10.data_in_push[9:0]
+@200
+-
+@28
+testbench_fifo_8X10.write
+testbench_fifo_8X10.read
+@22
+testbench_fifo_8X10.fifo_BTB.mem.wr_ptr[7:0]
+testbench_fifo_8X10.fifo_BTB.mem.rd_ptr[7:0]
+@200
+-
+-OUTPUTS
+-blue for struct-syn
+-
+@22
+testbench_fifo_8X10.data_out_pop[9:0]
+[color] 5
+testbench_fifo_8X10.data_out_pop_s[9:0]
+@200
+-
+-
+-Control signals
+@28
+testbench_fifo_8X10.fifo_empty
+@29
+[color] 5
+testbench_fifo_8X10.fifo_empty_s
+@200
+-
+@28
+testbench_fifo_8X10.almost_empty
+@29
+[color] 5
+testbench_fifo_8X10.almost_empty_s
+@200
+-
+@28
+testbench_fifo_8X10.almost_full
+@29
+[color] 5
+testbench_fifo_8X10.almost_full_s
+@200
+-
+-
+@28
+testbench_fifo_8X10.Fifo_full
+@29
+[color] 5
+testbench_fifo_8X10.Fifo_full_s
+@200
+-
+@28
+testbench_fifo_8X10.fifo_error
+@29
+[color] 5
+testbench_fifo_8X10.fifo_error_s
+@200
+-
+-
+-
+-
+[pattern_trace] 1
+[pattern_trace] 0
