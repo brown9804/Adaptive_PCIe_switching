@@ -25,7 +25,11 @@ module classswitching #(
     output reg                    Error,
     output reg                    fifo_empty0,
     output reg                    fifo_empty1,
+    output reg                    fifo_class_almost_empty0,
+    output reg                    fifo_class_almost_empty1,
+
     // INPUTS
+    input wire                    valid,
     input wire                    reset,
     input wire                    clk,
     input wire  [DATA_SIZE-1:0]   in, 
@@ -66,6 +70,8 @@ module classswitching #(
       .push_1                 (write_push_demux_to_fifo1),
       //inputs
       .reset                  (reset),
+      .valid                  (valid),
+      
       .fifo_up0_almostfull    (wire_fifo0_almost_full),
       .fifo_up1_almostfull    (wire_fifo1_almost_full),
       .clk                    (clk),
@@ -106,11 +112,13 @@ fifo_param  fifo1(/*AUTOINST*/
   );
 
   always @(*) begin
-    out0             =      data_out_fifo0_to_out;
-    out1             =      data_out_fifo1_to_out;          
-    fifo_empty0      =      wire_fifo0_empty;     
-    fifo_empty1      =      wire_fifo1_empty;
-    Error            =      (wire_fifo0_error | wire_fifo1_error); 
+    out0                       =      data_out_fifo0_to_out;
+    out1                       =      data_out_fifo1_to_out;          
+    fifo_empty0                =      wire_fifo0_empty;     
+    fifo_empty1                =      wire_fifo1_empty;
+    fifo_class_almost_empty0   =      wire_fifo0_almost_empty;    ////agregar salida a disp1
+    fifo_class_almost_empty1   =      wire_fifo1_almost_empty;
+    Error                      =      (wire_fifo0_error | wire_fifo1_error); 
   end
 
 endmodule

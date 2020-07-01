@@ -7,7 +7,8 @@
 
 module t_device1 (
   // OUTPUTS
-  output reg [9:0]  in,                       
+  output reg [9:0]  in,
+  output reg valid,                          
   output reg clk,                             
   output reg clk8f,                           
   output reg reset,                           
@@ -41,6 +42,7 @@ initial begin
   #4 reset = 0;
   fifo0_disp2_almostfull = 0;
   fifo1_disp2_almostfull = 0;
+  valid = 0;
 
   // This passes the first clock cycle ... Defining initial values ​​....
 
@@ -68,6 +70,7 @@ initial begin
   @(posedge clk) begin
     in              <= 10'h0FF;
     reset <= 1;
+    valid = 1;
   end
 
   // Sent to FiFo #1
@@ -94,7 +97,7 @@ initial begin
   // Sent to FiFo #1
   @(posedge clk) begin
 	  in                     <= 10'h299;
-    fifo0_disp2_almostfull <= 1;
+    fifo0_disp2_almostfull <= 0;
   end
 
   // Sent to FiFo #0
@@ -112,7 +115,175 @@ initial begin
   @(posedge clk) begin
 	  in                     <= 10'h1A7;
 
-    fifo1_disp2_almostfull <= 1;
+    fifo1_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h277;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h1AA;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h2CC;
+  end
+
+  // Sent to FiFo #1
+	@(posedge clk) begin
+    in              <= 10'h2DD;
+	end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0EE;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in              <= 10'h2CC;
+  end
+
+  // TESTING PUSH BLOCK 0
+  @(posedge clk) begin
+	  in                     <= 10'h1BB;
+  end
+
+  // TESTING PUSH BLOCK 1
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h299;
+    fifo0_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in                     <= 10'h0AA;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h288;
+    fifo0_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h1A7;
+
+    fifo1_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h277;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h1AA;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h2CC;
+  end
+
+  // Sent to FiFo #1
+	@(posedge clk) begin
+    in              <= 10'h2DD;
+	end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0EE;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in              <= 10'h2CC;
+  end
+
+  // TESTING PUSH BLOCK 0
+  @(posedge clk) begin
+	  in                     <= 10'h1BB;
+  end
+
+  // TESTING PUSH BLOCK 1
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h299;
+    fifo0_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in                     <= 10'h0AA;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h288;
+    fifo0_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h1A7;
+
+    fifo1_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h277;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h1AA;
+  end
+  @(posedge clk) begin
+	  in                     <= 10'h2CC;
+  end
+
+  // Sent to FiFo #1
+	@(posedge clk) begin
+    in              <= 10'h2DD;
+	end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in              <= 10'h0EE;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in              <= 10'h2CC;
+  end
+
+  // TESTING PUSH BLOCK 0
+  @(posedge clk) begin
+	  in                     <= 10'h1BB;
+  end
+
+  // TESTING PUSH BLOCK 1
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h299;
+    fifo0_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #0
+  @(posedge clk) begin
+    in                     <= 10'h0AA;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h288;
+    fifo0_disp2_almostfull <= 0;
+  end
+
+  // Sent to FiFo #1
+  @(posedge clk) begin
+	  in                     <= 10'h1A7;
+
+    fifo1_disp2_almostfull <= 0;
   end
 
   // Sent to FiFo #1

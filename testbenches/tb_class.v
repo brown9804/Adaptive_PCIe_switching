@@ -66,6 +66,7 @@ wire                      reset;
 wire                      clk;
 wire                      fifo_up0_almostfull;
 wire                      fifo_up1_almostfull;
+wire                      valid;
 
 
 
@@ -85,7 +86,8 @@ classswitching #( .DATA_SIZE (DATA_SIZE), .MAIN_SIZE (MAIN_SIZE) )
     .fifo_empty1            (wire_fifo1_empty_BTB),        
 
     //Inputs  
-    .reset                  (reset),  
+    .reset                  (reset),
+    .valid                  (valid),  
     .clk                    (clk),    
     .pop_0                  (pop_0),
     .pop_1                  (pop_1),    
@@ -109,6 +111,7 @@ classswitching_syn  class_s(/*AUTOINST*/
 
     //Inputs  
     .reset                  (reset),  
+    .valid                  (valid),
     .clk                    (clk),
     .pop_0                  (pop_0),
     .pop_1                  (pop_1),    
@@ -139,7 +142,8 @@ t_class  #( .DATA_SIZE ( DATA_SIZE), .MAIN_SIZE(MAIN_SIZE))
     .fifo_empty1_s          (wire_fifo1_empty_STB),        
 
     // OUTPUTS
-    .reset                  (reset),  
+    .reset                  (reset), 
+    .valid                  (valid),
     .clk                    (clk),
     .pop_0                  (pop_0),
     .pop_1                  (pop_1),    

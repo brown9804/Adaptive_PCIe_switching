@@ -26,6 +26,7 @@ parameter MAIN_SIZE = 8;
 
 /*AUTOWIRE*/
 wire [DATA_SIZE-1:0]      in_TB;
+wire                      valid;
 wire                      clk1f;
 wire                      clk8f;
 wire                      reset;
@@ -55,7 +56,8 @@ device1  device1_b(/*AUTOINST*/
   .Error_class                     (error_class_BTB),
   .Error_route                     (error_route_BTB),
    // INPUTS                                             
-  .in                              (in_TB),           
+  .in                              (in_TB), 
+  .valid                           (valid),          
   .clk                             (clk1f),             
   .clk8f                           (clk8f),               
   .reset                           (reset),                             
@@ -76,7 +78,8 @@ device1_syn  device1_s(/*AUTOINST*/
   .Error_class                     (error_class_STB),
   .Error_route                     (error_route_STB),
    // INPUTS                                             
-  .in                              (in_TB),           
+  .in                              (in_TB), 
+  .valid                           (valid),          
   .clk                             (clk1f),             
   .clk8f                           (clk8f),               
   .reset                           (reset),                            
@@ -94,6 +97,7 @@ device1_syn  device1_s(/*AUTOINST*/
 t_device1 t_device1TB (/*AUTOINST*/
   // OUTPUTS
   .in                              (in_TB),
+  .valid                           (valid),
   .clk                             (clk1f),
   .clk8f                           (clk8f),
   .reset                           (reset),

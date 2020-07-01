@@ -28,6 +28,8 @@ module mux21 #(
     input wire                      reset,
     input wire                      fifo_empty0,     // Enable data out from FiFo0 if fifo_empty0 != 0,. Come from class layer fifos
     input wire                      fifo_empty1,     // Enable data out from FiFo1 if fifo_empty0 != 0
+    input wire                      fifo_almost_empty0,
+    input wire                      fifo_almost_empty1,
     input wire [DATA_SIZE-1:0]      in0,             // Data from  FiFo0
     input wire [DATA_SIZE-1:0]      in1,             // Data from  FiFo1
     input wire                      fifo_up0_almostfull,
@@ -43,9 +45,9 @@ module mux21 #(
     end           // end reset zero
     else begin      // reset == 1
       // data flow control push pop logig
-      if( fifo_empty0 | fifo_up0_almostfull) begin
+      if( fifo_empty0 | fifo_almost_empty0 | fifo_up0_almostfull) begin
         pop_0       <= 0;
-        if(fifo_empty1 | fifo_up1_almostfull) begin
+        if(fifo_empty1 | fifo_almost_empty1 | fifo_up1_almostfull) begin
           pop_1       <= 0;
         end else begin
           pop_1     <= 1;

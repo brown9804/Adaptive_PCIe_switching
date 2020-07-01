@@ -21,6 +21,7 @@ module t_class #(
     output reg                    clk,
     output reg                    pop_0, 
     output reg                    pop_1,
+    output reg                    valid,
     // INPUTS
     input wire  [DATA_SIZE-1:0]   out0,
     input wire  [DATA_SIZE-1:0]   out1,
@@ -43,6 +44,7 @@ initial begin
 
   // INITIAL VALUES
   in = 10'h0;
+  valid = 0;
   pop_0  = 0;
   pop_1  = 0;
   #4 reset = 0;
@@ -74,6 +76,7 @@ initial begin
   @(posedge clk) begin
     in              <= 10'h0FF;
     reset <= 1;
+    valid  <= 1;
   end
 
   // Sent to FiFo #1

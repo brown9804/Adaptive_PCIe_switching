@@ -29,8 +29,10 @@ output reg [DATA_SIZE-3:0]      out1,
 output reg                      Error,
 output reg                      pop_0,
 output reg                      pop_1,
-output reg                      fifo0_almost_empty, 
-output reg                      fifo1_almost_empty,
+output reg                      fifo0_route_almost_empty, 
+output reg                      fifo1_route_almost_empty,
+output reg                      fifo_route_empty0,       
+output reg                      fifo_route_empty1,     
 // Inputs
 input wire [DATA_SIZE-1:0]      in0,
 input wire [DATA_SIZE-1:0]      in1,
@@ -38,6 +40,9 @@ input wire                      clk,
 input wire                      reset,
 input wire                      pop_0_in, 
 input wire                      pop_1_in,
+input wire                      fifo0_almost_empty,
+input wire                      fifo1_almost_empty,
+
 input wire                      fifo_empty0,
 input wire                      fifo_empty1 
 
@@ -80,8 +85,12 @@ wire                            push_1;
     //Inputs
     .clk                    (clk),
     .reset                  (reset),
+
+
     .fifo_empty0            (fifo_empty0),
     .fifo_empty1            (fifo_empty1),
+    .fifo_almost_empty0     (fifo0_almost_empty),
+    .fifo_almost_empty1     (fifo1_almost_empty),
     .fifo_up0_almostfull    (wire_fifo0_almost_full),   
     .fifo_up1_almostfull    (wire_fifo0_almost_full),
     .in0                    (in0),
@@ -148,13 +157,15 @@ demux12  #(	  .DATA_SIZE        (DATA_SIZE-2)                     // OVERWRITING
 
 
   always@(*) begin      // pass to outputs
-    out0                = data_out_fifo0_to_out;
-    out1                = data_out_fifo1_to_out;
-    pop_0               = n_pop0;
-    pop_1               = n_pop1;
-    Error               = (wire_fifo0_error | wire_fifo1_error );
-    fifo0_almost_empty  = wire_fifo0_almost_empty;
-    fifo1_almost_empty  = wire_fifo1_almost_empty;
+    out0                          = data_out_fifo0_to_out;
+    out1                          = data_out_fifo1_to_out;
+    pop_0                         = n_pop0;
+    pop_1                         = n_pop1;
+    Error                         = (wire_fifo0_error | wire_fifo1_error );
+    fifo0_route_almost_empty      = wire_fifo0_almost_empty;
+    fifo1_route_almost_empty      = wire_fifo1_almost_empty;
+    fifo_route_empty0             = wire_fifo0_empty;
+    fifo_route_empty1             = wire_fifo1_empty;
   end
 
 endmodule
