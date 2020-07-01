@@ -23,6 +23,7 @@ module TestBench;
 // It's needed /*AUTOWIRE*/ because: Creates wires for outputs that ins't declare
 
 /*AUTOWIRE*/
+<<<<<<< HEAD
   wire [7:0]          out0_BTB;
   wire [7:0]          out1_BTB;
   wire                error_BTB;
@@ -63,7 +64,7 @@ router route_TB(/*AUTOINST*/
   .pop_1                   (pop_1_BTB),                       
   .fifo0_almost_empty      (fifo0_almost_empty_BTB),                                   
   .fifo1_almost_empty      (fifo1_almost_empty_BTB),                                   
-  // Inputs
+   // Inputs
   .in0                     (in0),                     
   .in1                     (in1),                     
   .clk                     (clk),                     
@@ -75,6 +76,7 @@ router route_TB(/*AUTOINST*/
 );
 
 
+<<<<<<< HEAD
 //////////////////////////
 // ROUTING SYN /////      
 ///////////////
@@ -93,6 +95,7 @@ router_syn route_syn_TB(/*AUTOINST*/
   .pop_1                   (pop_1_STB),                       
   .fifo0_almost_empty      (fifo0_almost_empty_STB),                                   
   .fifo1_almost_empty      (fifo1_almost_empty_STB),                                   
+
   // Inputs
   .in0                     (in0),                     
   .in1                     (in1),                     

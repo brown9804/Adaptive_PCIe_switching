@@ -7,30 +7,43 @@
 ###
 
 
-# 							Makefile logic:
+# Makefile logic:
 # To create this file you need these files:
 # $ @ replace left
 # $ ^ right
 
 
 #******************************************************************************
-#													MARKS
+#				MARKS
 #******************************************************************************
 # 1. For mux 2:1 ---------- mux21
 # 2. For demux 1:2  10 bits ---------- demux12
 # 3. For demux 1:2 8 bits ---------- demux12_8
-# 4. For fifo  ---------- fifo
-# 5. For fifo 6x8 ---------- fifo6x8
-# 6. For memory 8x10 ---------- memory
-# 7. For memory 6x8 ---------- memory6x8
-# 8. For trafic class clasification ---------- class
-# 9. Routing port ---------- route
-# 10. Data Flow Control ---------- dfcontrol
-# 11. Serial-Parallel ---------- serno
-# 12. Serialization  layer---------- serial
-# 13. Device 1 ---------- disp1
-# 14. Device 2 ---------- disp2
-# 15. Device 3 ---------- disp3
+# 4. Parallel- Serial ---------- ptos
+# 5. Serial-Parallel ---------- serno
+
+# 6. Data Flow Control ---------- dfcontrol
+
+#### 		First in First Out
+# 7. For fifo 8x10 ---------- fifo
+# 8. For fifo 6x8 ---------- fifo6x8
+# 9. For fifo 4x8 ---------- fifo4x8
+
+####				Memories
+# 10. For memory 8x10 ---------- memory
+# 11. For memory 6x8 ---------- memory6x8
+# 12. For memory 4x8 ---------- memory4x8
+
+#### 				Layers
+# 13. For trafic class clasification ---------- class
+# 14. Routing port ---------- route
+# 15. Serialization  layer---------- serial
+
+####				Devices
+# 16. Device 1 ---------- disp1
+# 17. Device 2 ---------- disp2
+# 18. Device 3 ---------- disp3
+>>>>>>> bb383c9378a58765f93ccb9f41fddfd8d7993278
 
 
 all:
@@ -89,13 +102,16 @@ _DEMUX12 = demux1x2.v
 _DEMUX12_8 = demux1x2_8_behav.v
 _FIFO = fifo.v
 _FIFO6x8 = fifo_6x8.v
+_FIFO4x8 = fifo_4x8.v
 _MEMORY = memory.v
 _MEMORY6x8 = memory_6x8.v
+_MEMORY4x8 = memory_4x8.v
 _CLASS = class.v
 _ROUTING= routing.v
 _DFC = df_control.v
 _SERIAL = paratoserial.v
 _PTOS = paralelltoserial.v
+_SERIEPARLALELO = serieparalelo.v
 _D1 = disp1.v
 _D2 = disp2.v
 _D3 = disp3.v
@@ -108,13 +124,16 @@ _SDEMUX12 = demux1x2_syn.v
 _SDEMUX12_8 = demux1x2_8_behav_syn.v
 _SFIFO = fifo_syn.v
 _SFIFO6x8 = fifo_6x8_syn.v
+_SFIFO4x8 = fifo_4x8_syn.v
 _SMEMORY = memory_syn.v
 _SMEMORY6x8 = memory_6x8_syn.v
+_SMEMORY4x8 = memory_4x8_syn.v
 _SCLASS = class_syn.v
 _SROUTING= routing_syn.v
 _SDFC= dfcontrol_syn.v
 _SSERIAL = paratoserial_syn.v
 _SPTOS = paralelltoserial_syn.v
+_SSERIEPARLALELO = serieparalelo_syn.v
 _SD1 = disp1_syn.v
 _SD2 = disp2_syn.v
 _SD3 = disp3_syn.v
@@ -127,13 +146,16 @@ _TB_DEMUX12 = tb_demux12.v
 _TB_DEMUX12_8 = tb_demux12_8.v
 _TB_FIFO = tb_fifo.v
 _TB_FIFO6x8 = tb_fifo_6x8.v
+_TB_FIFO4x8 = tb_fifo_4x8.v
 _TB_MEMORY = tb_memory.v
 _TB_MEMORY6x8 = tb_memory_6x8.v
+_TB_MEMORY4x8 = tb_memory_4x8.v
 _TB_CLASS = tb_class.v
 _TB_ROUTING= tb_routing.v
 _TB_DFC= tb_dfcontrol.v
 _TB_SERIAL = tb_paratoserial.v
 _TB_PTOS = tb_ptos.v
+_TB__SERIEPARLALELO = tb_stop.v
 _TB_D1 = tb_disp1.v
 _TB_D2 = tb_disp2.v
 _TB_D3 = tb_disp3.v
@@ -148,13 +170,16 @@ _T_DEMUX12 = t_demux12.v
 _T_DEMUX12_8 = t_demux12_8.v
 _T_FIFO = t_fifo.v
 _T_FIFO6x8 = t_fifo_6x8.v
+_T_FIFO4x8 = t_fifo_4x8.v
 _T_MEMORY = t_memory.v
 _T_MEMORY6x8 = t_memory_6x8.v
+_T_MEMORY4x8 = t_memory_4x8.v
 _T_CLASS = t_class.v
 _T_ROUTING= t_routing.v
 _T_DFC=	t_dfcontrol.v
 _T_SERIAL = t_paratoserial.v
 _T_PTOS = t_ptos.v
+_T__SERIEPARLALELO = t_stop.v
 _T_D1 = t_disp1.v
 _T_D2 = t_disp2.v
 _T_D3 = t_disp3.v
@@ -165,13 +190,16 @@ _VCD_DEMUX12 = demux12.vcd
 _VCD_DEMUX12_8 = demux12_8.vcd
 _VCD_FIFO = fifo.vcd
 _VCD_FIFO6x8 = fifo6x8.vcd
+_VCD_FIFO4x8 = fifo4x8.vcd
 _VCD_MEMORY = memory.vcd
 _VCD_MEMORY6x8 = memory6x8.vcd
+_VCD_MEMORY4x8 = memory4x8.vcd
 _VCD_CLASS = class.vcd
 _VCD_ROUTING= routing.vcd
 _VCD_DFC= dfcontrol.vcd
 _VCD_SERIAL = paratoserial.vcd
 _VCD_PTOS = ptos.vcd
+_VCD__STOP = stop.vcd
 _VCD_D1 = disp1.vcd
 _VCD_D2 = disp2.vcd
 _VCD_D3 = disp3.vcd
@@ -185,13 +213,16 @@ _VVP_DEMUX12 = demux12.vvp
 _VVP_DEMUX12_8 = demux12_8.vvp
 _VVP_FIFO = fifo.vvp
 _VVP_FIFO6x8 = fifo6x8.vvp
+_VVP_FIFO4x8 = fifo4x8.vvp
 _VVP_MEMORY = memory.vvp
 _VVP_MEMORY6x8 = memory6x8.vvp
+_VVP_MEMORY4x8 = memory4x8.vvp
 _VVP_CLASS = class.vvp
 _VVP_ROUTING= routing.vvp
 _VVP_DFC= dfcontrol.vvp
 _VVP_SERIAL	= paratoserial.vvp
 _VVP_PTOS = ptos.vvp
+_VVP__STOP = stop.vvp
 _VVP_D1 = disp1.vvp
 _VVP_D2 = disp2.vvp
 _VVP_D3 = disp3.vvp
@@ -203,13 +234,16 @@ _Y_DEMUX12 = demux12_y.ys
 _Y_DEMUX12_8 = demux12_8_y.ys
 _Y_FIFO = fifo_y.ys
 _Y_FIFO6x8 = fifo_6x8_y.ys
+_Y_FIFO4x8 = fifo_4x8_y.ys
 _Y_MEMORY = memory_y.ys
 _Y_MEMORY6x8 = memory_6x8_y.ys
+_Y_MEMORY4x8 = memory_4x8_y.ys
 _Y_CLASS = class_y.ys
 _Y_ROUTING= routing_y.ys
 _Y_DFC= dfcontrol_y.ys
 _Y_SERIAL = paratoserial_y.ys
 _Y_PTOS = ptos_y.ys
+_Y__STOP = serieparalelo_y.ys
 _Y_D1 = disp1_y.ys
 _Y_D2 = disp2_y.ys
 _Y_D3 = disp3_y.ys
@@ -296,8 +330,68 @@ gtkwavedemux12_8:
 	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DEMUX12_8)
 
 
+#******************************************************************************
+#### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
+#******************************************************************************
+
+yptos:
+	yosys $(YOSYS)$(_Y_PTOS)
+
+rptos:
+	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/' $(SYN)$(_SPTOS)
+
+vptos:
+	iverilog -o $(OVVP)$(_VVP_PTOS) $(TESTBENCHES)$(_TB_PTOS)
+	vvp $(OVVP)$(_VVP_PTOS) > $(LOG_TXT)$(_VVP_PTOS)_log.txt
+
+#target phony
+.PHONY: gtkwaveptos
+gtkwaveptos:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_PTOS)
 
 
+#******************************************************************************
+#### 			 SERIAL TO PARALLEL INDIVIDUAL MODULE
+#******************************************************************************
+
+yserno:
+	yosys $(YOSYS)$(_Y__STOP)
+
+rserno:
+	sed -i 's/serieparalelo/serieparalelo_syn/' $(SYN)$(_SSERIEPARLALELO)
+
+vserno:
+	iverilog -o $(OVVP)$(_VVP__STOP) $(TESTBENCHES)$(_TB__SERIEPARLALELO)
+	vvp $(OVVP)$(_VVP__STOP) > $(LOG_TXT)$(_VVP__STOP)_log.txt
+
+#target phony
+.PHONY: gtkwaveserno
+gtkwaveserno:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD__STOP)
+
+
+#******************************************************************************
+#### 		dfcontrol
+#******************************************************************************
+ydfcontrol:
+	yosys $(YOSYS)$(_Y_DFC)
+
+rdfcontrol:
+	sed -i 's/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SDFC)
+
+vdfcontrol:
+	iverilog -o $(OVVP)$(_VVP_DFC) $(TESTBENCHES)$(_TB_DFC)
+	vvp $(OVVP)$(_VVP_DFC) > $(LOG_TXT)$(_VVP_DFC)_log.txt
+
+#target phony
+.PHONY: gtkwavedfcontrol
+gtkwavedfcontrol:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DFC)
+
+
+####################################
+#### 					First in First Out
+####################################
 #******************************************************************************
 #### 			FIFO 		PARAM
 #******************************************************************************
@@ -339,6 +433,28 @@ gtkwavefifo6x8:
 
 
 #******************************************************************************
+#### 		FIFO 		4x8
+#******************************************************************************
+yfifo4x8:
+	yosys $(YOSYS)$(_Y_FIFO4x8)
+
+rfifo4x8:
+	sed -i 's/fifo_4x8/fifo_4x8_syn/g; s/memory_4x8/memory_4x8_syn/g' $(SYN)$(_SFIFO4x8)
+
+vfifo4x8:
+	iverilog -o $(OVVP)$(_VVP_FIFO4x8) $(TESTBENCHES)$(_TB_FIFO4x8)
+	vvp $(OVVP)$(_VVP_FIFO4x8) > $(LOG_TXT)$(_VVP_FIFO4x8)_log.txt
+
+#target phony
+.PHONY: gtkwavefifo4x8
+gtkwavefifo4x8:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_FIFO4x8)
+
+
+####################################
+####				Memories
+####################################
+#******************************************************************************
 #### 				MEMORY 8x10
 #******************************************************************************
 ymemory:
@@ -376,24 +492,27 @@ gtkwavememory6x8:
 
 
 #******************************************************************************
-#### 		dfcontrol
+#### 		MEMORY 4x8
 #******************************************************************************
-ydfcontrol:
-	yosys $(YOSYS)$(_Y_DFC)
+ymemory4x8:
+	yosys $(YOSYS)$(_Y_MEMORY4x8)
 
-rdfcontrol:
-	sed -i 's/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SDFC)
+rmemory4x8:
+	sed -i 's/memory_4x8/memory_4x8_syn/g' $(SYN)$(_SMEMORY4x8)
 
-vdfcontrol:
-	iverilog -o $(OVVP)$(_VVP_DFC) $(TESTBENCHES)$(_TB_DFC)
-	vvp $(OVVP)$(_VVP_DFC) > $(LOG_TXT)$(_VVP_DFC)_log.txt
+vmemory4x8:
+	iverilog -o $(OVVP)$(_VVP_MEMORY4x8) $(TESTBENCHES)$(_TB_MEMORY4x8)
+	vvp $(OVVP)$(_VVP_MEMORY4x8) > $(LOG_TXT)$(_VVP_MEMORY4x8)_log.txt
 
 #target phony
-.PHONY: gtkwavedfcontrol
-gtkwavedfcontrol:
-	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_DFC)
+.PHONY: gtkwavememory4x8
+gtkwavememory4x8:
+	/Applications/gtkwave.app/Contents/Resources/bin/gtkwave $(_VCD_MEMORY4x8)
 
 
+####################################
+####				Layers
+####################################
 
 #******************************************************************************
 #### 			CLASS
@@ -436,6 +555,7 @@ vroute:
 gtkwaveroute:
 	gtkwave $(_VCD_ROUTING) $(GTKWCONFIG)$(_CONFIG_ROUTE)
 
+<<<<<<< HEAD
 #******************************************************************************
 #### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
 #******************************************************************************
@@ -454,7 +574,6 @@ vptos:
 .PHONY: gtkwaveptos
 gtkwaveptos:
 	gtkwave $(_VCD_PTOS) $(GTKWCONFIG)$(_CONFIG_PTOS)
-
 
 
 #******************************************************************************
@@ -477,6 +596,9 @@ gtkwaveserial:
 	gtkwave $(_VCD_SERIAL) $(GTKWCONFIG)$(_CONFIG_SERIAL)
 
 
+####################################
+####				Devices
+####################################
 #******************************************************************************
 #### 			DEVICE 1
 #******************************************************************************
@@ -508,7 +630,7 @@ ydisp2:
 	yosys $(YOSYS)$(_Y_D2)
 
 rdisp2:
-	sed -i 's/device1/device1_syn/g; s/fifo_4x8/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD2)
+	sed -i 's/device2/device2_syn/g; s/fifo_4x8/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD2)
 vdisp2:
 	iverilog -o $(OVVP)$(_VVP_D2) $(TESTBENCHES)$(_TB_D2)
 	vvp $(OVVP)$(_VVP_D2) > $(LOG_TXT)$(_VVP_D2)_log.txt
@@ -528,7 +650,8 @@ rdisp3:
 	sed -i 's/classswitching/classswitching_syn/g; s/dfcontrol/dfcontrol_syn/g;  s/fifo_8x10/fifo_8x10_syn/g; s/demux12/demux12_syn/g; s/memory/memory_syn/g' $(SYN)$(_SD3)
 	sed -i 's/router/router_syn/g; s/fifo_6x8/fifo_6x8_syn/g; s/demux12_8/demux12_8_syn/g; s/mux21/mux21_syn/g; s/memory_6x8/memory_6x8_syn/g; s/dfcontrol/dfcontrol_syn/g' $(SYN)$(_SD3)
 	sed -i 's/paralelo_a_serial/paralelo_a_serial_syn/g; s/paratoserial/paratoserial_syn/g' $(SYN)$(_SD3)
-	sed -i 's/device1/device1_syn/g; s/device2/device2_syn/g' $(SYN)$(_SD3)
+	sed -i 's/fifo_4x8/fifo_4x8_syn/g; s/serieparalelo/serieparalelo_syn/g' $(SYN)$(_SD3)
+	sed -i 's/device1/device1_syn/g; s/device2/device2_syn/g;  s/device3/device3_syn/g' $(SYN)$(_SD3)
 vdisp3:
 	iverilog -o $(OVVP)$(_VVP_D3) $(TESTBENCHES)$(_TB_D3)
 	vvp $(OVVP)$(_VVP_D3) > $(LOG_TXT)$(_VVP_D3)_log.txt
