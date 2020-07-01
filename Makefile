@@ -555,7 +555,6 @@ vroute:
 gtkwaveroute:
 	gtkwave $(_VCD_ROUTING) $(GTKWCONFIG)$(_CONFIG_ROUTE)
 
-<<<<<<< HEAD
 #******************************************************************************
 #### 			PARALLEL TO SERIAL INDIVIDUAL MODULE
 #******************************************************************************
