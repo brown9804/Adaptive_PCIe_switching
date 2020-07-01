@@ -8,7 +8,10 @@
 `ifndef T_DISP2
 `define T_DISP2
 
-module t_device2 (
+module t_device2  #(
+	parameter DATA_SIZE = 8,
+	parameter MAIN_SIZE = 4)
+	(
 output reg in0,
 output reg in1,
 output reg reset,
@@ -18,18 +21,16 @@ output reg read0,
 output reg read1,
 output reg write0,
 output reg write1,
-output reg read,
-output reg write,
 // Behavioral
-input wire [7:0] out0,
-input wire [7:0] out1,
+input wire [DATA_SIZE-1:0] out0,
+input wire [DATA_SIZE-1:0] out1,
 input wire almost_full_f0,
 input wire almost_full_f1,
 input wire empty0, // output from fifo 0
 input wire empty1, // output from fifo 1
 // Syn
-input wire [7:0] out0_s,
-input wire [7:0] out1_s,
+input wire [DATA_SIZE-1:0] out0_s,
+input wire [DATA_SIZE-1:0] out1_s,
 input wire almost_full_f0_s,
 input wire almost_full_f1_s,
 input wire empty0_s, // output from fifo 0
@@ -243,9 +244,10 @@ end
 @(posedge clk8f); // Do nothing
   in0  <=  1;
   in1  <=  1;
-
-  write <= 0;
-  read <= 1;
+	write0 <= 0;
+  read0 <= 0;
+  write1 <= 0;
+  read1 <= 0;
 
 @(posedge clk8f); // Do nothing
   in0  <=  1;
@@ -365,8 +367,10 @@ end
   in0  <=  1;
   in1  <=  1;
 
-  write <= 0;
-  read <= 1;
+	write0 <= 0;
+  read0 <= 0;
+  write1 <= 0;
+  read1 <= 0;
 
 @(posedge clk8f); // read on FIFO 0 and write on fifo 1
   in0  <=  1;
