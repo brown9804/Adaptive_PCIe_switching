@@ -28,7 +28,7 @@ module device2 #(
 	input wire reset, 	// always requiered a reset in each block
 	input wire in0,		// output Paralelo - Serie #0
 	input wire in1,		// output Paralelo - Serie #1
-	input wire empty0, // output from fifo 0
+	input wire empty0,  // output from fifo 0
 	input wire empty1,
 	input wire fifo_almost_empty0,
 	input wire fifo_almost_empty1
@@ -119,14 +119,7 @@ fifo_4x8_1(/*AUTOINST*/
 		.data_in_push (out_sp1) // 8 bits
 );
 
-// We have 6 outputs
-// [DATA_SIZE-1:0] out0, // out from fifo0
-// [DATA_SIZE-1:0] out1,  // out from fifo1
-// almost_full_f0, // output from fifo 0
-// almost_full_f1 // output from fifo 0
-// empty0, // output from fifo 0
-// empty1 // output from fifo  1
-// So we need an bloking assing
+
 always @(*) begin
 	out0 = n_outF0;
 	out1 = n_outF1;

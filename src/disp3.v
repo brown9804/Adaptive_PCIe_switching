@@ -36,11 +36,17 @@ output reg Error1 // Error fifo4x8 #1
 
 
 );
+/*AUTOWIRE*/
 // // wires internally
 wire outF0, outF1;
 wire Error_F0, Error_F1;
 wire [MAIN_SIZE-1:0] out0_disp3, out1_disp3;
-
+wire almost_full0_disp2;
+wire almost_full1_disp2;
+wire fifo0_empty_device1;
+wire fifo1_empty_device1;
+wire fifo0_almost_empty_device1;
+wire fifo1_almost_empty_device1;
 
 
 
@@ -53,6 +59,10 @@ device1  #( .DATA_SIZE(DATA_SIZE), .MAIN_SIZE(MAIN_SIZE) )
   .out1 (outF1),  // out from fifo6x8 #1
   .Error_class (Error_F0),
   .Error_route (Error_F1),
+  .fifo0_empty_device1          (fifo0_empty_device1),
+  .fifo1_empty_device1          (fifo1_empty_device1),
+  .fifo0_almost_empty_device1   (fifo0_almost_empty_device1),
+  .fifo1_almost_empty_device1   (fifo1_almost_empty_device1),
   //INPUTS
   .clk (clk),
   .clk8f (clk8f),
@@ -79,7 +89,11 @@ device2_in3(/*AUTOINST*/
 .clk                   (clk),                   
 .clk8f                 (clk8f),                     
 .reset                 (reset),                                                                 
-.in0                   (outF0),                   
+.in0                   (outF0),
+.empty0                (fifo0_empty_device1),        
+.empty1                (fifo1_empty_device1),        
+.fifo_almost_empty0    (fifo0_almost_empty_device1),                    
+.fifo_almost_empty1    (fifo1_almost_empty_device1),                                       
 .in1                   (outF1)               
 
 );

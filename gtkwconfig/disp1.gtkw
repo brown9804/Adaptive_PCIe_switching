@@ -1,0 +1,51 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Wed Jul  1 22:57:05 2020
+[*]
+[dumpfile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/disp1.vcd"
+[dumpfile_mtime] "Wed Jul  1 22:55:11 2020"
+[dumpfile_size] 393576
+[savefile] "/home/hisoka/Documentos/repositorios/Adaptive_PCIE_switching/gtkwconfig/disp1.gtkw"
+[timestart] 0
+[size] 1853 859
+[pos] -29 -29
+*-20.156811 6400000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 43
+[signals_width] 206
+[sst_expanded] 0
+[sst_vpaned_height] 243
+@28
+TestBench.clk1f
+TestBench.clk8f
+@29
+TestBench.reset
+TestBench.valid
+@200
+-
+@22
+TestBench.in_TB[9:0]
+@200
+-
+@28
+TestBench.out0_BTB
+[color] 5
+TestBench.out0_STB
+TestBench.out1_BTB
+[color] 5
+TestBench.out1_STB
+@200
+-
+@28
+TestBench.fifo0_disp2_almostfull
+TestBench.fifo1_disp2_almostfull
+@200
+-
+@28
+TestBench.error_class_BTB
+[color] 5
+TestBench.error_class_STB
+TestBench.error_route_BTB
+[color] 5
+TestBench.error_route_STB
+[pattern_trace] 1
+[pattern_trace] 0

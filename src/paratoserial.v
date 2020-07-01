@@ -77,10 +77,17 @@ end
 
 
 always @(*) begin
-out0 = out00;
-out1 = out11;
-valid_0 = pop_0;
-valid_1 = pop_1;
+  out0 = out00;
+  out1 = out11;
+  valid_0 = pop_0;
+  valid_1 = pop_1;
+  if (!reset) begin
+    out0 = 0;
+    out1 = 0;
+    valid_0 = 0;
+    valid_1 = 0;
+  end
+
 end
 
 

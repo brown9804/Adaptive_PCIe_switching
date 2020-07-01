@@ -1,0 +1,1 @@
+VCD info: dumpfile disp2.vcd opened for output.

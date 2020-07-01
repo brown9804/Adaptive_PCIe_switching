@@ -34,6 +34,10 @@ output reg                      out0,                  // out from serial parall
 output reg                      out1,                  // out from serial parallel #0
 output reg                      Error_class,
 output reg                      Error_route,
+output reg                      fifo0_empty_device1,
+output reg                      fifo1_empty_device1,
+output reg                      fifo0_almost_empty_device1,
+output reg                      fifo1_almost_empty_device1,
 //INPUTS                                                          
 input wire [DATA_SIZE-1:0]      in,
 input wire                      valid,
@@ -69,6 +73,10 @@ wire                            fifo_class_almost_empty1;
 wire                            error_route;
 wire                            out0_serial;
 wire                            out1_serial;
+wire                            nfifo0_empty_device1;
+wire                            nfifo1_empty_device1;
+wire                            nfifo0_almost_empty_device1;
+wire                            nfifo1_almost_empty_device1;
 
 classswitching #(.DATA_SIZE(DATA_SIZE),.MAIN_SIZE(MAIN_SIZE) )
   classwit(/*AUTOINST*/
@@ -140,6 +148,7 @@ paratoserial #( .DATA_SIZE(DATA_SIZE-2) )
     .in0                    (out0_route),
     .in1                    (out1_route),
     .clk                    (clk8f),
+    .clk1f                  (clk),
     .reset                  (reset)
 
 );
@@ -151,6 +160,10 @@ paratoserial #( .DATA_SIZE(DATA_SIZE-2) )
     out1              = out1_serial;
     Error_class       = error_class;
     Error_route       = error_route;
+    fifo0_empty_device1         = fifo0_empty_route;
+    fifo1_empty_device1         = fifo1_empty_route;
+    fifo0_almost_empty_device1  = fifo0_almost_empty_route;        
+    fifo1_almost_empty_device1  = fifo1_almost_empty_route;        
   end
 
 
