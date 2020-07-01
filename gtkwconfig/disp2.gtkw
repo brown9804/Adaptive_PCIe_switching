@@ -1,0 +1,57 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Wed Jul  1 22:50:03 2020
+[*]
+[dumpfile] "/Users/belindabrown/Desktop/Adaptive_PCIE_switching-master/disp2.vcd"
+[dumpfile_mtime] "Wed Jul  1 22:41:31 2020"
+[dumpfile_size] 135008
+[savefile] "/Users/belindabrown/Desktop/disp2.gtkw"
+[timestart] 0
+[size] 1280 800
+[pos] -1 -24
+*-19.021921 1101000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 193
+[signals_width] 184
+[sst_expanded] 1
+[sst_vpaned_height] 237
+@200
+-Device 2
+@28
+TestBench.clk8f
+TestBench.clk
+TestBench.reset
+@200
+-
+@28
+TestBench.in0_TB
+TestBench.in1_TB
+TestBench.fifo_almost_empty0
+TestBench.fifo_almost_empty1
+TestBench.empty0
+TestBench.empty1
+@200
+-
+-Behavioral
+@28
+TestBench.almost_full_f0_BTB
+TestBench.almost_full_f1_BTB
+@22
+TestBench.out0_BTB[7:0]
+TestBench.out1_BTB[7:0]
+@28
+TestBench.pop_0_BTB
+TestBench.pop_1_BTB
+@200
+-
+-Structural
+@28
+TestBench.almost_full_f0_STB
+TestBench.almost_full_f1_STB
+@22
+TestBench.out0_STB[7:0]
+TestBench.out1_STB[7:0]
+@28
+TestBench.pop_0_STB
+TestBench.pop_1_STB
+[pattern_trace] 1
+[pattern_trace] 0
