@@ -45,21 +45,19 @@ valid = 0;
 
 
 repeat (6) begin
-	@(posedge clk);
+	@(posedge clk8f);
 		reset = 0;
 end
 
+repeat (6) begin
+	@(posedge clk8f);
+      #45 reset = 1;
+end
 
-  // Begin test
-  repeat (6) begin
-  @(posedge clk);
-  reset <= 0;
-  end
 
   // Sent to FiFo #0
   @(posedge clk) begin
     in              <= 10'h0FF;
-    reset <= 1;
     valid = 1;
   end
 
