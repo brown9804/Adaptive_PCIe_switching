@@ -1,4 +1,4 @@
-# Adaptive PCIE switching
+# Adaptive PCIE switching - Design
 
 University of Costa Rica
 
@@ -9,17 +9,15 @@ Last updated: 2020-06-14
 
 ------------------------------------------
 
+> Adaptive PCIE logic layer and switching logic
+
+## Integrants
+
+1. Brown Ramírez, Timna Belinda  B61254
+2. Esquivel Molina, Brandon B52571
+3. Gutiérrez Muñoz, Michelle B43195
 
 <div align="center">
   <h3 style="color: #4CAF50;">Total Visitors</h3>
   <img src="https://profile-counter.glitch.me/brown9804/count.svg" alt="Visitor Count" style="border: 2px solid #4CAF50; border-radius: 5px; padding: 5px;"/>
 </div>
-
-## Integrants
-1. Brown Ramírez, Timna Belinda  B61254
-2. Esquivel Molina, Brandon B52571
-3. Gutiérrez Muñoz, Michelle B43195
-
-
-## Description:
-Adaptive PCIE logic layer and switching logic
